@@ -1,3 +1,5 @@
+package com.example.dimitris.chesspuzzler.tests;
+
 import android.os.Build;
 
 import com.example.dimitris.chesspuzzler.BuildConfig;
@@ -24,7 +26,6 @@ public class FenParserTests {
     public void setup(){
 
     }
-
 
     @Test
     public void testCreatesInitialGame(){
