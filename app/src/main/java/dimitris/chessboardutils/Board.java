@@ -13,12 +13,6 @@ public class Board {
         initializeBoard();
     }
 
-    public Board(String FEN) {
-        initializeBoard();
-//        FENParser parser = new FENParser(board);
-//        parser.addPiecesFromFEN(FEN);
-    }
-
     private void initializeBoard() {
         for (int row = 0; row < 8; row++) {
             for (char col = 'a'; col <= 'h'; col++) {
