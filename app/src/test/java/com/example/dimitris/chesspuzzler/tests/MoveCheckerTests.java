@@ -13,8 +13,8 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 
-import dimitris.chessboardutils.Board;
 import dimitris.chessboardutils.Move;
+import dimitris.chessboardutils.tests.MockBoard;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -56,37 +56,14 @@ public class MoveCheckerTests {
         moveList.add(move1);
         moveList.add(move2);
         movechecker.initializeWithMoveSequence(moveList);
-
-        mockBoard.playMove(move1);
-        assertGameIsOngoing();
-
-        mockBoard.playMove(move2);
-        assertGameEnded();
+        playMovesAndAssertGame();
     }
-
-    private void assertGameEnded() {
-        assertTrue(mockBoard.onGameEndedWasCalled);
-        assertFalse(mockBoard.onMoveRejectedWasCalled);
-    }
-
 
     @Test
     public void testFourHalfMoveSequence() {
         movechecker.initializeWithMoveSequence(moveList);
-
-        mockBoard.playMove(move1);
-        assertGameIsOngoing();
-
-        mockBoard.playMove(move2);
-        assertGameIsOngoing();
-
-        mockBoard.playMove(move3);
-        assertGameIsOngoing();
-
-        mockBoard.playMove(move4);
-        assertGameEnded();
+        playMovesAndAssertGame();
     }
-
 
     @Test
     public void testRejectsInvalidMove() {
@@ -110,24 +87,22 @@ public class MoveCheckerTests {
         assertFalse(mockBoard.onMoveRejectedWasCalled);
     }
 
-
-
-    private class MockBoard extends Board {
-        public boolean onGameEndedWasCalled = false;
-        public boolean onMoveRejectedWasCalled = false;
-
-        @Override
-        public void onGameDidEnd() {
-            super.onGameDidEnd();
-            onGameEndedWasCalled = true;
-        }
-
-        @Override
-        public void moveRejected(Move moveRejected) {
-            super.moveRejected(moveRejected);
-            onMoveRejectedWasCalled = true;
-        }
+    private void assertGameEnded() {
+        assertTrue(mockBoard.onGameEndedWasCalled);
+        assertFalse(mockBoard.onMoveRejectedWasCalled);
     }
 
+    private void playMovesAndAssertGame() {
+        int size = moveList.size();
+
+        for(int i=0; i<size; i++){
+            mockBoard.playMove(moveList.get(i));
+
+            if(i == (size - 1) )
+                assertGameEnded();
+            else
+                assertGameIsOngoing();
+        }
+    }
 }
 
