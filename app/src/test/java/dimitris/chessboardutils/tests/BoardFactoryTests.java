@@ -23,12 +23,12 @@ import static dimitris.chessboardutils.tests.ChessPiecesTestHelpers.assertWhiteR
 public class BoardFactoryTests {
 
     @Before
-    public void setup(){
+    public void setup() {
 
     }
 
     @Test
-    public void testCreatesInitialPositionFromFEN(){
+    public void testCreatesInitialPositionFromFEN() {
         Board board = BoardFactory.create("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
         Piece piece = board.getPieceAt("e2");
         assertWhitePawn(piece);
@@ -47,7 +47,7 @@ public class BoardFactoryTests {
     }
 
     @Test
-    public void testCreatesRandomPositionFromFen(){
+    public void testCreatesRandomPositionFromFen() {
         Board board = BoardFactory.create("rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R");
         Piece piece = board.getPieceAt("f3");
         assertWhiteKnight(piece);
@@ -62,7 +62,7 @@ public class BoardFactoryTests {
 
 
     @Test
-    public void testCreatedAnotherRandomPositionFromFen(){
+    public void testCreatedAnotherRandomPositionFromFen() {
         Board board = BoardFactory.create("7K/8/k1P5/7p/8/8/8/8");
 
         Piece piece = board.getPieceAt("a6");

@@ -34,7 +34,7 @@ public class KnightTests {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals("♘",whiteKnight.toString());
-        assertEquals("♞",blackKnight.toString());
+        assertEquals("♘", whiteKnight.toString());
+        assertEquals("♞", blackKnight.toString());
     }
 }

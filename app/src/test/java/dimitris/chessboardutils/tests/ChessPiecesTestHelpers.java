@@ -2,8 +2,14 @@ package dimitris.chessboardutils.tests;
 
 import dimitris.chessboardutils.Piece;
 
-import static dimitris.chessboardutils.Piece.PieceColor.*;
-import static dimitris.chessboardutils.Piece.PieceType.*;
+import static dimitris.chessboardutils.Piece.PieceColor.Black;
+import static dimitris.chessboardutils.Piece.PieceColor.White;
+import static dimitris.chessboardutils.Piece.PieceType.Bishop;
+import static dimitris.chessboardutils.Piece.PieceType.King;
+import static dimitris.chessboardutils.Piece.PieceType.Knight;
+import static dimitris.chessboardutils.Piece.PieceType.Pawn;
+import static dimitris.chessboardutils.Piece.PieceType.Queen;
+import static dimitris.chessboardutils.Piece.PieceType.Rook;
 import static junit.framework.Assert.assertEquals;
 
 /**
@@ -11,67 +17,67 @@ import static junit.framework.Assert.assertEquals;
  */
 public class ChessPiecesTestHelpers {
 
-    public static void assertBlackPawn(Piece toTest){
+    public static void assertBlackPawn(Piece toTest) {
         assertType(Pawn, toTest);
         assertColor(Black, toTest);
     }
 
-    public static void assertWhitePawn(Piece toTest){
+    public static void assertWhitePawn(Piece toTest) {
         assertType(Pawn, toTest);
         assertColor(White, toTest);
     }
 
-    public static void assertBlackBishop(Piece toTest){
+    public static void assertBlackBishop(Piece toTest) {
         assertType(Bishop, toTest);
         assertColor(Black, toTest);
     }
 
-    public static void assertWhiteBishop(Piece toTest){
+    public static void assertWhiteBishop(Piece toTest) {
         assertType(Bishop, toTest);
         assertColor(White, toTest);
     }
 
-    public static void assertBlackKnight(Piece toTest){
+    public static void assertBlackKnight(Piece toTest) {
         assertType(Knight, toTest);
         assertColor(White, toTest);
     }
 
-    public static void assertWhiteKnight(Piece toTest){
+    public static void assertWhiteKnight(Piece toTest) {
         assertType(Knight, toTest);
         assertColor(White, toTest);
     }
 
-    public static void assertBlackRook(Piece toTest){
+    public static void assertBlackRook(Piece toTest) {
         assertType(Rook, toTest);
         assertColor(Black, toTest);
     }
 
-    public static void assertWhiteRook(Piece toTest){
+    public static void assertWhiteRook(Piece toTest) {
         assertType(Rook, toTest);
         assertColor(White, toTest);
     }
 
-    public static void assertBlackQueen(Piece toTest){
+    public static void assertBlackQueen(Piece toTest) {
         assertType(Queen, toTest);
         assertColor(Black, toTest);
     }
 
-    public static void assertWhiteQueen(Piece toTest){
+    public static void assertWhiteQueen(Piece toTest) {
         assertType(Queen, toTest);
         assertColor(White, toTest);
     }
 
-    public static void assertBlackKing(Piece toTest){
+    public static void assertBlackKing(Piece toTest) {
         assertType(King, toTest);
         assertColor(Black, toTest);
     }
 
-    public static void assertWhiteKing(Piece toTest){
+    public static void assertWhiteKing(Piece toTest) {
         assertType(King, toTest);
         assertColor(White, toTest);
     }
 
-    public static void assertType(Piece.PieceType expectedType, Piece toTest){
+    public static void assertType(Piece.PieceType expectedType, Piece toTest) {
         assertEquals(expectedType, toTest.type);
     }
 

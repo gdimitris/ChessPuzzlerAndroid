@@ -34,7 +34,7 @@ public class PawnTests {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals("♙",whitePawn.toString());
-        assertEquals("♟",blackPawn.toString());
+        assertEquals("♙", whitePawn.toString());
+        assertEquals("♟", blackPawn.toString());
     }
 }

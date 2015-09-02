@@ -34,7 +34,7 @@ public class RookTests {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals("♖",whiteRook.toString());
-        assertEquals("♜",blackRook.toString());
+        assertEquals("♖", whiteRook.toString());
+        assertEquals("♜", blackRook.toString());
     }
 }

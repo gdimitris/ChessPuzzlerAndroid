@@ -1,5 +1,7 @@
 package dimitris.chessboardutils;
 
+import java.util.ArrayList;
+
 /**
  * Created by dimitris on 8/30/15.
  */
@@ -8,9 +10,11 @@ public class Board {
     private static final String columns = "abcdefgh";
     private static final String rows = "87654321";
     private Square[][] board = new Square[8][8];
+    private ArrayList<MoveObserver> moveObservers;
 
     public Board() {
         initializeBoard();
+        moveObservers = new ArrayList<>();
     }
 
     private void initializeBoard() {
@@ -52,6 +56,31 @@ public class Board {
     private int getIndexOfRow(char row) {
         return rows.indexOf(row);
     }
+
+    public void playMove(Move moveToPlay){
+        Piece pieceToMove = getPieceAt(moveToPlay.sourceSquare);
+        setPieceAtSquare(pieceToMove, moveToPlay.destinationSquare);
+        onMovePlayed(moveToPlay);
+    }
+
+    public void onMovePlayed(Move playedMove){
+        for(MoveObserver observer: moveObservers)
+            observer.onMovePlayed(playedMove);
+    }
+
+    public void registerMoveObserver(MoveObserver observer){
+        moveObservers.add(observer);
+    }
+
+    public void onGameDidEnd(){
+
+    }
+
+    public void moveRejected(Move moveRejected){
+        for(MoveObserver observer: moveObservers)
+            observer.onMoveRejected(moveRejected);
+    }
+
 
     @Override
     public String toString() {

@@ -34,7 +34,7 @@ public class QueenTests {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals("♕",whiteQueen.toString());
-        assertEquals("♛",blackQueen.toString());
+        assertEquals("♕", whiteQueen.toString());
+        assertEquals("♛", blackQueen.toString());
     }
 }

@@ -23,12 +23,12 @@ import static junit.framework.Assert.assertTrue;
 public class FenParserTests {
 
     @Before
-    public void setup(){
+    public void setup() {
 
     }
 
     @Test
-    public void testCreatesInitialGame(){
+    public void testCreatesInitialGame() {
         FenParser parser = new FenParser();
         ChessGame game = parser.create("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
         assertTrue(game.whiteCanCastle);

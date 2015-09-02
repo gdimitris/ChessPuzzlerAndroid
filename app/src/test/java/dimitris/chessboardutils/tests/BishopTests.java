@@ -34,7 +34,7 @@ public class BishopTests {
 
     @Test
     public void testToString() throws Exception {
-        assertEquals("♝",blackBishop.toString());
+        assertEquals("♝", blackBishop.toString());
         assertEquals("♗", whiteBishop.toString());
     }
 }

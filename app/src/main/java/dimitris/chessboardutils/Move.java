@@ -12,4 +12,11 @@ public class Move {
         this.sourceSquare = sourceSquare;
         this.destinationSquare = destinationSquare;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        Move toCheck = (Move) o;
+        return (this.sourceSquare == toCheck.sourceSquare) &&
+                (this.destinationSquare == toCheck.destinationSquare);
+    }
 }

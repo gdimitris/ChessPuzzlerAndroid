@@ -21,7 +21,7 @@ import static junit.framework.Assert.assertEquals;
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricGradleTestRunner.class)
 
-public class KingTests{
+public class KingTests {
 
     private King whiteKing;
     private King blackKing;
@@ -34,7 +34,7 @@ public class KingTests{
 
     @Test
     public void testToString() throws Exception {
-        assertEquals("♔",whiteKing.toString());
-        assertEquals("♚",blackKing.toString());
+        assertEquals("♔", whiteKing.toString());
+        assertEquals("♚", blackKing.toString());
     }
 }

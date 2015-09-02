@@ -20,7 +20,7 @@ import static junit.framework.Assert.assertEquals;
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 
-public class NullPieceTests{
+public class NullPieceTests {
 
     private Piece nullPiece;
 
@@ -31,6 +31,6 @@ public class NullPieceTests{
 
     @Test
     public void testToString() throws Exception {
-        assertEquals(".",nullPiece.toString());
+        assertEquals(".", nullPiece.toString());
     }
 }
