@@ -8,7 +8,7 @@ public class Move {
     public String sourceSquare;
     public String destinationSquare;
 
-    public Move(String sourceSquare, String destinationSquare){
+    public Move(String sourceSquare, String destinationSquare) {
         this.sourceSquare = sourceSquare;
         this.destinationSquare = destinationSquare;
     }

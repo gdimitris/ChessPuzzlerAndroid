@@ -28,9 +28,9 @@ public class Board {
         }
     }
 
-    public void setPieceAtSquare(Piece piece, int row, int col){
-       String square = ""  + columns.charAt(col) + rows.charAt(row);
-        setPieceAtSquare(piece,square);
+    public void setPieceAtSquare(Piece piece, int row, int col) {
+        String square = "" + columns.charAt(col) + rows.charAt(row);
+        setPieceAtSquare(piece, square);
     }
 
     public void setPieceAtSquare(Piece piece, String square) {
@@ -57,39 +57,39 @@ public class Board {
         return rows.indexOf(row);
     }
 
-    public void playMove(Move moveToPlay){
+    public void playMove(Move moveToPlay) {
         Piece pieceToMove = getPieceAt(moveToPlay.sourceSquare);
         setPieceAtSquare(pieceToMove, moveToPlay.destinationSquare);
         onMovePlayed(moveToPlay);
     }
 
-    public void onMovePlayed(Move playedMove){
-        for(MoveObserver observer: moveObservers)
+    public void onMovePlayed(Move playedMove) {
+        for (MoveObserver observer : moveObservers)
             observer.onMovePlayed(playedMove);
     }
 
-    public void registerMoveObserver(MoveObserver observer){
+    public void registerMoveObserver(MoveObserver observer) {
         moveObservers.add(observer);
     }
 
-    public void onGameDidEnd(){
+    public void onGameDidEnd() {
 
     }
 
-    public void moveRejected(Move moveRejected){
-        for(MoveObserver observer: moveObservers)
+    public void moveRejected(Move moveRejected) {
+        for (MoveObserver observer : moveObservers)
             observer.onMoveRejected(moveRejected);
     }
 
 
     @Override
     public String toString() {
-        String toReturn="";
+        String toReturn = "";
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                toReturn+=board[row][col].piece.toString();
+                toReturn += board[row][col].piece.toString();
             }
-            toReturn+="\n";
+            toReturn += "\n";
         }
 
         return toReturn;

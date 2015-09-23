@@ -22,15 +22,7 @@ public class Piece {
     public PieceType type;
     public PieceColor color;
 
-    public enum PieceType {
-        None, Pawn, Knight, Bishop, Rook, Queen, King
-    }
-
-    public enum PieceColor {
-        None, White, Black
-    }
-
-    public static Piece create(char pieceChar){
+    public static Piece create(char pieceChar) {
         PieceColor color = (Character.isUpperCase(pieceChar)) ? PieceColor.White : PieceColor.Black;
         pieceChar = Character.toLowerCase(pieceChar);
 
@@ -50,6 +42,14 @@ public class Piece {
             default:
                 return new NullPiece();
         }
+    }
+
+    public enum PieceType {
+        None, Pawn, Knight, Bishop, Rook, Queen, King
+    }
+
+    public enum PieceColor {
+        None, White, Black
     }
 
 }

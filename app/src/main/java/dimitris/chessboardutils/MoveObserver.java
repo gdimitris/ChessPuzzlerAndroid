@@ -5,5 +5,6 @@ package dimitris.chessboardutils;
  */
 public interface MoveObserver {
     void onMovePlayed(Move movePlayed);
+
     void onMoveRejected(Move moveRejected);
 }
