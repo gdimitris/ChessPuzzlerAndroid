@@ -57,7 +57,6 @@ public class BoardFactoryTests {
 
         piece = board.getPieceAt("e4");
         assertWhitePawn(piece);
-
     }
 
 

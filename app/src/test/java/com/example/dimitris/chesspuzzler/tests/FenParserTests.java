@@ -10,8 +10,11 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import dimitris.chessboardutils.Board;
+import dimitris.chessboardutils.BoardFactory;
+import dimitris.chessboardutils.GameInfo;
+
+import static junit.framework.Assert.assertNotNull;
 
 /**
  * Created by dimitris on 8/30/15.
@@ -31,25 +34,27 @@ public class FenParserTests {
     public void testCreatesInitialGame() {
         FenParser parser = new FenParser();
         ChessGame game = parser.create("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-        assertTrue(game.whiteCanCastle);
-        assertTrue(game.blackCanCastle);
-        assertTrue(game.whitePlays);
-        assertEquals(0, game.halfMoveClock);
-        assertEquals(1, game.fullMoveClock);
-
+        assertNotNull(game.board);
+        assertNotNull(game.gameInfo);
     }
 
     private class ChessGame {
-        public boolean whiteCanCastle = true;
-        public boolean blackCanCastle = true;
-        public boolean whitePlays = true;
-        public int halfMoveClock = 0;
-        public int fullMoveClock = 1;
+        public Board board;
+        public GameInfo gameInfo;
     }
+
+
 
     private class FenParser {
         public ChessGame create(String FEN) {
-            return new ChessGame();
+            String[] tokens = FEN.split(" ",2);
+            String boardRepresentation = tokens[0];
+            String gameInfo = tokens[1];
+
+            ChessGame game = new ChessGame();
+            game.board = BoardFactory.create(boardRepresentation);
+            game.gameInfo = new GameInfo(gameInfo);
+            return game;
         }
     }
 }
