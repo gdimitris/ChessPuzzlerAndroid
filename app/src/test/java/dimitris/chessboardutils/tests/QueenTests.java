@@ -33,8 +33,13 @@ public class QueenTests {
     }
 
     @Test
-    public void testToString() throws Exception {
-        assertEquals("♕", whiteQueen.toString());
-        assertEquals("♛", blackQueen.toString());
+    public void testFANString() throws Exception {
+        assertEquals("♕", whiteQueen.getFANString());
+        assertEquals("♛", blackQueen.getFANString());
+    }
+
+    @Test
+    public void testSANString() throws Exception {
+        assertEquals("Q", whiteQueen.getSANString());
     }
 }

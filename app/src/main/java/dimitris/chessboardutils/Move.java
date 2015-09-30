@@ -7,6 +7,8 @@ public class Move {
 
     public String sourceSquare;
     public String destinationSquare;
+    public boolean whiteMove = true;
+    public boolean isCapture = false;
 
     public Move(String sourceSquare, String destinationSquare) {
         this.sourceSquare = sourceSquare;

@@ -33,8 +33,13 @@ public class PawnTests {
     }
 
     @Test
-    public void testToString() throws Exception {
-        assertEquals("♙", whitePawn.toString());
-        assertEquals("♟", blackPawn.toString());
+    public void testFANString() throws Exception {
+        assertEquals("♙", whitePawn.getFANString());
+        assertEquals("♟", blackPawn.getFANString());
+    }
+
+    @Test
+    public void testSANString() throws Exception {
+        assertEquals("", whitePawn.getSANString());
     }
 }

@@ -10,7 +10,12 @@ public class King extends Piece {
     }
 
     @Override
-    public String toString() {
+    public String getFANString() {
         return (this.color == PieceColor.White) ? Piece.White_King_Unicode : Piece.Black_King_Unicode;
+    }
+
+    @Override
+    public String getSANString() {
+        return "K";
     }
 }

@@ -10,8 +10,11 @@ public class Pawn extends Piece {
         this.type = PieceType.Pawn;
     }
 
-    @Override
-    public String toString() {
+    public String getFANString(){
         return (this.color == PieceColor.White) ? Piece.White_Pawn_Unicode : Piece.Black_Pawn_Unicode;
+    }
+
+    public String getSANString(){
+        return "";
     }
 }

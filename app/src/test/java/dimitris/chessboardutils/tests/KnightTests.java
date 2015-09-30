@@ -33,8 +33,13 @@ public class KnightTests {
     }
 
     @Test
-    public void testToString() throws Exception {
-        assertEquals("♘", whiteKnight.toString());
-        assertEquals("♞", blackKnight.toString());
+    public void testFANString() throws Exception {
+        assertEquals("♘", whiteKnight.getFANString());
+        assertEquals("♞", blackKnight.getFANString());
+    }
+
+    @Test
+    public void testSANString() throws Exception {
+        assertEquals("N", whiteKnight.getSANString());
     }
 }

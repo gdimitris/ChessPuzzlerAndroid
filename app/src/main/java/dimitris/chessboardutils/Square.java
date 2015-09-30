@@ -12,4 +12,9 @@ public class Square {
         this.name = name;
         this.piece = new NullPiece();
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

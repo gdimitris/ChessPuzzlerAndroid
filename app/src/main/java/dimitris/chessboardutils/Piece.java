@@ -3,7 +3,7 @@ package dimitris.chessboardutils;
 /**
  * Created by dimitris on 3/30/15.
  */
-public class Piece {
+public abstract class Piece {
 
     public static final String White_King_Unicode = "\u2654";
     public static final String White_Queen_Unicode = "\u2655";
@@ -52,4 +52,7 @@ public class Piece {
         None, White, Black
     }
 
+    public abstract String getFANString();
+
+    public abstract String getSANString();
 }

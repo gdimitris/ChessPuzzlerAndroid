@@ -11,7 +11,12 @@ public class Rook extends Piece {
     }
 
     @Override
-    public String toString() {
+    public String getFANString() {
         return (this.color == PieceColor.White) ? Piece.White_Rook_Unicode : Piece.Black_Rook_Unicode;
+    }
+
+    @Override
+    public String getSANString() {
+        return "R";
     }
 }

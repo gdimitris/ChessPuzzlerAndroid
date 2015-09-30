@@ -33,8 +33,13 @@ public class RookTests {
     }
 
     @Test
-    public void testToString() throws Exception {
-        assertEquals("♖", whiteRook.toString());
-        assertEquals("♜", blackRook.toString());
+    public void testFANString() throws Exception {
+        assertEquals("♖", whiteRook.getFANString());
+        assertEquals("♜", blackRook.getFANString());
+    }
+
+    @Test
+    public void testSANString() throws Exception {
+        assertEquals("R", whiteRook.getSANString());
     }
 }

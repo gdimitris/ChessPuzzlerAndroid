@@ -30,7 +30,12 @@ public class NullPieceTests {
     }
 
     @Test
-    public void testToString() throws Exception {
-        assertEquals(".", nullPiece.toString());
+    public void testFANString() throws Exception {
+        assertEquals(".", nullPiece.getFANString());
+    }
+
+    @Test
+    public void testSANString() throws Exception {
+        assertEquals("", nullPiece.getSANString());
     }
 }

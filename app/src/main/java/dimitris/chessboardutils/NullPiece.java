@@ -11,7 +11,12 @@ public class NullPiece extends Piece {
     }
 
     @Override
-    public String toString() {
+    public String getFANString() {
         return ".";
+    }
+
+    @Override
+    public String getSANString() {
+        return "";
     }
 }

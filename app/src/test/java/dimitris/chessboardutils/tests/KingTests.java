@@ -33,8 +33,13 @@ public class KingTests {
     }
 
     @Test
-    public void testToString() throws Exception {
-        assertEquals("♔", whiteKing.toString());
-        assertEquals("♚", blackKing.toString());
+    public void testFANString() throws Exception {
+        assertEquals("♔", whiteKing.getFANString());
+        assertEquals("♚", blackKing.getFANString());
+    }
+
+    @Test
+    public void testSANString() throws Exception {
+        assertEquals("K", whiteKing.getSANString());
     }
 }

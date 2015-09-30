@@ -33,8 +33,13 @@ public class BishopTests {
     }
 
     @Test
-    public void testToString() throws Exception {
-        assertEquals("♝", blackBishop.toString());
-        assertEquals("♗", whiteBishop.toString());
+    public void testFANString() throws Exception {
+        assertEquals("♝", blackBishop.getFANString());
+        assertEquals("♗", whiteBishop.getFANString());
+    }
+
+    @Test
+    public void testSANString() throws Exception {
+        assertEquals("B", whiteBishop.getSANString());
     }
 }

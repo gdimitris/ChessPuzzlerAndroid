@@ -4,6 +4,8 @@ package dimitris.chessboardutils;
  * Created by dimitris on 9/1/15.
  */
 public class BoardFactory {
+    private static final String INITIAL_FEN_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+
     public static Board create(String FEN) {
         Board board = new Board();
         int row = 0;
@@ -23,6 +25,20 @@ public class BoardFactory {
                 col += value;
             }
         }
+
+        return board;
+    }
+
+    public static Board createInitialBoard(){
+        return BoardFactory.create(INITIAL_FEN_POSITION);
+    }
+
+    public static Board createEmptyBoard(){
+        Board board = new Board();
+
+        for(int row=0; row<8; row++)
+            for(int col=0; col<8; col++)
+                board.setPieceAtSquare(Piece.create('?'),row, col);
 
         return board;
     }

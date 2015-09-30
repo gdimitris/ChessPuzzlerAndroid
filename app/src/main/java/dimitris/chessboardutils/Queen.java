@@ -11,7 +11,12 @@ public class Queen extends Piece {
     }
 
     @Override
-    public String toString() {
+    public String getFANString() {
         return (this.color == PieceColor.White) ? Piece.White_Queen_Unicode : Piece.Black_Queen_Unicode;
+    }
+
+    @Override
+    public String getSANString() {
+        return "Q";
     }
 }
