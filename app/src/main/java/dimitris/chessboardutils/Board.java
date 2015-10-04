@@ -58,8 +58,8 @@ public class Board {
     }
 
     public void playMove(Move moveToPlay) {
-        Piece pieceToMove = getPieceAt(moveToPlay.sourceSquare);
-        setPieceAtSquare(pieceToMove, moveToPlay.destinationSquare);
+        Piece pieceToMove = moveToPlay.sourceSquare.piece;
+        setPieceAtSquare(pieceToMove, moveToPlay.destinationSquare.toString());
         onMovePlayed(moveToPlay);
     }
 

@@ -5,7 +5,6 @@ import android.os.Build;
 import com.example.dimitris.chesspuzzler.BuildConfig;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
@@ -14,6 +13,8 @@ import org.robolectric.annotation.Config;
 import dimitris.chessboardutils.Board;
 import dimitris.chessboardutils.BoardFactory;
 import dimitris.chessboardutils.Move;
+import dimitris.chessboardutils.MoveFactory;
+import dimitris.chessboardutils.Pawn;
 import dimitris.chessboardutils.Piece;
 import dimitris.chessboardutils.Square;
 
@@ -25,6 +26,7 @@ public class MovePrinterTests {
 
     private MovePrinter movePrinter;
     private Board board;
+    private MoveFactory factory;
 
     @Before
     public void setup(){
@@ -33,19 +35,21 @@ public class MovePrinterTests {
 
     private void setupInitialBoard() {
         board = BoardFactory.createInitialBoard();
-        movePrinter = new MovePrinter(board);
+        movePrinter = new MovePrinter();
+        factory = new MoveFactory(board);
     }
 
     private void setupEmptyBoard(){
         board = BoardFactory.createEmptyBoard();
-        movePrinter = new MovePrinter(board);
+        movePrinter = new MovePrinter();
+        factory = new MoveFactory(board);
     }
 
     @Test
     public void test_print_printsWhitePawnMove(){
         setupInitialBoard();
 
-        Move toPlay = new Move("d2", "d4");
+        Move toPlay = factory.createMove("d2", "d4");
 
         String expected = "1. d4";
         assertExpectedSingleMove(expected, toPlay);
@@ -54,22 +58,19 @@ public class MovePrinterTests {
     @Test
     public void test_print_printsBlackPawnMove(){
         setupInitialBoard();
-
-        Move toPlay = new Move("d7", "d5");
-        toPlay.whiteMove = false;
+        Move toPlay = factory.createMove("d7", "d5");
 
         String expected = "1... d5";
         assertExpectedSingleMove(expected, toPlay);
     }
 
-    @Ignore
     @Test
     public void test_print_printsWhitePawnCapture(){
         setupEmptyBoard();
         board.setPieceAtSquare(Piece.create('P'), "e4");
         board.setPieceAtSquare(Piece.create('p'), "d5");
 
-        Move toPlay = new Move("e4","d5");
+        Move toPlay = factory.createMove("e4","d5");
         String expected = "1. exd5";
 
         assertExpectedSingleMove(expected, toPlay);
@@ -80,9 +81,7 @@ public class MovePrinterTests {
         setupEmptyBoard();
         board.setPieceAtSquare(Piece.create('N'),"f3");
         board.setPieceAtSquare(Piece.create('p'),"g5");
-        Move toPlay = new Move("f3","g5");
-        toPlay.whiteMove = true;
-        toPlay.isCapture = true;
+        Move toPlay = factory.createMove("f3","g5");
 
         String expected = "1. Nxg5";
         assertExpectedSingleMove(expected, toPlay);
@@ -101,21 +100,20 @@ public class MovePrinterTests {
         public static final String PERIOD = ".";
         public static final String ELLIPSIS = "...";
         public static final String MOVE_FORMAT = "%d%s %s%s%s";
-        private Board board;
         private int fullMoveCounter;
 
-        public MovePrinter(Board board){
-            this.board = board;
+        public MovePrinter(){
             this.fullMoveCounter = 1;
         }
 
         public String print(Move moveToPrint){
-            Square src = board.getSquareAt(moveToPrint.sourceSquare);
-            Square dest = board.getSquareAt(moveToPrint.destinationSquare);
+            Square src = moveToPrint.sourceSquare;
+            Square dest = moveToPrint.destinationSquare;
             String moveColor = moveToPrint.whiteMove ? PERIOD : ELLIPSIS;
             String capture = moveToPrint.isCapture ? "x" : "";
+            String movePrefix = (src.piece instanceof Pawn && moveToPrint.isCapture) ? src.getColumn() : src.piece.getSANString();
 
-            String printFormat = String.format(MOVE_FORMAT,fullMoveCounter,moveColor, src.piece.getSANString(),capture, dest.toString());
+            String printFormat = String.format(MOVE_FORMAT,fullMoveCounter,moveColor, movePrefix,capture, dest.toString());
 
             return String.format(printFormat, fullMoveCounter,src.piece.getSANString(),dest.toString());
         }

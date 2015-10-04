@@ -17,4 +17,8 @@ public class Square {
     public String toString() {
         return name;
     }
+
+    public String getColumn(){
+        return name.substring(0,1);
+    }
 }

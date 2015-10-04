@@ -14,6 +14,7 @@ import org.robolectric.annotation.Config;
 import java.util.ArrayList;
 
 import dimitris.chessboardutils.Move;
+import dimitris.chessboardutils.MoveFactory;
 import dimitris.chessboardutils.tests.MockBoard;
 
 import static junit.framework.Assert.assertFalse;
@@ -30,6 +31,7 @@ public class MoveCheckerTests {
     private MoveChecker movechecker;
     private MockBoard mockBoard;
     private ArrayList<Move> moveList;
+    private MoveFactory factory;
     private Move move1;
     private Move move2;
     private Move move3;
@@ -39,10 +41,11 @@ public class MoveCheckerTests {
     public void setup() {
         mockBoard = new MockBoard();
         movechecker = new MoveChecker(mockBoard);
-        move1 = new Move("e3", "e4");
-        move2 = new Move("d5", "d4");
-        move3 = new Move("g1", "f3");
-        move4 = new Move("g8", "f6");
+        factory = new MoveFactory(mockBoard);
+        move1 = factory.createMove("e3", "e4");
+        move2 = factory.createMove("d5", "d4");
+        move3 = factory.createMove("g1", "f3");
+        move4 = factory.createMove("g8", "f6");
         moveList = new ArrayList<>();
         moveList.add(move1);
         moveList.add(move2);
@@ -72,7 +75,7 @@ public class MoveCheckerTests {
         mockBoard.playMove(move1);
         assertGameIsOngoing();
 
-        Move invalidMove = new Move("a1", "a8");
+        Move invalidMove = factory.createMove("a1", "a8");
         mockBoard.playMove(invalidMove);
         assertMoveIsRejected();
     }

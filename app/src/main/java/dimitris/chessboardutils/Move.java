@@ -5,12 +5,12 @@ package dimitris.chessboardutils;
  */
 public class Move {
 
-    public String sourceSquare;
-    public String destinationSquare;
+    public Square sourceSquare;
+    public Square destinationSquare;
     public boolean whiteMove = true;
     public boolean isCapture = false;
 
-    public Move(String sourceSquare, String destinationSquare) {
+    public Move(Square sourceSquare, Square destinationSquare) {
         this.sourceSquare = sourceSquare;
         this.destinationSquare = destinationSquare;
     }
