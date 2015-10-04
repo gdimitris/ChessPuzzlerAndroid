@@ -9,6 +9,7 @@ public class Move {
     public Square destinationSquare;
     public boolean whiteMove = true;
     public boolean isCapture = false;
+    public boolean isCheck = false;
 
     public Move(Square sourceSquare, Square destinationSquare) {
         this.sourceSquare = sourceSquare;

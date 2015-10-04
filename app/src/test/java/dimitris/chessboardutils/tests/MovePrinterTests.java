@@ -14,10 +14,10 @@ import dimitris.chessboardutils.Board;
 import dimitris.chessboardutils.BoardFactory;
 import dimitris.chessboardutils.Move;
 import dimitris.chessboardutils.MoveFactory;
-import dimitris.chessboardutils.Pawn;
 import dimitris.chessboardutils.Piece;
 import dimitris.chessboardutils.Square;
 
+import static dimitris.chessboardutils.Piece.PieceType.*;
 import static junit.framework.Assert.assertEquals;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
@@ -87,6 +87,18 @@ public class MovePrinterTests {
         assertExpectedSingleMove(expected, toPlay);
     }
 
+    @Test
+    public void test_print_printsCheckMove(){
+        setupEmptyBoard();
+        board.setPieceAtSquare(Piece.create('k'), "e8");
+        board.setPieceAtSquare(Piece.create('Q'), "d1");
+        Move toPlay = factory.createMove("d1","e1");
+        toPlay.isCheck = true;
+
+        String expected = "1. Qe1+";
+        assertExpectedSingleMove(expected, toPlay);
+    }
+
 
     private void assertExpectedSingleMove(String expected, Move toPlay) {
         String result = movePrinter.print(toPlay);
@@ -99,7 +111,7 @@ public class MovePrinterTests {
 
         public static final String PERIOD = ".";
         public static final String ELLIPSIS = "...";
-        public static final String MOVE_FORMAT = "%d%s %s%s%s";
+        public static final String MOVE_FORMAT = "%d%s %s%s%s%s";
         private int fullMoveCounter;
 
         public MovePrinter(){
@@ -109,11 +121,12 @@ public class MovePrinterTests {
         public String print(Move moveToPrint){
             Square src = moveToPrint.sourceSquare;
             Square dest = moveToPrint.destinationSquare;
-            String moveColor = moveToPrint.whiteMove ? PERIOD : ELLIPSIS;
+            String moveDecorator = moveToPrint.whiteMove ? PERIOD : ELLIPSIS;
             String capture = moveToPrint.isCapture ? "x" : "";
-            String movePrefix = (src.piece instanceof Pawn && moveToPrint.isCapture) ? src.getColumn() : src.piece.getSANString();
+            String check = moveToPrint.isCheck ? "+" : "";
+            String movePrefix = src.piece.type == Pawn && moveToPrint.isCapture ? src.getColumn() : src.piece.getSANString();
 
-            String printFormat = String.format(MOVE_FORMAT,fullMoveCounter,moveColor, movePrefix,capture, dest.toString());
+            String printFormat = String.format(MOVE_FORMAT,fullMoveCounter,moveDecorator, movePrefix,capture, dest.toString(), check);
 
             return String.format(printFormat, fullMoveCounter,src.piece.getSANString(),dest.toString());
         }
