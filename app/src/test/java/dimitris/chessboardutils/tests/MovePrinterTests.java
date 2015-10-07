@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.ArrayList;
+
 import dimitris.chessboardutils.Board;
 import dimitris.chessboardutils.BoardFactory;
 import dimitris.chessboardutils.Move;
@@ -80,11 +82,25 @@ public class MovePrinterTests {
     public void test_print_printsWhiteKnightCapture(){
         setupEmptyBoard();
         board.setPieceAtSquare(Piece.create('N'),"f3");
-        board.setPieceAtSquare(Piece.create('p'),"g5");
+        board.setPieceAtSquare(Piece.create('p'), "g5");
         Move toPlay = factory.createMove("f3","g5");
 
         String expected = "1. Nxg5";
         assertExpectedSingleMove(expected, toPlay);
+    }
+
+    @Test
+    public void test_print_printsCheckMate(){
+        setupEmptyBoard();
+        board.setPieceAtSquare(Piece.create('k'), "e8");
+        board.setPieceAtSquare(Piece.create('R'),"a7");
+        board.setPieceAtSquare(Piece.create('Q'),"c1");
+        Move toPlay = factory.createMove("c1", "c8");
+        toPlay.isMate = true;
+
+        String expected = "1. Qc8#";
+        assertExpectedSingleMove(expected, toPlay);
+
     }
 
     @Test
@@ -99,6 +115,77 @@ public class MovePrinterTests {
         assertExpectedSingleMove(expected, toPlay);
     }
 
+    @Test
+    public void test_print_printsMultipleMoves(){
+        setupInitialBoard();
+        ArrayList<Move> moveList = new ArrayList<>();
+        Move move1 = factory.createMove("d2","d4");
+        moveList.add(move1);
+        board.playMove(move1);
+        Move move2 = factory.createMove("d7","d5");
+        moveList.add(move2);
+        board.playMove(move2);
+        Move move3 = factory.createMove("c2","c4");
+        moveList.add(move3);
+        board.playMove(move3);
+        Move move4 = factory.createMove("d5","c4");
+        move4.isCapture = true;
+        moveList.add(move4);
+        board.playMove(move4);
+        Move move5 = factory.createMove("b1","c3");
+        moveList.add(move5);
+        board.playMove(move5);
+
+
+        String expected = "1. d4 d5 2. c4 dxc4 3. Nc3";
+        String result = movePrinter.print(moveList);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void test_print_handlesBlackFirstToMove(){
+        setupInitialBoard();
+        ArrayList<Move> moveList = new ArrayList<>();
+
+        Move move1 = factory.createMove("d7","d5");
+        moveList.add(move1);
+        Move move2 = factory.createMove("d2","d4");
+        moveList.add(move2);
+        Move move3 = factory.createMove("e7", "e5");
+        moveList.add(move3);
+        Move move4 = factory.createMove("b1", "c3");
+        moveList.add(move4);
+
+        String expected = "1... d5 2. d4 e5 3. Nc3";
+        String result = movePrinter.print(moveList);
+
+        assertEquals(expected, result);
+    }
+
+
+    @Test
+    public void test_print_PuzzleMatein2(){
+        board = BoardFactory.create("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R");
+        factory = new MoveFactory(board);
+        movePrinter = new MovePrinter();
+        ArrayList<Move> moveList = new ArrayList<>();
+
+        Move move1 = factory.createMove("d5", "f6");
+        move1.isCheck = true;
+        board.playMove(move1);
+        moveList.add(move1);
+        Move move2 = factory.createMove("g7","f6");
+        board.playMove(move2);
+        moveList.add(move2);
+        Move move3 = factory.createMove("c4","f7");
+        move3.isMate = true;
+        board.playMove(move3);
+        moveList.add(move3);
+
+        String expected = "1. Nf6+ gxf6 2. Bxf7#";
+        String result = movePrinter.print(moveList);
+        assertEquals(expected, result);
+    }
 
     private void assertExpectedSingleMove(String expected, Move toPlay) {
         String result = movePrinter.print(toPlay);
@@ -111,7 +198,7 @@ public class MovePrinterTests {
 
         public static final String PERIOD = ".";
         public static final String ELLIPSIS = "...";
-        public static final String MOVE_FORMAT = "%d%s %s%s%s%s";
+        public static final String MOVE_FORMAT = "%d%s %s";
         private int fullMoveCounter;
 
         public MovePrinter(){
@@ -119,16 +206,39 @@ public class MovePrinterTests {
         }
 
         public String print(Move moveToPrint){
+            String moveDecorator = moveToPrint.whiteMove ? PERIOD : ELLIPSIS;
+
+            return String.format(MOVE_FORMAT, fullMoveCounter,
+                    moveDecorator, printIndividualMove(moveToPrint));
+        }
+
+
+        public String print(ArrayList<Move> moveList){
+            String toReturn = "";
+
+            for (int i=0; i< moveList.size(); i++){
+                Move currentMove = moveList.get(i);
+
+                if(currentMove.whiteMove || i== 0){
+                    toReturn+= this.print(currentMove)+ " ";
+                    fullMoveCounter++;
+                } else {
+                    toReturn+= printIndividualMove(currentMove) + " ";
+                }
+            }
+
+            return toReturn.trim();
+        }
+
+        private String printIndividualMove(Move moveToPrint){
             Square src = moveToPrint.sourceSquare;
             Square dest = moveToPrint.destinationSquare;
-            String moveDecorator = moveToPrint.whiteMove ? PERIOD : ELLIPSIS;
             String capture = moveToPrint.isCapture ? "x" : "";
-            String check = moveToPrint.isCheck ? "+" : "";
+            String status = moveToPrint.isMate ? "#" : moveToPrint.isCheck ? "+" : "";
             String movePrefix = src.piece.type == Pawn && moveToPrint.isCapture ? src.getColumn() : src.piece.getSANString();
 
-            String printFormat = String.format(MOVE_FORMAT,fullMoveCounter,moveDecorator, movePrefix,capture, dest.toString(), check);
-
-            return String.format(printFormat, fullMoveCounter,src.piece.getSANString(),dest.toString());
+            return movePrefix + capture + dest.toString() + status;
         }
+
     }
 }
