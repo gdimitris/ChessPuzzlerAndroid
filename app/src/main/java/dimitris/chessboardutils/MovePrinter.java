@@ -16,7 +16,7 @@ public class MovePrinter implements MoveObserver {
     public MovePrinter(Board board){
         this.fullMoveCounter = 1;
         this.board = board;
-        this.board.registerMoveObserver(this);
+        this.board.registerObserver(this);
         movesPlayed = new ArrayList<>();
     }
 

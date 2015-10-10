@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by dimitris on 8/30/15.
  */
-public class Board {
+public class Board implements MoveSubject{
 
     private static final String columns = "abcdefgh";
     private static final String rows = "87654321";
@@ -63,16 +63,19 @@ public class Board {
         propagateMoveToObservers(moveToPlay);
     }
 
-    protected void propagateMoveToObservers(Move playedMove) {
+    @Override
+    public void propagateMoveToObservers(Move playedMove) {
         for (MoveObserver observer : moveObservers)
             observer.onMovePlayed(playedMove);
     }
 
-    public void registerMoveObserver(MoveObserver observer) {
+    @Override
+    public void registerObserver(MoveObserver observer) {
         moveObservers.add(observer);
     }
 
-    public void removeMoveObserver(MoveObserver observer){
+    @Override
+    public void removeObserver(MoveObserver observer){
         moveObservers.remove(observer);
     }
 

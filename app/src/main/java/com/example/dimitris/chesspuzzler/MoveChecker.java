@@ -18,7 +18,7 @@ public class MoveChecker implements MoveObserver {
     public MoveChecker(Board board) {
         playedMoves = new ArrayList<>();
         boardInstance = board;
-        boardInstance.registerMoveObserver(this);
+        boardInstance.registerObserver(this);
     }
 
     public void initializeWithMoveSequence(ArrayList<Move> sequence) {
