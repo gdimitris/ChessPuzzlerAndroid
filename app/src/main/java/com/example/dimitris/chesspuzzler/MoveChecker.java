@@ -35,7 +35,7 @@ public class MoveChecker implements MoveObserver {
             currentMoveIndex++;
             checkGameStatus();
         } else {
-            boardInstance.moveRejected(movePlayed);
+            boardInstance.rejectMove(movePlayed);
         }
 
     }

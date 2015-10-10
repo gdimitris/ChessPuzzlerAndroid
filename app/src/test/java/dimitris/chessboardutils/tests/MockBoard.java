@@ -18,8 +18,8 @@ public class MockBoard extends Board {
     }
 
     @Override
-    public void moveRejected(Move moveRejected) {
-        super.moveRejected(moveRejected);
+    public void rejectMove(Move moveRejected) {
+        super.rejectMove(moveRejected);
         onMoveRejectedWasCalled = true;
     }
 }

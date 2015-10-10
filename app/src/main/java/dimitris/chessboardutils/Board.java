@@ -42,9 +42,9 @@ public class Board {
         return getSquareAt(square).piece;
     }
 
-    public Square getSquareAt(String square) {
-        int rowIndex = getIndexOfRow(square.charAt(1));
-        int colIndex = getIndexOfColumn(square.charAt(0));
+    public Square getSquareAt(String squareName) {
+        int rowIndex = getIndexOfRow(squareName.charAt(1));
+        int colIndex = getIndexOfColumn(squareName.charAt(0));
 
         return board[rowIndex][colIndex];
     }
@@ -60,10 +60,10 @@ public class Board {
     public void playMove(Move moveToPlay) {
         Piece pieceToMove = moveToPlay.sourceSquare.piece;
         setPieceAtSquare(pieceToMove, moveToPlay.destinationSquare.toString());
-        onMovePlayed(moveToPlay);
+        propagateMoveToObservers(moveToPlay);
     }
 
-    public void onMovePlayed(Move playedMove) {
+    protected void propagateMoveToObservers(Move playedMove) {
         for (MoveObserver observer : moveObservers)
             observer.onMovePlayed(playedMove);
     }
@@ -72,15 +72,18 @@ public class Board {
         moveObservers.add(observer);
     }
 
+    public void removeMoveObserver(MoveObserver observer){
+        moveObservers.remove(observer);
+    }
+
     public void onGameDidEnd() {
 
     }
 
-    public void moveRejected(Move moveRejected) {
+    public void rejectMove(Move moveRejected) {
         for (MoveObserver observer : moveObservers)
             observer.onMoveRejected(moveRejected);
     }
-
 
     @Override
     public String toString() {
