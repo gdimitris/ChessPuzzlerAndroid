@@ -9,12 +9,10 @@ public class MovePrinter implements MoveObserver {
     public static final String PERIOD = ".";
     public static final String ELLIPSIS = "...";
     public static final String MOVE_FORMAT = "%d%s %s";
-    private int fullMoveCounter;
     private Board board;
     private ArrayList<Move> movesPlayed;
 
     public MovePrinter(Board board){
-        this.fullMoveCounter = 1;
         this.board = board;
         this.board.registerObserver(this);
         movesPlayed = new ArrayList<>();
@@ -23,6 +21,7 @@ public class MovePrinter implements MoveObserver {
 
     public String printMovesPlayed(){
         String toReturn = "";
+        int fullMoveCounter = 1;
 
         for (int i=0; i< movesPlayed.size(); i++){
             Move currentMove = movesPlayed.get(i);

@@ -60,6 +60,7 @@ public class Board implements MoveSubject{
     public void playMove(Move moveToPlay) {
         Piece pieceToMove = moveToPlay.sourceSquare.piece;
         setPieceAtSquare(pieceToMove, moveToPlay.destinationSquare.toString());
+        setPieceAtSquare(Piece.create('?'), moveToPlay.sourceSquare.toString());
         propagateMoveToObservers(moveToPlay);
     }
 
@@ -93,7 +94,7 @@ public class Board implements MoveSubject{
         String toReturn = "";
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                toReturn += board[row][col].piece.toString();
+                toReturn += board[row][col].piece.getFANString();
             }
             toReturn += "\n";
         }
