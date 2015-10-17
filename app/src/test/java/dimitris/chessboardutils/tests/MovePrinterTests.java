@@ -71,8 +71,10 @@ public class MovePrinterTests {
         board.setPieceAtSquare(Piece.create('P'), "e4");
         board.setPieceAtSquare(Piece.create('p'), "d5");
 
+
         Move toPlay = factory.createMove("e4","d5");
         board.playMove(toPlay);
+
         String expected = "1. exd5";
 
         assertExpectedSingleMove(expected);
@@ -164,16 +166,24 @@ public class MovePrinterTests {
         board = BoardFactory.create("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R");
         factory = new MoveFactory(board);
         movePrinter = new MovePrinter(board);
-
+        System.out.println(board.toString());
 
         Move move1 = factory.createMove("d5", "f6");
         move1.isCheck = true;
         board.playMove(move1);
+        System.out.println(board.toString());
+
+
         Move move2 = factory.createMove("g7","f6");
         board.playMove(move2);
+        System.out.println(board.toString());
+
+
         Move move3 = factory.createMove("c4","f7");
         move3.isMate = true;
         board.playMove(move3);
+        System.out.println(board.toString());
+
 
         String expected = "1. Nf6+ gxf6 2. Bxf7#";
         String result = movePrinter.printMovesPlayed();

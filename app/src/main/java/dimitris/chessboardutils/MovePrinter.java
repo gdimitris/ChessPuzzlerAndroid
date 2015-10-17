@@ -45,7 +45,7 @@ public class MovePrinter implements MoveObserver {
         Square dest = moveToPrint.destinationSquare;
         String capture = moveToPrint.isCapture ? "x" : "";
         String status = moveToPrint.isMate ? "#" : moveToPrint.isCheck ? "+" : "";
-        String movePrefix = src.piece.type == Pawn && moveToPrint.isCapture ? src.getColumn() : src.piece.getSANString();
+        String movePrefix = (dest.piece.type == Pawn && moveToPrint.isCapture) ? src.getColumn() : dest.piece.getSANString();
 
         return movePrefix + capture + dest.toString() + status;
     }
