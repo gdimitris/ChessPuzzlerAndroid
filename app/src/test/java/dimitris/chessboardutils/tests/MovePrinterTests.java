@@ -44,6 +44,12 @@ public class MovePrinterTests {
         factory = new MoveFactory(board);
     }
 
+    private void setupFromFEN(String fen) {
+        board = BoardFactory.create(fen);
+        factory = new MoveFactory(board);
+        movePrinter = new MovePrinter(board);
+    }
+
     @Test
     public void test_print_printsWhitePawnMove(){
         setupInitialBoard();
@@ -240,9 +246,5 @@ public class MovePrinterTests {
         assertMovesPlayed(expected);
     }
 
-    private void setupFromFEN(String fen) {
-        board = BoardFactory.create(fen);
-        factory = new MoveFactory(board);
-        movePrinter = new MovePrinter(board);
-    }
+
 }
