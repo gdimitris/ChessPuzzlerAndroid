@@ -1,4 +1,4 @@
-package com.example.dimitris.chesspuzzler;
+package dimitris.android.chessviews;
 
 import android.graphics.Canvas;
 
@@ -6,8 +6,8 @@ import android.graphics.Canvas;
 public class ChessBoard {
 
     private int squareSize;
-    private Square lastSelectedSquare;
-    private Square[][] board;
+    private SquareView lastSelectedSquareView;
+    private SquareView[][] board;
 //    private MoveExecutor moveExecutor;
 //    private MoveFilterer moveFilterer;
 
@@ -15,7 +15,7 @@ public class ChessBoard {
         this.squareSize = squareSize;
 //        moveObservers = new ArrayList<MoveObserver>();
 //        moveExecutor = new MoveExecutor(this);
-//        board = new BoardFactory(squareSize).createBoard();
+        board = new BoardViewFactory(squareSize).createBoard();
 
 //        TurnArbiter arbiter = new TurnArbiter(this);
 //        moveFilterer = new MoveFilterer();
@@ -35,9 +35,9 @@ public class ChessBoard {
 
     protected void squareSelectedAt(int row, int col) {
 
-        if (lastSelectedSquare == null) {
+        if (lastSelectedSquareView == null) {
             //selectSquareIfNotEmpty(row, col);
-        } else if (lastSelectedSquare == board[row][col]) {
+        } else if (lastSelectedSquareView == board[row][col]) {
             clearSelection();
         } else {
             //dispatchNewMoveIfPassesFilters(row, col);
@@ -65,8 +65,8 @@ public class ChessBoard {
 //    }
 
     private void clearSelection() {
-        lastSelectedSquare.setSelected(false);
-        lastSelectedSquare = null;
+        lastSelectedSquareView.setSelected(false);
+        lastSelectedSquareView = null;
     }
 
 //    public void setUpPosition(String FEN, Typeface font) {

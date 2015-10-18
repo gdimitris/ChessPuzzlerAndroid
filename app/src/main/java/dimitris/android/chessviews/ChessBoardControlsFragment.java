@@ -1,4 +1,4 @@
-package com.example.dimitris.chesspuzzler;
+package dimitris.android.chessviews;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.example.dimitris.chesspuzzler.R;
 
 public class ChessBoardControlsFragment extends Fragment implements View.OnTouchListener {
 

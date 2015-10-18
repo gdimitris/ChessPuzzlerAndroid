@@ -1,10 +1,10 @@
-package com.example.dimitris.chesspuzzler;
+package dimitris.android.chessviews;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-public abstract class Square {
+public abstract class SquareView {
 
     protected final Paint itsPaint;
     private final String name;
@@ -13,7 +13,7 @@ public abstract class Square {
     private boolean isSelected;
     //private SquareSelector selector;
 
-    public Square(String name, Rect rect) {
+    public SquareView(String name, Rect rect) {
         this.name = name;
         this.rect = rect;
         itsPaint = new Paint();

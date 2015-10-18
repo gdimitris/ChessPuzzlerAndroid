@@ -1,4 +1,4 @@
-package com.example.dimitris.chesspuzzler;
+package dimitris.android.chessviews;
 
 import android.content.Context;
 import android.graphics.Canvas;

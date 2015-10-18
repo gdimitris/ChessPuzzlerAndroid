@@ -1,17 +1,17 @@
-package com.example.dimitris.chesspuzzler;
+package dimitris.android.chessviews;
 
 import android.graphics.Rect;
 
-public class BoardFactory {
+public class BoardViewFactory {
 
     private int size = 0;
 
-    public BoardFactory(int squareSize) {
+    public BoardViewFactory(int squareSize) {
         this.size = squareSize;
     }
 
-    public Square[][] createBoard() {
-        Square[][] board = new Square[8][8];
+    public SquareView[][] createBoard() {
+        SquareView[][] board = new SquareView[8][8];
 
         for (int row = 0; row < 8; row++)
             for (int col = 0; col < 8; col++)
@@ -29,10 +29,10 @@ public class BoardFactory {
 //        return board;
 //    }
 
-    private Square getCurrentSquareColor(int row, int col) {
+    private SquareView getCurrentSquareColor(int row, int col) {
         Rect rect = getCurrentRect(row, col);
         String name = getCurrentSquareName(row, col);
-        return (isWhiteSquare(row, col)) ? new LightSquare(name, rect) : new DarkSquare(name, rect);
+        return (isWhiteSquare(row, col)) ? new LightSquareView(name, rect) : new DarkSquareView(name, rect);
     }
 
     private String getCurrentSquareName(int currentRow, int currentCol) {

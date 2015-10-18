@@ -1,12 +1,12 @@
-package com.example.dimitris.chesspuzzler;
+package dimitris.android.chessviews;
 
 import android.graphics.Color;
 import android.graphics.Rect;
 
 
-public class DarkSquare extends Square {
+public class DarkSquareView extends SquareView {
 
-    public DarkSquare(String name, Rect rect) {
+    public DarkSquareView(String name, Rect rect) {
         super(name, rect);
         itsPaint.setColor(Color.rgb(160, 82, 45));
     }

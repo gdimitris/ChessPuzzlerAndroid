@@ -30,7 +30,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initializeBoard();
-        printBoard();
+        //printBoard();
         sourceEditText = (EditText) findViewById(R.id.sourceTextField);
         destEditText = (EditText) findViewById(R.id.destTextField);
         sendMoveButton = (Button) findViewById(R.id.sendMoveButton);
