@@ -1,26 +1,7 @@
 package com.example.dimitris.chesspuzzler;
 
 import android.graphics.Canvas;
-import android.graphics.Typeface;
 
-import com.envious.chesscoach.GameLogic.KingCaptureFilter;
-import com.envious.chesscoach.GameLogic.Move;
-import com.envious.chesscoach.GameLogic.MoveExecutor;
-import com.envious.chesscoach.GameLogic.MoveFilterer;
-import com.envious.chesscoach.GameLogic.MoveObserver;
-import com.envious.chesscoach.GameLogic.MoveSubject;
-import com.envious.chesscoach.GameLogic.SelfCaptureFilter;
-import com.envious.chesscoach.GameLogic.TurnArbiter;
-import com.envious.chesscoach.UserInterface.Pieces.BlackPieceFactory;
-import com.envious.chesscoach.UserInterface.Pieces.WhitePieceFactory;
-
-import java.util.ArrayList;
-
-import dimitris.chessboardutils.BoardFactory;
-import dimitris.chessboardutils.Square;
-
-import static com.envious.chesscoach.UserInterface.BoardHelper.BoardCoords;
-import static com.envious.chesscoach.UserInterface.BoardHelper.getSquareCoords;
 
 public class ChessBoard {
 
@@ -52,42 +33,42 @@ public class ChessBoard {
                 board[row][col].draw(canvas);
     }
 
-//    protected void squareSelectedAt(int row, int col) {
-//
-//        if (lastSelectedSquare == null) {
-//            selectSquareIfNotEmpty(row, col);
-//        } else if (lastSelectedSquare == board[row][col]) {
-//            clearSelection();
-//        } else {
-//            dispatchNewMoveIfPassesFilters(row, col);
-//            clearSelection();
-//        }
-//
-//    }
-//
+    protected void squareSelectedAt(int row, int col) {
+
+        if (lastSelectedSquare == null) {
+            //selectSquareIfNotEmpty(row, col);
+        } else if (lastSelectedSquare == board[row][col]) {
+            clearSelection();
+        } else {
+            //dispatchNewMoveIfPassesFilters(row, col);
+            clearSelection();
+        }
+
+    }
+
 //    private void dispatchNewMoveIfPassesFilters(int row, int col) {
 //        Move toMake = new Move(lastSelectedSquare, board[row][col]);
 //
 //        if (moveFilterer.moveIsLegal(toMake))
 //            doMove(toMake);
 //    }
-//
+
 //    private void selectSquareIfNotEmpty(int row, int col) {
 //        if (!squareIsEmpty(row, col)) {
 //            lastSelectedSquare = board[row][col];
 //            lastSelectedSquare.setSelected(true);
 //        }
 //    }
-//
+
 //    private boolean squareIsEmpty(int row, int col) {
 //        return board[row][col].getPiece() == null;
 //    }
-//
-//    private void clearSelection() {
-//        lastSelectedSquare.setSelected(false);
-//        lastSelectedSquare = null;
-//    }
-//
+
+    private void clearSelection() {
+        lastSelectedSquare.setSelected(false);
+        lastSelectedSquare = null;
+    }
+
 //    public void setUpPosition(String FEN, Typeface font) {
 //        FenParser parser = new FenParser(board, new WhitePieceFactory(font, squareSize), new BlackPieceFactory(font, squareSize));
 //        try {

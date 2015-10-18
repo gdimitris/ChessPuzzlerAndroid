@@ -1,6 +1,7 @@
 package com.example.dimitris.chesspuzzler;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -58,6 +59,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.board) {
+            Intent my_int = new Intent(this, TestActivity.class);
+            startActivity(my_int);
         }
 
         return super.onOptionsItemSelected(item);

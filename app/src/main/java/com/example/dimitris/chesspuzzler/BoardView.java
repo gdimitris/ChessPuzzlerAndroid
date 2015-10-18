@@ -6,8 +6,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import dimitris.chessboardutils.BoardFactory;
-
 
 public class BoardView extends View implements View.OnTouchListener {
 
@@ -53,7 +51,7 @@ public class BoardView extends View implements View.OnTouchListener {
         squareSize = min / 8;
         padding = (min % 8) / 2;
         chessBoard = new ChessBoard(squareSize);
-        chessBoard.setUpPosition(BoardFactory, FontLoader.loadDefaultFont(getContext()));
+        //chessBoard.setUpPosition(BoardHelper.INITAL_POSITION_FEN, FontLoader.loadDefaultFont(getContext()));
     }
 
     @Override

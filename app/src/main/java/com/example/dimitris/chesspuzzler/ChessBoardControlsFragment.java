@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.envious.chesscoach.R;
-
 public class ChessBoardControlsFragment extends Fragment implements View.OnTouchListener {
 
     private BoardView boardView;
@@ -33,15 +31,15 @@ public class ChessBoardControlsFragment extends Fragment implements View.OnTouch
         if (event.getAction() != MotionEvent.ACTION_DOWN)
             return false;
 
-        if (v.equals(undoButton)) {
-            boardView.getChessBoard().undoMove();
-            boardView.invalidate();
-            return true;
-        } else if (v.equals(redoButton)) {
-            boardView.getChessBoard().redoMove();
-            boardView.invalidate();
-            return true;
-        }
+//        if (v.equals(undoButton)) {
+//            boardView.getChessBoard().undoMove();
+//            boardView.invalidate();
+//            return true;
+//        } else if (v.equals(redoButton)) {
+//            boardView.getChessBoard().redoMove();
+//            boardView.invalidate();
+//            return true;
+//        }
         return false;
     }
 
@@ -52,7 +50,7 @@ public class ChessBoardControlsFragment extends Fragment implements View.OnTouch
         redoButton = (Button) getActivity().findViewById(R.id.redoButton);
         redoButton.setOnTouchListener(this);
         boardView = (BoardView) getActivity().findViewById(R.id.chessboard);
-        MovesTextView movesTextView = (MovesTextView) getActivity().findViewById(R.id.movesTextView);
-        movesTextView.setBoardViewRef(boardView);
+//        MovesTextView movesTextView = (MovesTextView) getActivity().findViewById(R.id.movesTextView);
+//        movesTextView.setBoardViewRef(boardView);
     }
 }
