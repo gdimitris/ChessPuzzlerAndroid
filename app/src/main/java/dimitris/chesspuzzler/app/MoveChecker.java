@@ -1,4 +1,4 @@
-package com.example.dimitris.chesspuzzler;
+package dimitris.chesspuzzler.app;
 
 import java.util.ArrayList;
 

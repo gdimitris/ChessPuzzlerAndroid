@@ -1,4 +1,4 @@
-package com.example.dimitris.chesspuzzler;
+package dimitris.chesspuzzler.app;
 
 import android.content.Context;
 import android.graphics.Typeface;

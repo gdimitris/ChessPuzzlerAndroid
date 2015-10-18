@@ -1,4 +1,4 @@
-package com.example.dimitris.chesspuzzler;
+package dimitris.chesspuzzler.app;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.dimitris.chesspuzzler.R;
 
 import dimitris.chessboardutils.Board;
 import dimitris.chessboardutils.BoardFactory;

@@ -1,7 +1,9 @@
-package com.example.dimitris.chesspuzzler;
+package dimitris.chesspuzzler.app;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.example.dimitris.chesspuzzler.R;
 
 /**
  * Created by dimitris on 10/18/15.

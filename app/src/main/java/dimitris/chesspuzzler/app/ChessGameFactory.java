@@ -1,4 +1,4 @@
-package com.example.dimitris.chesspuzzler;
+package dimitris.chesspuzzler.app;
 
 import dimitris.chessboardutils.BoardFactory;
 import dimitris.chessboardutils.GameInfo;

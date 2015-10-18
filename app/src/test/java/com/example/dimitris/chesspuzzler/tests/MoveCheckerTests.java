@@ -3,7 +3,7 @@ package com.example.dimitris.chesspuzzler.tests;
 import android.os.Build;
 
 import com.example.dimitris.chesspuzzler.BuildConfig;
-import com.example.dimitris.chesspuzzler.MoveChecker;
+import dimitris.chesspuzzler.app.MoveChecker;
 
 import org.junit.Before;
 import org.junit.Test;
