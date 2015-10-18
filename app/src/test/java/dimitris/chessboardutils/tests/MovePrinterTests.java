@@ -52,7 +52,7 @@ public class MovePrinterTests {
         board.playMove(toPlay);
 
         String expected = "1. d4";
-        assertExpectedSingleMove(expected);
+        assertMovesPlayed(expected);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class MovePrinterTests {
         board.playMove(toPlay);
 
         String expected = "1... d5";
-        assertExpectedSingleMove(expected);
+        assertMovesPlayed(expected);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class MovePrinterTests {
 
         String expected = "1. exd5";
 
-        assertExpectedSingleMove(expected);
+        assertMovesPlayed(expected);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class MovePrinterTests {
         board.playMove(toPlay);
 
         String expected = "1. Nxg5";
-        assertExpectedSingleMove(expected);
+        assertMovesPlayed(expected);
     }
 
     @Test
@@ -103,7 +103,7 @@ public class MovePrinterTests {
         board.playMove(toPlay);
 
         String expected = "1. Qc8#";
-        assertExpectedSingleMove(expected);
+        assertMovesPlayed(expected);
 
     }
 
@@ -117,7 +117,7 @@ public class MovePrinterTests {
         board.playMove(toPlay);
 
         String expected = "1. Qe1+";
-        assertExpectedSingleMove(expected);
+        assertMovesPlayed(expected);
     }
 
     @Test
@@ -137,8 +137,7 @@ public class MovePrinterTests {
 
 
         String expected = "1. d4 d5 2. c4 dxc4 3. Nc3";
-        String result = movePrinter.printMovesPlayed();
-        assertEquals(expected, result);
+        assertMovesPlayed(expected);
     }
 
     @Test
@@ -155,47 +154,95 @@ public class MovePrinterTests {
         board.playMove(move4);
 
         String expected = "1... d5 2. d4 e5 3. Nc3";
-        String result = movePrinter.printMovesPlayed();
-
-        assertEquals(expected, result);
+        assertMovesPlayed(expected);
     }
 
 
     @Test
     public void test_print_PuzzleMatein2(){
-        board = BoardFactory.create("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R");
-        factory = new MoveFactory(board);
-        movePrinter = new MovePrinter(board);
-        System.out.println(board.toString());
+        setupFromFEN("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R");
 
         Move move1 = factory.createMove("d5", "f6");
         move1.isCheck = true;
         board.playMove(move1);
-        System.out.println(board.toString());
-
 
         Move move2 = factory.createMove("g7","f6");
         board.playMove(move2);
-        System.out.println(board.toString());
-
 
         Move move3 = factory.createMove("c4","f7");
         move3.isMate = true;
         board.playMove(move3);
-        System.out.println(board.toString());
-
 
         String expected = "1. Nf6+ gxf6 2. Bxf7#";
+        assertMovesPlayed(expected);
+    }
+
+    @Test
+    public void test_print_PuzzleMatein3(){
+        setupFromFEN("r3k2r/ppp2Npp/1b5n/4p2b/2B1P2q/BQP2P2/P5PP/RN5K");
+
+        Move move1 = factory.createMove("c4","b5");
+        move1.isCheck = true;
+        board.playMove(move1);
+
+        Move move2 = factory.createMove("c7","c6");
+        board.playMove(move2);
+
+        Move move3 = factory.createMove("b3","e6");
+        move3.isCheck = true;
+        board.playMove(move3);
+
+        Move move4 = factory.createMove("h4","e7");
+        board.playMove(move4);
+
+        Move move5 = factory.createMove("e6","e7");
+        move5.isMate = true;
+        board.playMove(move5);
+
+        String expected = "1. Bb5+ c6 2. Qe6+ Qe7 3. Qxe7#";
+        assertMovesPlayed(expected);
+    }
+
+    private void assertMovesPlayed(String expected) {
         String result = movePrinter.printMovesPlayed();
         assertEquals(expected, result);
     }
 
-    private void assertExpectedSingleMove(String expected) {
-        String result = movePrinter.printMovesPlayed();
+    @Test
+    public void test_print_puzzleMatein4(){
+        setupFromFEN("6rk/7p/pp3b2/2pbqP2/5Q2/5R1P/P6P/2B2R1K");
 
-        assertEquals(expected, result);
+        Move move1 = factory.createMove("e5","e2");
+        board.playMove(move1);
+
+        Move move2 = factory.createMove("f1","g1");
+        board.playMove(move2);
+
+        Move move3 = factory.createMove("d5","f3");
+        move3.isCheck = true;
+        board.playMove(move3);
+
+        Move move4 = factory.createMove("f4","f3");
+        board.playMove(move4);
+
+        Move move5 = factory.createMove("e2","f3");
+        move5.isCheck = true;
+        board.playMove(move5);
+
+        Move move6 = factory.createMove("g1", "g2");
+        board.playMove(move6);
+
+        Move move7 = factory.createMove("f3","g2");
+        move7.isMate = true;
+        board.playMove(move7);
+
+        String expected = "1... Qe2 2. Rg1 Bxf3+ 3. Qxf3 Qxf3+ 4. Rg2 Qxg2#";
+        assertMovesPlayed(expected);
     }
 
-
-
+    private void setupFromFEN(String fen) {
+        board = BoardFactory.create(fen);
+        factory = new MoveFactory(board);
+        movePrinter = new MovePrinter(board);
+    }
 }

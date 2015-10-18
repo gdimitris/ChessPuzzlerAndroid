@@ -10,7 +10,8 @@ public class MovePrinter implements MoveObserver {
     public static final String ELLIPSIS = "...";
     public static final String MOVE_FORMAT = "%d%s %s";
     private Board board;
-    private ArrayList<Move> movesPlayed;
+    private ArrayList<String> movesPlayed;
+    int fullMoveCounter = 1;
 
     public MovePrinter(Board board){
         this.board = board;
@@ -20,24 +21,13 @@ public class MovePrinter implements MoveObserver {
 
 
     public String printMovesPlayed(){
-        String toReturn = "";
-        int fullMoveCounter = 1;
+        String result = "";
 
-        for (int i=0; i< movesPlayed.size(); i++){
-            Move currentMove = movesPlayed.get(i);
-            String moveDecorator = currentMove.whiteMove ? PERIOD : ELLIPSIS;
-
-            if(currentMove.whiteMove || i== 0){
-                String moveStr = String.format(MOVE_FORMAT, fullMoveCounter,
-                        moveDecorator, printIndividualMove(currentMove));
-                toReturn+= moveStr + " ";
-                fullMoveCounter++;
-            } else {
-                toReturn+= printIndividualMove(currentMove) + " ";
-            }
+        for(String move : movesPlayed){
+            result += move;
         }
 
-        return toReturn.trim();
+        return result.trim();
     }
 
     private String printIndividualMove(Move moveToPrint){
@@ -52,7 +42,18 @@ public class MovePrinter implements MoveObserver {
 
     @Override
     public void onMovePlayed(Move movePlayed) {
-        movesPlayed.add(movePlayed);
+        String toReturn = "";
+        String moveDecorator = movePlayed.whiteMove ? PERIOD : ELLIPSIS;
+
+        if(movePlayed.whiteMove || movesPlayed.size()== 0){
+            String moveStr = String.format(MOVE_FORMAT, fullMoveCounter, moveDecorator,
+                    printIndividualMove(movePlayed));
+            toReturn+= moveStr + " ";
+            fullMoveCounter++;
+        } else {
+            toReturn+= printIndividualMove(movePlayed) + " ";
+        }
+        movesPlayed.add(toReturn);
     }
 
     @Override
