@@ -3,7 +3,7 @@ package dimitris.android.chessviews;
 import android.graphics.Canvas;
 
 
-public class ChessBoard {
+public class DrawableBoard {
 
     private int squareSize;
     private SquareView lastSelectedSquareView;
@@ -11,11 +11,11 @@ public class ChessBoard {
 //    private MoveExecutor moveExecutor;
 //    private MoveFilterer moveFilterer;
 
-    public ChessBoard(int squareSize) {
+    public DrawableBoard(int squareSize) {
         this.squareSize = squareSize;
 //        moveObservers = new ArrayList<MoveObserver>();
 //        moveExecutor = new MoveExecutor(this);
-        board = new BoardViewFactory(squareSize).createBoard();
+        board = new BoardViewFactory(squareSize).createEmptyBoard();
 
 //        TurnArbiter arbiter = new TurnArbiter(this);
 //        moveFilterer = new MoveFilterer();
