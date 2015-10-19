@@ -1,6 +1,14 @@
 package dimitris.android.chessviews;
 
 import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.util.Log;
+
+import dimitris.android.chessviews.Pieces.BlackPieceFactory;
+import dimitris.android.chessviews.Pieces.PieceFactory;
+import dimitris.android.chessviews.Pieces.WhitePieceFactory;
+import dimitris.chessboardutils.Board;
+import dimitris.chessboardutils.Piece;
 
 public class BoardViewFactory {
 
@@ -10,7 +18,7 @@ public class BoardViewFactory {
         this.size = squareSize;
     }
 
-    public SquareView[][] createBoard() {
+    public SquareView[][] createEmptyBoard() {
         SquareView[][] board = new SquareView[8][8];
 
         for (int row = 0; row < 8; row++)
@@ -20,14 +28,34 @@ public class BoardViewFactory {
         return board;
     }
 
-//    public Square[][] createFromFENString(String FEN, Typeface typeface) throws FenParser.BadFenException {
-//        Square[][] board = createBoard();
-//        WhitePieceFactory whiteFactory = new WhitePieceFactory(typeface, size);
-//        BlackPieceFactory blackPieceFactory = new BlackPieceFactory(typeface, size);
-//        FenParser parser = new FenParser(board, whiteFactory, blackPieceFactory);
-//        parser.parse(FEN);
-//        return board;
-//    }
+    public SquareView[][] createFromExistingBoard(Board board, Typeface typeface){
+        if(board == null){
+            return createEmptyBoard();
+        }
+
+        WhitePieceFactory whitePieceFactory = new WhitePieceFactory(typeface, size);
+        BlackPieceFactory blackPieceFactory = new BlackPieceFactory(typeface, size);
+        SquareView[][] boardView = createBoard(board, whitePieceFactory, blackPieceFactory);
+
+
+        return boardView;
+    }
+
+    private SquareView[][] createBoard(Board board, WhitePieceFactory whiteFactory, BlackPieceFactory blackFactory) {
+        SquareView[][] boardViews = new SquareView[8][8];
+        PieceFactory currentPieceFactory;
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Piece currentPiece = board.getPieceAt(row, col);
+                boardViews[row][col] = getCurrentSquareColor(row, col);
+                currentPieceFactory = (currentPiece.color == Piece.PieceColor.White) ? whiteFactory : blackFactory;
+                Log.e("BoardViewFactory","row: " + row + " col:" +col);
+                dimitris.android.chessviews.Pieces.Piece piece = currentPieceFactory.createFromUtilPiece(currentPiece);
+                boardViews[row][col].setPiece(piece);
+            }
+        }
+        return boardViews;
+    }
 
     private SquareView getCurrentSquareColor(int row, int col) {
         Rect rect = getCurrentRect(row, col);
@@ -45,7 +73,7 @@ public class BoardViewFactory {
         return new Rect(col * size, row * size, (col + 1) * size, (row + 1) * size);
     }
 
-    public boolean isWhiteSquare(int row, int col) {
+    private boolean isWhiteSquare(int row, int col) {
         return Math.abs(row - col) % 2 == 0;
     }
 }

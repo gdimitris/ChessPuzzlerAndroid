@@ -6,10 +6,13 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import dimitris.chessboardutils.BoardFactory;
+import dimitris.chesspuzzler.app.FontLoader;
+
 
 public class BoardView extends View implements View.OnTouchListener {
 
-    protected ChessBoard chessBoard;
+    protected DrawableBoard chessBoard;
     private int squareSize;
     private int padding;
 
@@ -50,8 +53,8 @@ public class BoardView extends View implements View.OnTouchListener {
         int min = (width < height) ? width : height;
         squareSize = min / 8;
         padding = (min % 8) / 2;
-        chessBoard = new ChessBoard(squareSize);
-        //chessBoard.setUpPosition(BoardHelper.INITAL_POSITION_FEN, FontLoader.loadDefaultFont(getContext()));
+        chessBoard = new DrawableBoard(squareSize);
+        chessBoard.setUpBoard(BoardFactory.createInitialBoard(), FontLoader.loadDefaultFont(getContext()));
     }
 
     @Override
@@ -70,9 +73,4 @@ public class BoardView extends View implements View.OnTouchListener {
         invalidate();
         return true;
     }
-
-    public ChessBoard getChessBoard() {
-        return chessBoard;
-    }
-
 }

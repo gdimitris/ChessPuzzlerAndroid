@@ -2,8 +2,7 @@ package dimitris.android.chessviews.Pieces;
 
 import android.graphics.Paint;
 
-import static com.envious.chesscoach.UserInterface.Pieces.Piece.PieceColor.Black;
-
+import static dimitris.android.chessviews.Pieces.Piece.PieceColor.Black;
 
 public class BlackKing extends Piece {
 

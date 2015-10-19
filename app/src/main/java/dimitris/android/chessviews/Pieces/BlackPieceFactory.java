@@ -39,23 +39,4 @@ public class BlackPieceFactory extends PieceFactory {
         return new BlackPawn(whitePaint, blackPaint);
     }
 
-    @Override
-    public Piece createPiece(char piece) {
-        switch (piece) {
-            case 'k':
-                return createKing();
-            case 'q':
-                return createQueen();
-            case 'r':
-                return createRook();
-            case 'b':
-                return createBishop();
-            case 'n':
-                return createKnight();
-            case 'p':
-                return createPawn();
-            default:
-                return null;
-        }
-    }
 }

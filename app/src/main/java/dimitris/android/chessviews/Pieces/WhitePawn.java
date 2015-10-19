@@ -2,10 +2,8 @@ package dimitris.android.chessviews.Pieces;
 
 import android.graphics.Paint;
 
-import static com.envious.chesscoach.UserInterface.Pieces.Piece.PieceColor.White;
-import static com.envious.chesscoach.UserInterface.Pieces.PieceLayersHelper.WhitePawn_BlackLayer;
-import static com.envious.chesscoach.UserInterface.Pieces.PieceLayersHelper.WhitePawn_WhiteLayer;
-
+import static dimitris.android.chessviews.Pieces.Piece.PieceColor.*;
+import static dimitris.android.chessviews.Pieces.PieceLayersHelper.*;
 
 public class WhitePawn extends Piece {
     public WhitePawn(Paint whitePaint, Paint blackPaint) {

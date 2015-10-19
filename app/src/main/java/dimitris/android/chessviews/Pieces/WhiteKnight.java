@@ -2,9 +2,8 @@ package dimitris.android.chessviews.Pieces;
 
 import android.graphics.Paint;
 
-import static com.envious.chesscoach.UserInterface.Pieces.Piece.PieceColor.White;
-import static com.envious.chesscoach.UserInterface.Pieces.PieceLayersHelper.WhiteKnight_BlackLayer;
-import static com.envious.chesscoach.UserInterface.Pieces.PieceLayersHelper.WhiteKnight_WhiteLayer;
+import static dimitris.android.chessviews.Pieces.Piece.PieceColor.*;
+import static dimitris.android.chessviews.Pieces.PieceLayersHelper.*;
 
 
 public class WhiteKnight extends Piece {

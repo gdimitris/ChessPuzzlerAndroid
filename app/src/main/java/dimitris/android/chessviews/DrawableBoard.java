@@ -1,21 +1,24 @@
 package dimitris.android.chessviews;
 
 import android.graphics.Canvas;
+import android.graphics.Typeface;
+
+import dimitris.chessboardutils.Board;
 
 
-public class DrawableBoard {
+public class DrawableBoard{
 
     private int squareSize;
     private SquareView lastSelectedSquareView;
-    private SquareView[][] board;
+    private SquareView[][] squareViews;
 //    private MoveExecutor moveExecutor;
 //    private MoveFilterer moveFilterer;
 
     public DrawableBoard(int squareSize) {
+        super();
         this.squareSize = squareSize;
-//        moveObservers = new ArrayList<MoveObserver>();
 //        moveExecutor = new MoveExecutor(this);
-        board = new BoardViewFactory(squareSize).createEmptyBoard();
+//
 
 //        TurnArbiter arbiter = new TurnArbiter(this);
 //        moveFilterer = new MoveFilterer();
@@ -25,19 +28,19 @@ public class DrawableBoard {
     }
 
     public void draw(Canvas canvas) {
-        if (board == null)
+        if (squareViews == null)
             return;
 
         for (int row = 0; row < 8; row++)
             for (int col = 0; col < 8; col++)
-                board[row][col].draw(canvas);
+                squareViews[row][col].draw(canvas);
     }
 
     protected void squareSelectedAt(int row, int col) {
 
         if (lastSelectedSquareView == null) {
             //selectSquareIfNotEmpty(row, col);
-        } else if (lastSelectedSquareView == board[row][col]) {
+        } else if (lastSelectedSquareView == squareViews[row][col]) {
             clearSelection();
         } else {
             //dispatchNewMoveIfPassesFilters(row, col);
@@ -47,7 +50,7 @@ public class DrawableBoard {
     }
 
 //    private void dispatchNewMoveIfPassesFilters(int row, int col) {
-//        Move toMake = new Move(lastSelectedSquare, board[row][col]);
+//        Move toMake = new Move(lastSelectedSquare, squareViews[row][col]);
 //
 //        if (moveFilterer.moveIsLegal(toMake))
 //            doMove(toMake);
@@ -55,13 +58,13 @@ public class DrawableBoard {
 
 //    private void selectSquareIfNotEmpty(int row, int col) {
 //        if (!squareIsEmpty(row, col)) {
-//            lastSelectedSquare = board[row][col];
+//            lastSelectedSquare = squareViews[row][col];
 //            lastSelectedSquare.setSelected(true);
 //        }
 //    }
 
 //    private boolean squareIsEmpty(int row, int col) {
-//        return board[row][col].getPiece() == null;
+//        return squareViews[row][col].getPiece() == null;
 //    }
 
     private void clearSelection() {
@@ -69,14 +72,9 @@ public class DrawableBoard {
         lastSelectedSquareView = null;
     }
 
-//    public void setUpPosition(String FEN, Typeface font) {
-//        FenParser parser = new FenParser(board, new WhitePieceFactory(font, squareSize), new BlackPieceFactory(font, squareSize));
-//        try {
-//            parser.parse(FEN);
-//        } catch (FenParser.BadFenException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void setUpBoard(Board board, Typeface font) {
+        squareViews = new BoardViewFactory(squareSize).createFromExistingBoard(board, font);
+    }
 //
 //    public void doMove(Move toDo) {
 //        broadcastNewMoveToObservers(toDo);
@@ -95,7 +93,7 @@ public class DrawableBoard {
 //    }
 //
 //    public Square getSquare(BoardCoords coords) {
-//        return board[coords.row][coords.column];
+//        return squareViews[coords.row][coords.column];
 //    }
 //
 //    public BoardCoords getBoardCoordsOfSquare(String squareName) {

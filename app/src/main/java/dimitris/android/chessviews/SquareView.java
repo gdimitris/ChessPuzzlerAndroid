@@ -4,12 +4,14 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import dimitris.android.chessviews.Pieces.Piece;
+
 public abstract class SquareView {
 
     protected final Paint itsPaint;
     private final String name;
     private final Rect rect;
-    //private Piece piece;
+    private Piece piece;
     private boolean isSelected;
     //private SquareSelector selector;
 
@@ -37,25 +39,25 @@ public abstract class SquareView {
 //        piece = null;
 //    }
 //
-//    public void occupyWith(Piece piece) {
-//        this.piece = piece;
-//    }
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+    }
 
     public void draw(Canvas canvas) {
         canvas.drawRect(rect, itsPaint);
         //drawSelector(canvas);
-        //drawPiece(canvas);
+        drawPiece(canvas);
     }
 
 //    private void drawSelector(Canvas canvas) {
 //        if (isSelected)
 //            selector.draw(canvas);
 //    }
-//
-//    private void drawPiece(Canvas canvas) {
-//        if (piece != null)
-//            piece.draw(canvas, getRect());
-//    }
+
+    private void drawPiece(Canvas canvas) {
+        if (piece != null)
+            piece.draw(canvas, getRect());
+    }
 //
 //    public Piece getPiece() {
 //        return piece;

@@ -7,10 +7,10 @@ import java.util.ArrayList;
  */
 public class Board implements MoveSubject{
 
-    private static final String columns = "abcdefgh";
-    private static final String rows = "87654321";
-    private Square[][] board = new Square[8][8];
-    private ArrayList<MoveObserver> moveObservers;
+    protected static final String columns = "abcdefgh";
+    protected static final String rows = "87654321";
+    protected Square[][] board = new Square[8][8];
+    protected ArrayList<MoveObserver> moveObservers;
 
     public Board() {
         initializeBoard();
@@ -40,6 +40,11 @@ public class Board implements MoveSubject{
 
     public Piece getPieceAt(String square) {
         return getSquareAt(square).piece;
+    }
+
+    public Piece getPieceAt(int row, int column){
+        String square = "" + columns.charAt(column) + rows.charAt(row);
+        return getPieceAt(square);
     }
 
     public Square getSquareAt(String squareName) {

@@ -36,6 +36,6 @@ public class NullPieceTests {
 
     @Test
     public void testSANString() throws Exception {
-        assertEquals("", nullPiece.getSANString());
+        assertEquals(".", nullPiece.getSANString());
     }
 }

@@ -2,9 +2,8 @@ package dimitris.android.chessviews.Pieces;
 
 import android.graphics.Paint;
 
-import static com.envious.chesscoach.UserInterface.Pieces.Piece.PieceColor.Black;
-import static com.envious.chesscoach.UserInterface.Pieces.PieceLayersHelper.BlackQueen_BlackLayer;
-import static com.envious.chesscoach.UserInterface.Pieces.PieceLayersHelper.BlackQueen_WhiteLayer;
+import static dimitris.android.chessviews.Pieces.Piece.PieceColor.*;
+import static dimitris.android.chessviews.Pieces.PieceLayersHelper.*;
 
 
 public class BlackQueen extends Piece {

@@ -8,8 +8,6 @@ import android.graphics.Rect;
 public abstract class Piece {
 
     private final Paint whitePaint;
-
-    ;
     private final Paint blackPaint;
     protected String whiteLayerLetter;
     protected String blackLayerLetter;

@@ -17,6 +17,6 @@ public class NullPiece extends Piece {
 
     @Override
     public String getSANString() {
-        return "";
+        return ".";
     }
 }
