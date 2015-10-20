@@ -3,7 +3,7 @@ package dimitris.android.chessviews;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 
-import dimitris.chessboardutils.Board;
+import dimitris.android.chessviews.Pieces.FenParser;
 
 
 public class DrawableBoard{
@@ -39,7 +39,7 @@ public class DrawableBoard{
     protected void squareSelectedAt(int row, int col) {
 
         if (lastSelectedSquareView == null) {
-            //selectSquareIfNotEmpty(row, col);
+            selectSquareIfNotEmpty(row, col);
         } else if (lastSelectedSquareView == squareViews[row][col]) {
             clearSelection();
         } else {
@@ -56,24 +56,29 @@ public class DrawableBoard{
 //            doMove(toMake);
 //    }
 
-//    private void selectSquareIfNotEmpty(int row, int col) {
-//        if (!squareIsEmpty(row, col)) {
-//            lastSelectedSquare = squareViews[row][col];
-//            lastSelectedSquare.setSelected(true);
-//        }
-//    }
+    private void selectSquareIfNotEmpty(int row, int col) {
+        if (!squareIsEmpty(row, col)) {
+            lastSelectedSquareView = squareViews[row][col];
+            lastSelectedSquareView.setSelected(true);
+            System.out.println("Selected square "+ lastSelectedSquareView.getName() );
+        }
+    }
 
-//    private boolean squareIsEmpty(int row, int col) {
-//        return squareViews[row][col].getPiece() == null;
-//    }
+    private boolean squareIsEmpty(int row, int col) {
+        return squareViews[row][col].isEmpty();
+    }
 
     private void clearSelection() {
         lastSelectedSquareView.setSelected(false);
         lastSelectedSquareView = null;
     }
 
-    public void setUpBoard(Board board, Typeface font) {
-        squareViews = new BoardViewFactory(squareSize).createFromExistingBoard(board, font);
+    public void setUpBoard(Typeface font) {
+        try {
+            squareViews = new BoardViewFactory(squareSize).createInitialBoard(font);
+        } catch (FenParser.BadFenException e) {
+            e.printStackTrace();
+        }
     }
 //
 //    public void doMove(Move toDo) {

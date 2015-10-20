@@ -4,8 +4,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
-import dimitris.chessboardutils.Piece.PieceType;
-
 
 public abstract class PieceFactory {
 
@@ -66,25 +64,25 @@ public abstract class PieceFactory {
         }
     }
 
-    public Piece createFromUtilPiece(dimitris.chessboardutils.Piece piece) {
-        PieceType type = piece.type;
-
-        switch (type){
-            case King:
-                return createKing();
-            case Queen:
-                return createQueen();
-            case Rook:
-                return createRook();
-            case Bishop:
-                return createBishop();
-            case Knight:
-                return createKnight();
-            case Pawn:
-                return createPawn();
-            default:
-                return null;
-        }
-    }
+//    public Piece createFromUtilPiece(dimitris.chessboardutils.Piece piece) {
+//        PieceType type = piece.type;
+//
+//        switch (type){
+//            case King:
+//                return createKing();
+//            case Queen:
+//                return createQueen();
+//            case Rook:
+//                return createRook();
+//            case Bishop:
+//                return createBishop();
+//            case Knight:
+//                return createKnight();
+//            case Pawn:
+//                return createPawn();
+//            default:
+//                return null;
+//        }
+//    }
 
 }

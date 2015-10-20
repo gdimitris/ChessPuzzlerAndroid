@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import dimitris.chessboardutils.BoardFactory;
 import dimitris.chesspuzzler.app.FontLoader;
 
 
@@ -54,7 +53,7 @@ public class BoardView extends View implements View.OnTouchListener {
         squareSize = min / 8;
         padding = (min % 8) / 2;
         chessBoard = new DrawableBoard(squareSize);
-        chessBoard.setUpBoard(BoardFactory.createInitialBoard(), FontLoader.loadDefaultFont(getContext()));
+        chessBoard.setUpBoard(FontLoader.loadDefaultFont(getContext()));
     }
 
     @Override

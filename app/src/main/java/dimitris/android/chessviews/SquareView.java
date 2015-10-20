@@ -13,14 +13,14 @@ public abstract class SquareView {
     private final Rect rect;
     private Piece piece;
     private boolean isSelected;
-    //private SquareSelector selector;
+    private SquareSelector selector;
 
     public SquareView(String name, Rect rect) {
         this.name = name;
         this.rect = rect;
         itsPaint = new Paint();
         isSelected = false;
-        //selector = new SquareSelector(rect);
+        selector = new SquareSelector(rect);
     }
 
     public String getName() {
@@ -45,31 +45,31 @@ public abstract class SquareView {
 
     public void draw(Canvas canvas) {
         canvas.drawRect(rect, itsPaint);
-        //drawSelector(canvas);
+        drawSelector(canvas);
         drawPiece(canvas);
     }
 
-//    private void drawSelector(Canvas canvas) {
-//        if (isSelected)
-//            selector.draw(canvas);
-//    }
+    private void drawSelector(Canvas canvas) {
+        if (isSelected)
+            selector.draw(canvas);
+    }
 
     private void drawPiece(Canvas canvas) {
         if (piece != null)
             piece.draw(canvas, getRect());
     }
-//
-//    public Piece getPiece() {
-//        return piece;
-//    }
-//
-//    @Override
-//    public boolean equals(Object o) {
-//        Square toCheck = (Square) o;
-//        if (name.equals(toCheck.name) && piece == toCheck.piece)
-//            return true;
-//        return false;
-//    }
+
+    public boolean isEmpty() {
+        return (piece == null);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        SquareView toCheck = (SquareView) o;
+        if (name.equals(toCheck.name) && piece == toCheck.piece)
+            return true;
+        return false;
+    }
 
     public void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
