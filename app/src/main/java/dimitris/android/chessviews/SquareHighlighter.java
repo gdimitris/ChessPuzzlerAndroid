@@ -5,12 +5,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-public class SquareSelector {
+public class SquareHighlighter {
 
     protected final Paint selectionPaint;
     protected final Rect selectionRect;
 
-    public SquareSelector(Rect squareRect) {
+    public SquareHighlighter(Rect squareRect) {
         selectionPaint = new Paint();
         selectionPaint.setColor(Color.YELLOW);
         selectionPaint.setAlpha(120);

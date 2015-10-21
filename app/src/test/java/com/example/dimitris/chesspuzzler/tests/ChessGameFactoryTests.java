@@ -3,8 +3,6 @@ package com.example.dimitris.chesspuzzler.tests;
 import android.os.Build;
 
 import com.example.dimitris.chesspuzzler.BuildConfig;
-import dimitris.chesspuzzler.app.ChessGame;
-import dimitris.chesspuzzler.app.ChessGameFactory;
 
 import org.junit.Before;
 import org.junit.Test;

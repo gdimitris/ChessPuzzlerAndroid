@@ -17,6 +17,5 @@ public class TestActivity extends Activity {
         getActionBar().hide();
 
         setContentView(R.layout.board_layout);
-
     }
 }

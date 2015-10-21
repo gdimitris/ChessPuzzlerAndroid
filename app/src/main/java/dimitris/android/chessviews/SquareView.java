@@ -13,14 +13,14 @@ public abstract class SquareView {
     private final Rect rect;
     private Piece piece;
     private boolean isSelected;
-    private SquareSelector selector;
+    private SquareHighlighter selector;
 
     public SquareView(String name, Rect rect) {
         this.name = name;
         this.rect = rect;
         itsPaint = new Paint();
         isSelected = false;
-        selector = new SquareSelector(rect);
+        selector = new SquareHighlighter(rect);
     }
 
     public String getName() {

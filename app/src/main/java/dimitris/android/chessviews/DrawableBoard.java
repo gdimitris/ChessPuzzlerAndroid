@@ -37,7 +37,7 @@ public class DrawableBoard{
     }
 
     protected void squareSelectedAt(int row, int col) {
-
+        System.out.println("Clicked at square "+ squareViews[row][col].getName() );
         if (lastSelectedSquareView == null) {
             selectSquareIfNotEmpty(row, col);
         } else if (lastSelectedSquareView == squareViews[row][col]) {
@@ -46,21 +46,20 @@ public class DrawableBoard{
             //dispatchNewMoveIfPassesFilters(row, col);
             clearSelection();
         }
-
     }
 
 //    private void dispatchNewMoveIfPassesFilters(int row, int col) {
-//        Move toMake = new Move(lastSelectedSquare, squareViews[row][col]);
+//        Move toMake = new Move(lastSelectedSquareView, squareViews[row][col]);
 //
-//        if (moveFilterer.moveIsLegal(toMake))
-//            doMove(toMake);
+//        //if (moveFilterer.moveIsLegal(toMake))
+//        doMove(toMake);
 //    }
 
     private void selectSquareIfNotEmpty(int row, int col) {
         if (!squareIsEmpty(row, col)) {
             lastSelectedSquareView = squareViews[row][col];
             lastSelectedSquareView.setSelected(true);
-            System.out.println("Selected square "+ lastSelectedSquareView.getName() );
+
         }
     }
 
@@ -80,6 +79,7 @@ public class DrawableBoard{
             e.printStackTrace();
         }
     }
+
 //
 //    public void doMove(Move toDo) {
 //        broadcastNewMoveToObservers(toDo);
