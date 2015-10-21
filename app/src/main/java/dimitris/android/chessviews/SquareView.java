@@ -35,10 +35,10 @@ public abstract class SquareView {
         return rect;
     }
 
-//    public void killThePiece() {
-//        piece = null;
-//    }
-//
+    public Piece getPiece(){
+        return piece;
+    }
+
     public void setPiece(Piece piece) {
         this.piece = piece;
     }

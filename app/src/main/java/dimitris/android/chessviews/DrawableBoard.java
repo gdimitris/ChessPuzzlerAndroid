@@ -6,7 +6,7 @@ import android.graphics.Typeface;
 import dimitris.android.chessviews.Pieces.FenParser;
 
 
-public class DrawableBoard{
+public class DrawableBoard extends MoveSubject{
 
     private int squareSize;
     private SquareView lastSelectedSquareView;
@@ -43,17 +43,17 @@ public class DrawableBoard{
         } else if (lastSelectedSquareView == squareViews[row][col]) {
             clearSelection();
         } else {
-            //dispatchNewMoveIfPassesFilters(row, col);
+            dispatchNewMoveIfPassesFilters(row, col);
             clearSelection();
         }
     }
 
-//    private void dispatchNewMoveIfPassesFilters(int row, int col) {
-//        Move toMake = new Move(lastSelectedSquareView, squareViews[row][col]);
-//
-//        //if (moveFilterer.moveIsLegal(toMake))
-//        doMove(toMake);
-//    }
+    private void dispatchNewMoveIfPassesFilters(int row, int col) {
+        Move toMake = new Move(lastSelectedSquareView, squareViews[row][col]);
+
+        //if (moveFilterer.moveIsLegal(toMake))
+        doMove(toMake);
+    }
 
     private void selectSquareIfNotEmpty(int row, int col) {
         if (!squareIsEmpty(row, col)) {
@@ -80,10 +80,25 @@ public class DrawableBoard{
         }
     }
 
-//
-//    public void doMove(Move toDo) {
-//        broadcastNewMoveToObservers(toDo);
-//    }
+    public void doMove(Move toDo) {
+        toDo.execute();
+        broadcastNewMoveToObservers(toDo);
+    }
+
+    @Override
+    public void broadcastUndoToObservers() {
+
+    }
+
+    @Override
+    public void broadcastRedoToObservers() {
+
+    }
+
+    @Override
+    public void broadcastNewMoveToObservers(Move move) {
+
+    }
 //
 //    public void undoMove() {
 //        broadcastUndoToObservers();
