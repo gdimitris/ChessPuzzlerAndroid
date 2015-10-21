@@ -6,25 +6,15 @@ import android.graphics.Typeface;
 import dimitris.android.chessviews.Pieces.FenParser;
 
 
-public class DrawableBoard extends MoveSubject{
+public class DrawableBoard{
 
-    private int squareSize;
     private SquareView lastSelectedSquareView;
     private SquareView[][] squareViews;
-//    private MoveExecutor moveExecutor;
-//    private MoveFilterer moveFilterer;
+    private MoveManager moveManager;
 
-    public DrawableBoard(int squareSize) {
+    public DrawableBoard() {
         super();
-        this.squareSize = squareSize;
-//        moveExecutor = new MoveExecutor(this);
-//
-
-//        TurnArbiter arbiter = new TurnArbiter(this);
-//        moveFilterer = new MoveFilterer();
-//        moveFilterer.addFilter(arbiter);
-//        moveFilterer.addFilter(new KingCaptureFilter());
-//        moveFilterer.addFilter(new SelfCaptureFilter());
+        this.moveManager = new MoveManager();
     }
 
     public void draw(Canvas canvas) {
@@ -59,7 +49,6 @@ public class DrawableBoard extends MoveSubject{
         if (!squareIsEmpty(row, col)) {
             lastSelectedSquareView = squareViews[row][col];
             lastSelectedSquareView.setSelected(true);
-
         }
     }
 
@@ -72,59 +61,15 @@ public class DrawableBoard extends MoveSubject{
         lastSelectedSquareView = null;
     }
 
-    public void setUpBoard(Typeface font) {
+    public void setUpBoard(Typeface font, int squareSize) {
         try {
-            squareViews = new BoardViewFactory(squareSize).createInitialBoard(font);
+            squareViews = new DrawableBoardFactory(squareSize).createInitialBoard(font);
         } catch (FenParser.BadFenException e) {
             e.printStackTrace();
         }
     }
 
     public void doMove(Move toDo) {
-        toDo.execute();
-        broadcastNewMoveToObservers(toDo);
-    }
-
-//
-//    public void undoMove() {
-//        broadcastUndoToObservers();
-//    }
-//
-//    public void redoMove() {
-//        broadcastRedoToObservers();
-//    }
-//
-//    public Square getSquare(String squareName) {
-//        return getSquare(getSquareCoords(squareName));
-//    }
-//
-//    public Square getSquare(BoardCoords coords) {
-//        return squareViews[coords.row][coords.column];
-//    }
-//
-//    public BoardCoords getBoardCoordsOfSquare(String squareName) {
-//        return getSquareCoords(squareName);
-//    }
-//
-//    public String printMoves() {
-//        return moveExecutor.printMoves();
-//    }
-//
-    @Override
-    public void broadcastUndoToObservers() {
-        for (MoveObserver o : moveObservers)
-            o.undoMove();
-    }
-
-    @Override
-    public void broadcastRedoToObservers() {
-        for (MoveObserver o : moveObservers)
-            o.redoMove();
-    }
-
-    @Override
-    public void broadcastNewMoveToObservers(Move move) {
-        for (MoveObserver o : moveObservers)
-            o.doMove(move);
+        moveManager.executeMove(toDo);
     }
 }

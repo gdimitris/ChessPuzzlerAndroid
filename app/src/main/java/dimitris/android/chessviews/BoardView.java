@@ -18,16 +18,19 @@ public class BoardView extends View implements View.OnTouchListener {
     public BoardView(Context context) {
         super(context);
         setOnTouchListener(this);
+        chessBoard = new DrawableBoard();
     }
 
     public BoardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnTouchListener(this);
+        chessBoard = new DrawableBoard();
     }
 
     public BoardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setOnTouchListener(this);
+        chessBoard = new DrawableBoard();
     }
 
     @Override
@@ -52,8 +55,8 @@ public class BoardView extends View implements View.OnTouchListener {
         int min = (width < height) ? width : height;
         squareSize = min / 8;
         padding = (min % 8) / 2;
-        chessBoard = new DrawableBoard(squareSize);
-        chessBoard.setUpBoard(FontLoader.loadDefaultFont(getContext()));
+
+        chessBoard.setUpBoard(FontLoader.loadDefaultFont(getContext()),squareSize);
     }
 
     @Override

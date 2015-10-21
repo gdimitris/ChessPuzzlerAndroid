@@ -8,11 +8,11 @@ import dimitris.android.chessviews.Pieces.FenParser;
 import dimitris.android.chessviews.Pieces.WhitePieceFactory;
 
 
-public class BoardViewFactory {
+public class DrawableBoardFactory {
     private static final String INITIAL_FEN_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
     private int size = 0;
 
-    public BoardViewFactory(int squareSize) {
+    public DrawableBoardFactory(int squareSize) {
         this.size = squareSize;
     }
 
@@ -40,7 +40,7 @@ public class BoardViewFactory {
     }
 
     private SquareView getCurrentSquareColor(int row, int col) {
-        Rect rect = getCurrentRect(row, col);
+        Rect rect = createCurrentRect(row, col);
         String name = getCurrentSquareName(row, col);
         return (isWhiteSquare(row, col)) ? new LightSquareView(name, rect) : new DarkSquareView(name, rect);
     }
@@ -51,7 +51,7 @@ public class BoardViewFactory {
         return "" + columns.charAt(7 - currentCol) + rows.charAt(7 - currentRow);
     }
 
-    private Rect getCurrentRect(int row, int col) {
+    private Rect createCurrentRect(int row, int col) {
         return new Rect(col * size, row * size, (col + 1) * size, (row + 1) * size);
     }
 

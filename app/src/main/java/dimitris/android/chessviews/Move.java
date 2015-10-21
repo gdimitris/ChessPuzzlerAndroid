@@ -7,17 +7,20 @@ public class Move {
     private SquareView source;
     private SquareView destination;
     private Piece captured;
+    private boolean executed;
 
 
     public Move(SquareView source, SquareView destination) {
         this.source = source;
         this.destination = destination;
+        executed = false;
     }
 
     public void execute() {
         captured = destination.getPiece();
         destination.setPiece(source.getPiece());
         source.setPiece(null);
+        executed = true;
     }
 
     public void undo() {
@@ -35,100 +38,14 @@ public class Move {
         return false;
     }
 
-//    TODO
-//    @Override
-//    public String toString() {
-//        return currentState.toString();
-//    }
-
     public Piece.PieceColor getMoveColor() {
-        return destination.getPiece().getColor();
-    }
+        SquareView pieceContainer = executed ? destination : source;
 
-//    public Piece.PieceColor getCapturedPieceColor() {
-//        if (captured != null)
-//            return captured.getColor();
-//        return Pie
-//    }
+        return pieceContainer.getPiece().getColor();
+    }
 
     public boolean isCapture() {
         return (captured != null);
     }
 
-//    public boolean enemyPieceCanBeCaptured() {
-//        return currentState.enemyPieceCanBeCaptured();
-//    }
-
-//    private interface MoveState {
-//        public boolean isCapture();
-//
-//        public boolean enemyPieceCanBeCaptured();
-//
-//        public Piece.PieceColor getCapturedPieceColor();
-//
-//        public Piece.PieceColor getMoveColor();
-//
-//        public String toString();
-//    }
-//
-//    private class NotExecutedMoveState implements MoveState {
-//
-//        @Override
-//        public boolean isCapture() {
-//            return (destination.getPiece() != null);
-//        }
-//
-//        @Override
-//        public boolean enemyPieceCanBeCaptured() {
-//            return destination.getPiece().canBeCaptured();
-//        }
-//
-//        @Override
-//        public PieceColor getCapturedPieceColor() {
-//            return destination.getPiece().getColor();
-//        }
-//
-//        @Override
-//        public PieceColor getMoveColor() {
-//            return source.getPiece().getColor();
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return "Not executed move";
-//        }
-//    }
-//
-//    private class ExecutedMoveState implements MoveState {
-//
-//        @Override
-//        public boolean isCapture() {
-//            return (captured != null) ? true : false;
-//        }
-//
-//        @Override
-//        public boolean enemyPieceCanBeCaptured() {
-//            //throw new MoveAlreadyExecutedException();
-//            Log.e("Executed Move State", "Should not be here");
-//            return (captured != null);
-//        }
-//
-//        @Override
-//        public PieceColor getCapturedPieceColor() {
-//            return captured.getColor();
-//        }
-//
-//        @Override
-//        public PieceColor getMoveColor() {
-//            return destination.getPiece().getColor();
-//        }
-//
-//        @Override
-//        public String toString() {
-//            String toReturn = destination.getPiece().toString();
-//            toReturn += (captured == null) ? "" : "x";
-//            toReturn += destination.toString();
-//            return toReturn;
-//        }
-//    }
 }
