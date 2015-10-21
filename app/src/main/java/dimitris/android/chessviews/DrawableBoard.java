@@ -85,20 +85,6 @@ public class DrawableBoard extends MoveSubject{
         broadcastNewMoveToObservers(toDo);
     }
 
-    @Override
-    public void broadcastUndoToObservers() {
-
-    }
-
-    @Override
-    public void broadcastRedoToObservers() {
-
-    }
-
-    @Override
-    public void broadcastNewMoveToObservers(Move move) {
-
-    }
 //
 //    public void undoMove() {
 //        broadcastUndoToObservers();
@@ -124,21 +110,21 @@ public class DrawableBoard extends MoveSubject{
 //        return moveExecutor.printMoves();
 //    }
 //
-//    @Override
-//    public void broadcastUndoToObservers() {
-//        for (MoveObserver o : moveObservers)
-//            o.undoMove();
-//    }
-//
-//    @Override
-//    public void broadcastRedoToObservers() {
-//        for (MoveObserver o : moveObservers)
-//            o.redoMove();
-//    }
-//
-//    @Override
-//    public void broadcastNewMoveToObservers(Move move) {
-//        for (MoveObserver o : moveObservers)
-//            o.doMove(move);
-//    }
+    @Override
+    public void broadcastUndoToObservers() {
+        for (MoveObserver o : moveObservers)
+            o.undoMove();
+    }
+
+    @Override
+    public void broadcastRedoToObservers() {
+        for (MoveObserver o : moveObservers)
+            o.redoMove();
+    }
+
+    @Override
+    public void broadcastNewMoveToObservers(Move move) {
+        for (MoveObserver o : moveObservers)
+            o.doMove(move);
+    }
 }
