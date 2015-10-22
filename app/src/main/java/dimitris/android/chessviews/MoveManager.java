@@ -19,7 +19,4 @@ public class MoveManager {
     public String printMovesPlayed(){
         return "";
     }
-
-
-
 }

@@ -12,7 +12,7 @@ import com.example.dimitris.chesspuzzler.R;
 
 public class ChessBoardControlsFragment extends Fragment implements View.OnTouchListener {
 
-    private BoardView boardView;
+    private BoardContainerView boardContainerView;
     private Button undoButton;
     private Button redoButton;
 
@@ -34,11 +34,11 @@ public class ChessBoardControlsFragment extends Fragment implements View.OnTouch
             return false;
 
 //        if (v.equals(undoButton)) {
-//            boardView.getChessBoard().undoMove();
+//            boardView.getChessBoard().onMoveUndo();
 //            boardView.invalidate();
 //            return true;
 //        } else if (v.equals(redoButton)) {
-//            boardView.getChessBoard().redoMove();
+//            boardView.getChessBoard().onMoveRedo();
 //            boardView.invalidate();
 //            return true;
 //        }
@@ -51,7 +51,7 @@ public class ChessBoardControlsFragment extends Fragment implements View.OnTouch
         undoButton.setOnTouchListener(this);
         redoButton = (Button) getActivity().findViewById(R.id.redoButton);
         redoButton.setOnTouchListener(this);
-        boardView = (BoardView) getActivity().findViewById(R.id.chessboard);
+        boardContainerView = (BoardContainerView) getActivity().findViewById(R.id.chessboard);
 //        MovesTextView movesTextView = (MovesTextView) getActivity().findViewById(R.id.movesTextView);
 //        movesTextView.setBoardViewRef(boardView);
     }

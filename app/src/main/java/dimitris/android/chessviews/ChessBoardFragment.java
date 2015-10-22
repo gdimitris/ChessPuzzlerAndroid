@@ -11,7 +11,7 @@ import com.example.dimitris.chesspuzzler.R;
 
 public class ChessBoardFragment extends Fragment {
 
-    private BoardView chessBoardRef;
+    private BoardContainerView chessBoardRef;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -22,6 +22,6 @@ public class ChessBoardFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        chessBoardRef = (BoardView) getActivity().findViewById(R.id.chessboard);
+        chessBoardRef = (BoardContainerView) getActivity().findViewById(R.id.chessboard);
     }
 }

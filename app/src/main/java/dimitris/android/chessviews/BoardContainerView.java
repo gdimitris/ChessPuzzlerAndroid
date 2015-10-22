@@ -6,31 +6,28 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import dimitris.chesspuzzler.app.FontLoader;
-
-
-public class BoardView extends View implements View.OnTouchListener {
+public class BoardContainerView extends View implements View.OnTouchListener {
 
     protected DrawableBoard chessBoard;
     private int squareSize;
     private int padding;
 
-    public BoardView(Context context) {
+    public BoardContainerView(Context context) {
         super(context);
         setOnTouchListener(this);
-        chessBoard = new DrawableBoard();
+        chessBoard = new DrawableBoard(context);
     }
 
-    public BoardView(Context context, AttributeSet attrs) {
+    public BoardContainerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnTouchListener(this);
-        chessBoard = new DrawableBoard();
+        chessBoard = new DrawableBoard(context);
     }
 
-    public BoardView(Context context, AttributeSet attrs, int defStyle) {
+    public BoardContainerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setOnTouchListener(this);
-        chessBoard = new DrawableBoard();
+        chessBoard = new DrawableBoard(context);
     }
 
     @Override
@@ -56,7 +53,8 @@ public class BoardView extends View implements View.OnTouchListener {
         squareSize = min / 8;
         padding = (min % 8) / 2;
 
-        chessBoard.setUpBoard(FontLoader.loadDefaultFont(getContext()),squareSize);
+        chessBoard.setSquareSize(squareSize);
+        chessBoard.createInitialBoard();
     }
 
     @Override
@@ -74,5 +72,9 @@ public class BoardView extends View implements View.OnTouchListener {
 
         invalidate();
         return true;
+    }
+
+    public void setBoardPosition(String Fen){
+        this.chessBoard.setPosition(Fen);
     }
 }

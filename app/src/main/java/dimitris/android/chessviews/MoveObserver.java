@@ -1,9 +1,9 @@
 package dimitris.android.chessviews;
 
 public interface MoveObserver {
-    public void doMove(Move move);
+    public void onMoveDo(Move move);
 
-    public void undoMove();
+    public void onMoveUndo();
 
-    public void redoMove();
+    public void onMoveRedo();
 }
