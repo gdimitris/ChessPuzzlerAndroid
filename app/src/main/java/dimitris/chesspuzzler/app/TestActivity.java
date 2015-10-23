@@ -33,8 +33,9 @@ public class TestActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.changePositionButton){
-            drawableBoard.setBoardPosition("r1b1kb1r/pppp1ppp/5q2/4n3/3KP3/2N3PN/PPP4P/R1BQ1B1R b kq - 0 1");
-            drawableBoard.invalidate();
+//            drawableBoard.setBoardPosition("r1b1kb1r/pppp1ppp/5q2/4n3/3KP3/2N3PN/PPP4P/R1BQ1B1R b kq - 0 1");
+//            drawableBoard.invalidate();
+            new HttpRequestTask().execute("http://www.android.com");
         }
     }
 }
