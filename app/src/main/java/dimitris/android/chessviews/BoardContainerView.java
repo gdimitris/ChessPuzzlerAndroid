@@ -3,6 +3,7 @@ package dimitris.android.chessviews;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -15,24 +16,25 @@ public class BoardContainerView extends View implements View.OnTouchListener {
     public BoardContainerView(Context context) {
         super(context);
         setOnTouchListener(this);
-        chessBoard = new DrawableBoard(context);
+        chessBoard = new DrawableBoard(this);
     }
 
     public BoardContainerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnTouchListener(this);
-        chessBoard = new DrawableBoard(context);
+        chessBoard = new DrawableBoard(this);
     }
 
     public BoardContainerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setOnTouchListener(this);
-        chessBoard = new DrawableBoard(context);
+        chessBoard = new DrawableBoard(this);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        Log.e("DRAW", "onDraw was called on BoardContainerView");
         if (chessBoard != null)
             chessBoard.draw(canvas);
     }
@@ -74,7 +76,7 @@ public class BoardContainerView extends View implements View.OnTouchListener {
         return true;
     }
 
-    public void setBoardPosition(String Fen){
-        this.chessBoard.setPosition(Fen);
+    public DrawableBoard getChessBoard(){
+        return chessBoard;
     }
 }

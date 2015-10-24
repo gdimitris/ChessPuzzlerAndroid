@@ -1,6 +1,5 @@
 package dimitris.android.chessviews;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 
@@ -18,16 +17,16 @@ public class DrawableBoard extends MoveSubject {
     private SquareView[][] squareViews;
     private MoveManager moveManager;
     private MoveChecker moveChecker;
-    private Context context;
+    private BoardContainerView parentView;
     private int squareSize=1;
 
 
-    public DrawableBoard(Context context) {
+    public DrawableBoard(BoardContainerView parentView) {
         super();
         this.moveObservers = new ArrayList<>();
         this.moveManager = new MoveManager();
         this.moveChecker = new MoveChecker(this);
-        this.context = context;
+        this.parentView = parentView;
     }
 
     public void draw(Canvas canvas) {
@@ -75,7 +74,7 @@ public class DrawableBoard extends MoveSubject {
 
     public void createInitialBoard() {
         try {
-            Typeface font = FontLoader.loadDefaultFont(context);
+            Typeface font = FontLoader.loadDefaultFont(parentView.getContext());
             squareViews = new DrawableBoardFactory(squareSize).createInitialBoard(font);
         } catch (FenParser.BadFenException e) {
             e.printStackTrace();
@@ -93,7 +92,7 @@ public class DrawableBoard extends MoveSubject {
     public void setPosition(String FEN){
         try {
             clearBoard();
-            Typeface typeface = FontLoader.loadDefaultFont(context);
+            Typeface typeface = FontLoader.loadDefaultFont(parentView.getContext());
             WhitePieceFactory whiteFactory = new WhitePieceFactory(typeface, squareSize);
             BlackPieceFactory blackPieceFactory = new BlackPieceFactory(typeface, squareSize);
             FenParser parser = new FenParser(squareViews , whiteFactory, blackPieceFactory);
@@ -101,6 +100,7 @@ public class DrawableBoard extends MoveSubject {
         } catch (FenParser.BadFenException e) {
             e.printStackTrace();
         }
+        parentView.invalidate();
     }
 
     public void doMove(Move toDo) {
