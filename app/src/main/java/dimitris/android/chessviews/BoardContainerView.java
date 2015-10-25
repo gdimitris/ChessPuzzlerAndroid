@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import dimitris.chesspuzzler.app.ChessPuzzle;
+
 public class BoardContainerView extends View implements View.OnTouchListener {
 
     protected DrawableBoard chessBoard;
@@ -76,5 +78,9 @@ public class BoardContainerView extends View implements View.OnTouchListener {
 
     public DrawableBoard getChessBoard(){
         return chessBoard;
+    }
+
+    public void setCurrentPuzzle(ChessPuzzle puzzle){
+        chessBoard.setPosition(puzzle.fen);
     }
 }

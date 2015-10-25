@@ -16,16 +16,15 @@ public class DrawableBoard extends MoveSubject {
     private SquareView lastSelectedSquareView;
     private SquareView[][] squareViews;
     private MoveManager moveManager;
-    private MoveChecker moveChecker;
+    private MoveValidator moveChecker;
     private BoardContainerView parentView;
     private int squareSize=1;
-
 
     public DrawableBoard(BoardContainerView parentView) {
         super();
         this.moveObservers = new ArrayList<>();
         this.moveManager = new MoveManager();
-        this.moveChecker = new MoveChecker(this);
+        this.moveChecker = new MoveValidator(this);
         this.parentView = parentView;
     }
 
@@ -52,7 +51,7 @@ public class DrawableBoard extends MoveSubject {
     private void dispatchNewMoveIfPassesFilters(int row, int col) {
         Move toMake = new Move(lastSelectedSquareView, squareViews[row][col]);
 
-        if (moveChecker.isLegal(toMake))
+        if (moveChecker.isValid(toMake))
             doMove(toMake);
     }
 

@@ -4,10 +4,10 @@ package dimitris.chesspuzzler.app;
  * Created by dimitris on 10/24/15.
  */
 public class ChessPuzzle {
-    String description;
-    String fen;
-    String solution;
-    String id;
+    public String description;
+    public String fen;
+    public String solution;
+    public String id;
 
     @Override
     public String toString() {

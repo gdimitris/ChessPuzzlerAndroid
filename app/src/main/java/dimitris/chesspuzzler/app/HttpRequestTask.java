@@ -8,17 +8,17 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import dimitris.android.chessviews.DrawableBoard;
+import dimitris.android.chessviews.BoardContainerView;
 
 /**
  * Created by dimitris on 10/23/15.
  */
 public class HttpRequestTask extends AsyncTask<String, Void, InputStream> {
 
-    private DrawableBoard board;
+    private BoardContainerView boardView;
 
-    public HttpRequestTask(DrawableBoard board){
-        this.board = board;
+    public HttpRequestTask(BoardContainerView boardView){
+        this.boardView = boardView;
     }
 
     @Override
@@ -43,6 +43,6 @@ public class HttpRequestTask extends AsyncTask<String, Void, InputStream> {
     protected void onPostExecute(InputStream s) {
         super.onPostExecute(s);
         ChessPuzzle puzzle = PuzzleParser.parse(s);
-        board.setPosition(puzzle.fen);
+        boardView.setCurrentPuzzle(puzzle);
     }
 }

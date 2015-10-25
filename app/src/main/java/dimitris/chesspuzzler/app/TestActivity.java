@@ -38,7 +38,7 @@ public class TestActivity extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         if(v.getId() == R.id.changePositionButton){
             if(isNetworkAvailable())
-                new HttpRequestTask(drawableBoard.getChessBoard()).execute("https://mitsos90.pythonanywhere.com/mate2");
+                new HttpRequestTask(drawableBoard).execute("https://mitsos90.pythonanywhere.com/mate2");
             else
                 Toast.makeText(getApplicationContext(), "Please make sure you have an active Internet connection",Toast.LENGTH_LONG).show();
         }
