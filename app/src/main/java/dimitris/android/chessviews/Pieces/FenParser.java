@@ -1,7 +1,5 @@
 package dimitris.android.chessviews.Pieces;
 
-import android.util.Log;
-
 import java.util.StringTokenizer;
 
 import dimitris.android.chessviews.SquareView;
@@ -23,7 +21,6 @@ public class FenParser {
     public void parse(String fen) throws BadFenException {
         StringTokenizer tokenizer = new StringTokenizer(fen);
         String pieces = (String) tokenizer.nextElement();
-        Log.e("FEN PARSER", "Pieces string: " + pieces);
         for (int currentChar = 0; currentChar < pieces.length(); currentChar++) {
             char current = pieces.charAt(currentChar);
 
