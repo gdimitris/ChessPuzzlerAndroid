@@ -76,10 +76,6 @@ public class BoardContainerView extends View implements View.OnTouchListener {
         return true;
     }
 
-    public DrawableBoard getChessBoard(){
-        return chessBoard;
-    }
-
     public void setCurrentPuzzle(ChessPuzzle puzzle){
         chessBoard.setPosition(puzzle.fen);
     }
