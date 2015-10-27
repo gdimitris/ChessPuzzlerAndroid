@@ -48,4 +48,12 @@ public class Move {
         return (captured != null);
     }
 
+    public SquareView getSourceSquare(){
+        return source;
+    }
+
+    public SquareView getDestinationSquare(){
+        return destination;
+    }
+
 }
