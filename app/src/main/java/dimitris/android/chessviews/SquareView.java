@@ -79,4 +79,8 @@ public abstract class SquareView {
     public String toString() {
         return name;
     }
+
+    public String getColumn(){
+        return name.substring(0,1);
+    }
 }

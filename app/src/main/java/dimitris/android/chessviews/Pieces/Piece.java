@@ -12,6 +12,7 @@ public abstract class Piece {
     protected String whiteLayerLetter;
     protected String blackLayerLetter;
     protected PieceColor color;
+
     public Piece(Paint whitePaint, Paint blackPaint) {
         this.whitePaint = whitePaint;
         this.blackPaint = blackPaint;
@@ -47,6 +48,8 @@ public abstract class Piece {
     }
 
     public abstract String toString();
+
+//    public abstract String getSANString();
 
     public enum PieceColor {
         White,

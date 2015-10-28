@@ -1,6 +1,9 @@
 package dimitris.android.chessviews;
 
 import dimitris.android.chessviews.Pieces.Piece;
+import dimitris.android.chessviews.Pieces.Piece.PieceColor;
+
+import static dimitris.android.chessviews.Pieces.Piece.PieceColor.*;
 
 
 public class Move {
@@ -8,12 +11,16 @@ public class Move {
     private SquareView destination;
     private Piece captured;
     private boolean executed;
+    private boolean isMate;
+    private boolean isCheck;
 
 
     public Move(SquareView source, SquareView destination) {
         this.source = source;
         this.destination = destination;
         executed = false;
+        isMate = false;
+        isCheck = false;
     }
 
     public void execute() {
@@ -38,7 +45,7 @@ public class Move {
         return false;
     }
 
-    public Piece.PieceColor getMoveColor() {
+    public PieceColor getMoveColor() {
         SquareView pieceContainer = executed ? destination : source;
 
         return pieceContainer.getPiece().getColor();
@@ -56,4 +63,23 @@ public class Move {
         return destination;
     }
 
+    public void setIsMate(boolean isMate){
+        this.isMate = isMate;
+    }
+
+    public boolean isMate(){
+        return isMate;
+    }
+
+    public boolean isWhiteMove(){
+        return getMoveColor()== White;
+    }
+
+    public boolean isCheck(){
+        return isCheck;
+    }
+
+    public void setIsCheck(boolean isCheck){
+        this.isCheck = isCheck;
+    }
 }

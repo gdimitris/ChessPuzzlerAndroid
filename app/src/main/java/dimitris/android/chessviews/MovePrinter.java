@@ -2,7 +2,8 @@ package dimitris.android.chessviews;
 
 import java.util.ArrayList;
 
-import static dimitris.chessboardutils.Piece.PieceType.Pawn;
+import dimitris.android.chessviews.Pieces.BlackPawn;
+import dimitris.android.chessviews.Pieces.WhitePawn;
 
 public class MovePrinter implements MoveObserver {
 
@@ -34,17 +35,17 @@ public class MovePrinter implements MoveObserver {
         SquareView src = moveToPrint.getSourceSquare();
         SquareView dest = moveToPrint.getDestinationSquare();
         String capture = moveToPrint.isCapture() ? "x" : "";
-        String status = moveToPrint. ? "#" : moveToPrint.isCheck ? "+" : "";
-        String movePrefix = (dest.piece.type == Pawn && moveToPrint.isCapture) ? src.getColumn() : dest.piece.getSANString();
+        String status = moveToPrint.isMate() ? "#" : moveToPrint.isCheck() ? "+" : "";
+        String movePrefix = (((dest.getPiece() instanceof WhitePawn) || (dest.getPiece() instanceof BlackPawn))&& moveToPrint.isCapture()) ? src.getColumn() : dest.getPiece().toString();
 
         return movePrefix + capture + dest.toString() + status;
     }
 
     public void onMovePlayed(Move movePlayed) {
         String toReturn = "";
-        String moveDecorator = movePlayed.whiteMove ? PERIOD : ELLIPSIS;
+        String moveDecorator = movePlayed.isWhiteMove() ? PERIOD : ELLIPSIS;
 
-        if(movePlayed.whiteMove || movesPlayed.size()== 0){
+        if(movePlayed.isWhiteMove() || movesPlayed.size()== 0){
             String moveStr = String.format(MOVE_FORMAT, fullMoveCounter, moveDecorator,
                     printIndividualMove(movePlayed));
             toReturn+= moveStr + " ";
@@ -61,7 +62,7 @@ public class MovePrinter implements MoveObserver {
 
     @Override
     public void onMoveDo(Move move) {
-
+        onMovePlayed(move);
     }
 
     @Override

@@ -15,6 +15,6 @@ public class WhitePawn extends Piece {
 
     @Override
     public String toString() {
-        return "p";
+        return "";
     }
 }

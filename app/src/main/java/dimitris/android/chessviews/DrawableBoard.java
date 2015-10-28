@@ -2,6 +2,7 @@ package dimitris.android.chessviews;
 
 import android.graphics.Canvas;
 import android.graphics.Typeface;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,7 @@ public class DrawableBoard extends MoveSubject {
     private SquareView[][] squareViews;
     private MoveManager moveManager;
     private MoveValidator moveChecker;
+    private MovePrinter movePrinter;
     private BoardContainerView parentView;
     private int squareSize=1;
 
@@ -25,6 +27,7 @@ public class DrawableBoard extends MoveSubject {
         this.moveObservers = new ArrayList<>();
         this.moveManager = new MoveManager();
         this.moveChecker = new MoveValidator(this);
+        this.movePrinter = new MovePrinter(this);
         this.parentView = parentView;
     }
 
@@ -126,5 +129,6 @@ public class DrawableBoard extends MoveSubject {
     public void broadcastNewMoveToObservers(Move move) {
         for(MoveObserver observer : moveObservers)
             observer.onMoveDo(move);
+        Log.e("MovePrinter", "Current Moves: "+ movePrinter.printMovesPlayed());
     }
 }

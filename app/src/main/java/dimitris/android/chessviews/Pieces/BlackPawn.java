@@ -15,6 +15,6 @@ public class BlackPawn extends Piece {
 
     @Override
     public String toString() {
-        return "p";
+        return "";
     }
 }
