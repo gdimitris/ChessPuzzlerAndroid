@@ -63,26 +63,4 @@ public abstract class PieceFactory {
                 return null;
         }
     }
-
-//    public Piece createFromUtilPiece(dimitris.chessboardutils.Piece piece) {
-//        PieceType type = piece.type;
-//
-//        switch (type){
-//            case King:
-//                return createKing();
-//            case Queen:
-//                return createQueen();
-//            case Rook:
-//                return createRook();
-//            case Bishop:
-//                return createBishop();
-//            case Knight:
-//                return createKnight();
-//            case Pawn:
-//                return createPawn();
-//            default:
-//                return null;
-//        }
-//    }
-
 }

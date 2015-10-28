@@ -13,9 +13,10 @@ public abstract class Piece {
     protected String blackLayerLetter;
     protected PieceColor color;
 
-    public Piece(Paint whitePaint, Paint blackPaint) {
+    public Piece(Paint whitePaint, Paint blackPaint, PieceColor color) {
         this.whitePaint = whitePaint;
         this.blackPaint = blackPaint;
+        this.color = color;
     }
 
     public void draw(Canvas canvas, Rect rect) {
@@ -23,37 +24,22 @@ public abstract class Piece {
         canvas.drawText(blackLayerLetter, rect.left, rect.bottom, blackPaint);
     }
 
-    public String getWhiteLayer() {
-        return whiteLayerLetter;
-    }
-
-    public String getBlackLayer() {
-        return blackLayerLetter;
-    }
-
-    public Paint getBlackPaint() {
-        return blackPaint;
-    }
-
-    public Paint getWhitePaint() {
-        return whitePaint;
-    }
-
     public PieceColor getColor() {
         return color;
     }
 
-    public boolean canBeCaptured() {
-        return true;
-    }
-
     public abstract String toString();
-
-//    public abstract String getSANString();
 
     public enum PieceColor {
         White,
         Black
     }
 
+    public void setWhiteLayerLetter(String layerLetter){
+        this.whiteLayerLetter = layerLetter;
+    }
+
+    public void setBlackLayerLetter(String layerLetter){
+        this.blackLayerLetter = layerLetter;
+    }
 }

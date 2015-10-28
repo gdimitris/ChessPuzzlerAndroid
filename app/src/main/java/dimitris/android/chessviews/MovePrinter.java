@@ -2,8 +2,7 @@ package dimitris.android.chessviews;
 
 import java.util.ArrayList;
 
-import dimitris.android.chessviews.Pieces.BlackPawn;
-import dimitris.android.chessviews.Pieces.WhitePawn;
+import dimitris.android.chessviews.Pieces.Pawn;
 
 public class MovePrinter implements MoveObserver {
 
@@ -36,7 +35,7 @@ public class MovePrinter implements MoveObserver {
         SquareView dest = moveToPrint.getDestinationSquare();
         String capture = moveToPrint.isCapture() ? "x" : "";
         String status = moveToPrint.isMate() ? "#" : moveToPrint.isCheck() ? "+" : "";
-        String movePrefix = (((dest.getPiece() instanceof WhitePawn) || (dest.getPiece() instanceof BlackPawn))&& moveToPrint.isCapture()) ? src.getColumn() : dest.getPiece().toString();
+        String movePrefix = ((dest.getPiece() instanceof Pawn) && moveToPrint.isCapture()) ? src.getColumn() : dest.getPiece().toString();
 
         return movePrefix + capture + dest.toString() + status;
     }
