@@ -10,6 +10,12 @@ import dimitris.android.chessviews.Pieces.BlackPieceFactory;
 import dimitris.android.chessviews.Pieces.FenParser;
 import dimitris.android.chessviews.Pieces.WhitePieceFactory;
 import dimitris.chesspuzzler.app.FontLoader;
+import dimitris.chesspuzzler.app.Move;
+import dimitris.chesspuzzler.app.MoveManager;
+import dimitris.chesspuzzler.app.MoveObserver;
+import dimitris.chesspuzzler.app.MovePrinter;
+import dimitris.chesspuzzler.app.MoveSubject;
+import dimitris.chesspuzzler.app.MoveValidator;
 
 
 public class DrawableBoard extends MoveSubject {

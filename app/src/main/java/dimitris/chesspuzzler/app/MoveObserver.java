@@ -1,4 +1,4 @@
-package dimitris.android.chessviews;
+package dimitris.chesspuzzler.app;
 
 public interface MoveObserver {
     public void onMoveDo(Move move);

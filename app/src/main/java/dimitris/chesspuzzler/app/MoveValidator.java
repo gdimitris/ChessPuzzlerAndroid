@@ -1,4 +1,4 @@
-package dimitris.android.chessviews;
+package dimitris.chesspuzzler.app;
 
 import dimitris.android.chessviews.Pieces.Piece;
 

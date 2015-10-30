@@ -1,8 +1,10 @@
-package dimitris.android.chessviews;
+package dimitris.chesspuzzler.app;
 
 import java.util.ArrayList;
 
+import dimitris.android.chessviews.DrawableBoard;
 import dimitris.android.chessviews.Pieces.Pawn;
+import dimitris.android.chessviews.SquareView;
 
 public class MovePrinter implements MoveObserver {
 
