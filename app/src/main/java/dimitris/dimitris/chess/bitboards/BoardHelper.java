@@ -1,4 +1,4 @@
-package dimitris.chesspuzzler.app;
+package dimitris.dimitris.chess.bitboards;
 
 public class BoardHelper {
 
