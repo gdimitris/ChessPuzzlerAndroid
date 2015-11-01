@@ -6,7 +6,7 @@ import static dimitris.android.chessviews.Pieces.Piece.PieceColor.*;
 import static dimitris.android.chessviews.Pieces.PieceLayersHelper.*;
 
 
-public class WhitePieceFactory extends PieceFactory {
+public class WhitePieceFactory extends AbstractPieceFactory {
 
     public WhitePieceFactory(Typeface font, int size) {
         super(font, size);

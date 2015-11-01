@@ -7,8 +7,8 @@ import dimitris.android.chessviews.SquareView;
 public class FenParser {
 
     private SquareView[][] board;
-    private PieceFactory blackFactory;
-    private PieceFactory whiteFactory;
+    private AbstractPieceFactory blackFactory;
+    private AbstractPieceFactory whiteFactory;
     private int currentRow = 0;
     private int currentColumn = 0;
 
@@ -44,7 +44,7 @@ public class FenParser {
     }
 
     private void handleCharacter(char current) {
-        PieceFactory factory = (Character.isUpperCase(current)) ? whiteFactory : blackFactory;
+        AbstractPieceFactory factory = (Character.isUpperCase(current)) ? whiteFactory : blackFactory;
         Piece piece = factory.createPiece(current);
         board[currentRow][currentColumn].setPiece(piece);
         currentColumn++;

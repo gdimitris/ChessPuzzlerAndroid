@@ -6,7 +6,7 @@ import static dimitris.android.chessviews.Pieces.Piece.PieceColor.Black;
 import static dimitris.android.chessviews.Pieces.PieceLayersHelper.*;
 
 
-public class BlackPieceFactory extends PieceFactory {
+public class BlackPieceFactory extends AbstractPieceFactory {
 
     public BlackPieceFactory(Typeface font, int size) {
         super(font, size);

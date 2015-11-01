@@ -22,12 +22,14 @@ public class Bitboard {
         Rook,
         Knight,
         Bishop,
-        Pawn
+        Pawn,
+        None
     }
 
     public enum PieceColor{
         White,
-        Black
+        Black,
+        None
     }
 
 
@@ -56,32 +58,33 @@ public class Bitboard {
                 switch (current_piece){
                     case 'k':
                         setPieceAtSquare(PieceType.King, color, current_index);
-                        return;
+                        break;
                     case 'q':
                         setPieceAtSquare(PieceType.Queen, color, current_index);
-                        return;
+                        break;
                     case 'r':
                         setPieceAtSquare(PieceType.Rook, color, current_index);
-                        return;
+                        break;
                     case 'n':
                         setPieceAtSquare(PieceType.Knight, color, current_index);
-                        return;
+                        break;
                     case 'b':
                         setPieceAtSquare(PieceType.Bishop, color, current_index);
-                        return;
+                        break;
                     case 'p':
                         setPieceAtSquare(PieceType.Pawn, color, current_index);
-                        return;
-                }}
-            else if (Character.isDigit(current_piece))
-                current_col += Integer.parseInt(String.valueOf(current_piece));
-            else if ("/".equals(String.valueOf(current_piece))){
+                        break;
+                }
+                current_col++;
+            }
+            else if (Character.isDigit(current_piece)) {
+                int offset = Integer.parseInt(String.valueOf(current_piece));
+                current_col += offset;
+            }else if ("/".equals(String.valueOf(current_piece))){
                 current_row ++;
                 current_col = 0;
             }
-
         }
-
     }
 
     public PieceType getPieceType(String square){
@@ -96,7 +99,7 @@ public class Bitboard {
                 }
             }
         }
-        return PieceType.Knight;
+        return PieceType.None;
     }
 
     public PieceColor getPieceColor(String square){
@@ -111,7 +114,7 @@ public class Bitboard {
                 }
             }
         }
-        return PieceColor.White;
+        return PieceColor.None;
     }
 
 
@@ -122,11 +125,20 @@ public class Bitboard {
         pieceBitboards[row][col] = pieceBitboards[row][col] | squareIsolationMasks[index];
     }
 
-    public void removePieceFromSquare(PieceType type, PieceColor color, int index){
+    private void removePieceFromSquare(PieceType type, PieceColor color, int index){
         int row = type.ordinal();
         int col = color.ordinal();
 
         pieceBitboards[row][col] = pieceBitboards[row][col] &  ~squareIsolationMasks[index];
+    }
+
+    public void removePieceFromSquare(String squareName){
+        PieceType type = getPieceType(squareName);
+        PieceColor color = getPieceColor(squareName);
+        BoardCoords coords = BoardHelper.getSquareCoords(squareName);
+        int index = squareIndexes[coords.row][coords.column];
+
+        removePieceFromSquare(type,color,index);
     }
 
     public void setPieceAtSquare(PieceType type, PieceColor color, String square){

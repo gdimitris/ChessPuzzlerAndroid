@@ -5,14 +5,14 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 
 
-public abstract class PieceFactory {
+public abstract class AbstractPieceFactory {
 
     private final Typeface font;
     private final int size;
     protected Paint blackPaint;
     protected Paint whitePaint;
 
-    public PieceFactory(Typeface font, int size) {
+    public AbstractPieceFactory(Typeface font, int size) {
         this.font = font;
         this.size = size;
         initializePaints();
