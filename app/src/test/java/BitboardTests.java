@@ -12,7 +12,7 @@ import dimitris.dimitris.chess.bitboards.Bitboard;
 
 import static dimitris.dimitris.chess.bitboards.Bitboard.PieceColor.*;
 import static dimitris.dimitris.chess.bitboards.Bitboard.PieceType.*;
-import static dimitris.dimitris.chess.bitboards.Bitboard.PieceType.None;
+import static dimitris.dimitris.chess.bitboards.Bitboard.PieceType.NullPiece;
 import static junit.framework.Assert.assertEquals;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
@@ -73,7 +73,29 @@ public class BitboardTests {
         assertEquals(Knight, bb.getPieceType("d5"));
         bb.removePieceFromSquare("d5");
 
-        assertEquals(None, bb.getPieceType("d5"));
-        assertEquals(Bitboard.PieceColor.None, bb.getPieceColor("d5"));
+        assertEquals(NullPiece, bb.getPieceType("d5"));
+        assertEquals(Bitboard.PieceColor.NullColor, bb.getPieceColor("d5"));
+    }
+
+
+    //Expected values calculated from here: http://cinnamonchess.altervista.org/bitboard_calculator/Calc.html
+    @Test
+    public void test_getsAllWhitePieces(){
+        bb.setFenPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
+
+        long actual = bb.getAllWhitePieces();
+        long expected = 378293249937L;
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void test_getsAllBlackPieces(){
+        bb.setFenPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
+
+        long actual = bb.getAllBlackPieces();
+        long expected = 123;
+
+        assertEquals(expected, actual);
     }
 }

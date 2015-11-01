@@ -2,6 +2,9 @@ package dimitris.dimitris.chess.bitboards;
 
 import dimitris.dimitris.chess.bitboards.BoardHelper.BoardCoords;
 
+import static dimitris.dimitris.chess.bitboards.Bitboard.PieceColor.Black;
+import static dimitris.dimitris.chess.bitboards.Bitboard.PieceColor.White;
+
 public class Bitboard {
 
     private long[] squareIsolationMasks;
@@ -23,13 +26,13 @@ public class Bitboard {
         Knight,
         Bishop,
         Pawn,
-        None
+        NullPiece
     }
 
     public enum PieceColor{
         White,
         Black,
-        None
+        NullColor
     }
 
 
@@ -52,7 +55,7 @@ public class Bitboard {
         for(int i=0; i<pieces_fen.length();i++){
             char current_piece = pieces_fen.charAt(i);
             if (Character.isAlphabetic(current_piece)){
-                PieceColor color = Character.isUpperCase(current_piece) ? PieceColor.White : PieceColor.Black;
+                PieceColor color = Character.isUpperCase(current_piece) ? White : Black;
                 current_piece = Character.toLowerCase(current_piece);
                 int current_index = squareIndexes[current_row][current_col];
                 switch (current_piece){
@@ -99,7 +102,7 @@ public class Bitboard {
                 }
             }
         }
-        return PieceType.None;
+        return PieceType.NullPiece;
     }
 
     public PieceColor getPieceColor(String square){
@@ -114,7 +117,7 @@ public class Bitboard {
                 }
             }
         }
-        return PieceColor.None;
+        return PieceColor.NullColor;
     }
 
 
@@ -138,7 +141,7 @@ public class Bitboard {
         BoardCoords coords = BoardHelper.getSquareCoords(squareName);
         int index = squareIndexes[coords.row][coords.column];
 
-        removePieceFromSquare(type,color,index);
+        removePieceFromSquare(type, color, index);
     }
 
     public void setPieceAtSquare(PieceType type, PieceColor color, String square){
@@ -147,10 +150,25 @@ public class Bitboard {
         setPieceAtSquare(type, color, index);
     }
 
+    public long getAllWhitePieces(){
+        long result = 0;
+        for(int i=0; i<6; i++)
+            result |= pieceBitboards[i][White.ordinal()];
+        return result;
+    }
+
+    public long getAllBlackPieces(){
+        long result = 0;
+        for(int i=0; i<6; i++)
+            result |= pieceBitboards[i][Black.ordinal()];
+
+        return result;
+    }
+
     public void printAllBitboards(){
         for(int j=0; j<2;j++)
             for (int i=0; i<6; i++ ){
-                String color = PieceColor.values()[j].toString();
+                String color = PieceType.values()[j].toString();
                 String pieceType = PieceType.values()[i].toString();
                 String message = String.format("%s %s bitboard: ",color, pieceType);
                 System.out.println(message);
