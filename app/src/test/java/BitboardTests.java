@@ -3,12 +3,14 @@ import android.os.Build;
 import com.example.dimitris.chesspuzzler.BuildConfig;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import dimitris.dimitris.chess.bitboards.Bitboard;
+import dimitris.dimitris.chess.bitboards.UInt64;
 
 import static dimitris.dimitris.chess.bitboards.Bitboard.PieceColor.*;
 import static dimitris.dimitris.chess.bitboards.Bitboard.PieceType.*;
@@ -83,8 +85,8 @@ public class BitboardTests {
     public void test_getsAllWhitePieces(){
         bb.setFenPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
 
-        long actual = bb.getAllWhitePieces();
-        long expected = 378293249937L;
+        UInt64 actual = bb.getAllWhitePieces();
+        UInt64 expected = UInt64.create(Long.toBinaryString(378293249937L));
 
         assertEquals(expected, actual);
     }
@@ -93,8 +95,8 @@ public class BitboardTests {
     public void test_getsAllBlackPieces(){
         bb.setFenPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
 
-        long actual = bb.getAllBlackPieces();
-        long expected = 123;
+        UInt64 actual = bb.getAllBlackPieces();
+        UInt64 expected = UInt64.create("1011100111110011000010000000010000001000000000000000000000001000");
 
         assertEquals(expected, actual);
     }
