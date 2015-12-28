@@ -1,4 +1,4 @@
-package dimitris.chesspuzzler.app;
+package dimitris.android.chessviews;
 
 import android.content.Context;
 import android.graphics.Typeface;

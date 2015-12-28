@@ -35,27 +35,25 @@ public class Bitboard {
         NullColor
     }
 
-
     public Bitboard(){
-        pieceBitboards = new UInt64[6][2];
         initializeBitboards();
-        squareIsolationMasks = new UInt64[64];
         initializeSquareIsolationMasks();
     }
 
     private void initializeBitboards() {
+        pieceBitboards = new UInt64[6][2];
         for (int i=0;i<6;i++)
             for (int j=0; j<2;j++)
                 pieceBitboards[i][j] = UInt64.create("0");
     }
 
     private void initializeSquareIsolationMasks(){
+        squareIsolationMasks = new UInt64[64];
         for (int index = 0; index < squareIsolationMasks.length; index++)
             squareIsolationMasks[index] = UInt64.create(Long.toBinaryString(1L << index));
     }
 
     public void setFenPosition(String FEN){
-
         String pieces_fen = FEN.split(" ")[0];
         int current_row = 0, current_col = 0;
 
@@ -126,7 +124,6 @@ public class Bitboard {
         }
         return PieceColor.NullColor;
     }
-
 
     public void setPieceAtSquare(PieceType type, PieceColor color,int index){
         int row = type.ordinal();

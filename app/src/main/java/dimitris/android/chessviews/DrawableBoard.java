@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import dimitris.android.chessviews.Pieces.BlackPieceFactory;
 import dimitris.android.chessviews.Pieces.FenParser;
 import dimitris.android.chessviews.Pieces.WhitePieceFactory;
-import dimitris.chesspuzzler.app.FontLoader;
 import dimitris.chesspuzzler.app.Move;
 import dimitris.chesspuzzler.app.MoveManager;
 import dimitris.chesspuzzler.app.MoveObserver;

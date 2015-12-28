@@ -68,6 +68,7 @@ public class UInt64 {
     public UInt64 flip(){
         UInt64 clone = (UInt64) this.clone();
         clone.bitSet.flip(0,bitSet.size());
+
         return clone;
     }
 

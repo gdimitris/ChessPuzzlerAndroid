@@ -19,7 +19,4 @@ public class BitboardConstants {
     public static final long RANK_3 = 0x0000000000FF0000L;
     public static final long RANK_2 = 0x000000000000FF00L;
     public static final long RANK_1 = 0x00000000000000FFL;
-
-
-
 }

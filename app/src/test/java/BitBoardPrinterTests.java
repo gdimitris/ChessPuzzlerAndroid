@@ -9,6 +9,7 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import dimitris.dimitris.chess.bitboards.BitBoardPrinter;
+import dimitris.dimitris.chess.bitboards.UInt64;
 
 import static dimitris.dimitris.chess.bitboards.BitboardConstants.A_FILE;
 import static dimitris.dimitris.chess.bitboards.BitboardConstants.F_FILE;
@@ -71,7 +72,7 @@ public class BitBoardPrinterTests {
     }
 
     @Test
-    public void testPringsFifthRank(){
+    public void testPrintsFifthRank(){
         String expected = "00000000\n"
                         + "00000000\n"
                         + "00000000\n"
@@ -82,6 +83,22 @@ public class BitBoardPrinterTests {
                         + "00000000\n";
 
         String actual = BitBoardPrinter.print(RANK_5);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testPrintsUInt64(){
+        UInt64 num = UInt64.create("101100000010100000010001110011110010001");
+        String expected = "00000000\n"
+                        + "00000000\n"
+                        + "00000000\n"
+                        + "00011010\n"
+                        + "00101000\n"
+                        + "00010000\n"
+                        + "11100111\n"
+                        + "10001001\n";
+
+        String actual = BitBoardPrinter.print(num);
         assertEquals(expected, actual);
     }
 }

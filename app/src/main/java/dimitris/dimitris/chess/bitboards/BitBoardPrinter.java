@@ -14,6 +14,10 @@ public class BitBoardPrinter {
 		return applyNewLines(str+Long.toBinaryString(number));
 	}
 
+	public static String print(UInt64 number){
+        return applyNewLines(number.toString());
+    }
+
 	private static String applyNewLines(String str){
 		String toReturn = "";
 		for(int i =0; i<8 ;i++){

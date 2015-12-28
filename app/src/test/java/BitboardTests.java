@@ -12,6 +12,7 @@ import org.robolectric.annotation.Config;
 import dimitris.dimitris.chess.bitboards.Bitboard;
 import dimitris.dimitris.chess.bitboards.UInt64;
 
+import static dimitris.dimitris.chess.bitboards.Bitboard.*;
 import static dimitris.dimitris.chess.bitboards.Bitboard.PieceColor.*;
 import static dimitris.dimitris.chess.bitboards.Bitboard.PieceType.*;
 import static dimitris.dimitris.chess.bitboards.Bitboard.PieceType.NullPiece;
@@ -29,54 +30,36 @@ public class BitboardTests {
     }
 
     @Test
-    public void setUpFen_WhiteKnightExistsInD5(){
+    public void testSetsPieces(){
+        String squares[] = {"e1","d5","a2", "a1"};
+        PieceType types[] = { King, Bishop, Pawn, Rook};
+        PieceColor colors[] = { White, Black, White, White};
+
+        for(int i=0; i<squares.length;i++){
+            bb.setPieceAtSquare(types[i],colors[i],squares[i]);
+            assertCorrectPiece(types[i],colors[i],squares[i]);
+        }
+    }
+
+    private void assertCorrectPiece(PieceType type, PieceColor color, String square) {
+        assertEquals(type, bb.getPieceType(square));
+        assertEquals(color, bb.getPieceColor(square));
+    }
+
+    @Test
+    public void testUnsetsPieces(){
         bb.setFenPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
+        String squares[] = { "a1","a2", "b2", "c4", "d5", "d8", "e8", "f8"};
 
-        assertEquals(Knight, bb.getPieceType("d5"));
-        assertEquals(White, bb.getPieceColor("d5"));
+        for(int i=0; i<squares.length; i++){
+            bb.removePieceFromSquare(squares[i]);
+            assertSquareEmpty(squares[i]);
+        }
     }
 
-    @Test
-    public void setup_whiteRook_at_a1(){
-        bb.setPieceAtSquare(Rook, White, "a1");
-
-        assertEquals(Rook, bb.getPieceType("a1"));
-        assertEquals(White, bb.getPieceColor("a1"));
-    }
-
-    @Test
-    public void setup_whitePawn_at_a2(){
-        bb.setPieceAtSquare(Pawn,White, "a2");
-
-        assertEquals(Pawn, bb.getPieceType("a2"));
-        assertEquals(White, bb.getPieceColor("a2"));
-    }
-
-    @Test
-    public void setup_blackBishop_at_d5(){
-        bb.setPieceAtSquare(Bishop, Black, "d5");
-
-        assertEquals(Bishop, bb.getPieceType("d5"));
-        assertEquals(Black, bb.getPieceColor("d5"));
-    }
-
-    @Test
-    public void setup_whiteKing_at_e1(){
-        bb.setPieceAtSquare(King, White, "e1");
-
-        assertEquals(King, bb.getPieceType("e1"));
-        assertEquals(White, bb.getPieceColor("e1"));
-    }
-
-    @Test
-    public void testUnsetsPieceFromD5(){
-        bb.setFenPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
-
-        assertEquals(Knight, bb.getPieceType("d5"));
-        bb.removePieceFromSquare("d5");
-
-        assertEquals(NullPiece, bb.getPieceType("d5"));
-        assertEquals(Bitboard.PieceColor.NullColor, bb.getPieceColor("d5"));
+    private void assertSquareEmpty(String square) {
+        assertEquals(NullPiece, bb.getPieceType(square));
+        assertEquals(NullColor,bb.getPieceColor(square));
     }
 
 
@@ -86,7 +69,7 @@ public class BitboardTests {
         bb.setFenPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
 
         UInt64 actual = bb.getAllWhitePieces();
-        UInt64 expected = UInt64.create(Long.toBinaryString(378293249937L));
+        UInt64 expected = UInt64.create("101100000010100000010001110011110010001");
 
         assertEquals(expected, actual);
     }
