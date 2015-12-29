@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import dimitris.android.chessviews.Pieces.BlackPieceFactory;
 import dimitris.android.chessviews.Pieces.FenParser;
 import dimitris.android.chessviews.Pieces.WhitePieceFactory;
-import dimitris.chesspuzzler.app.Move;
-import dimitris.chesspuzzler.app.MoveManager;
-import dimitris.chesspuzzler.app.MoveObserver;
-import dimitris.chesspuzzler.app.MovePrinter;
-import dimitris.chesspuzzler.app.MoveSubject;
-import dimitris.chesspuzzler.app.MoveValidator;
+import dimitris.android.app.Move;
+import dimitris.android.app.MoveManager;
+import dimitris.android.app.MoveObserver;
+import dimitris.android.app.MovePrinter;
+import dimitris.android.app.MoveSubject;
+import dimitris.android.app.MoveValidator;
 
 
 public class DrawableBoard extends MoveSubject {

@@ -1,4 +1,4 @@
-package dimitris.chesspuzzler.app;
+package dimitris.android.app;
 
 import android.os.AsyncTask;
 
@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import dimitris.android.chessviews.BoardContainerView;
+import dimitris.chesspuzzler.core.ChessPuzzle;
 
 /**
  * Created by dimitris on 10/23/15.

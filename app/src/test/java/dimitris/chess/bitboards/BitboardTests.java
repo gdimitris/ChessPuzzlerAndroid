@@ -1,3 +1,5 @@
+package dimitris.chess.bitboards;
+
 import android.os.Build;
 
 import com.example.dimitris.chesspuzzler.BuildConfig;

@@ -1,4 +1,4 @@
-package dimitris.chesspuzzler.app;
+package dimitris.android.app;
 
 import android.app.Activity;
 import android.content.Intent;

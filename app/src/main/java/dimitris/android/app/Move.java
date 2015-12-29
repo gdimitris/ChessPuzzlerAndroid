@@ -1,4 +1,4 @@
-package dimitris.chesspuzzler.app;
+package dimitris.android.app;
 
 import dimitris.android.chessviews.Pieces.Piece;
 import dimitris.android.chessviews.Pieces.Piece.PieceColor;

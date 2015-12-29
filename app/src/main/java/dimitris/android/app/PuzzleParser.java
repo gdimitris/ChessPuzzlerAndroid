@@ -1,10 +1,12 @@
-package dimitris.chesspuzzler.app;
+package dimitris.android.app;
 
 import android.util.JsonReader;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import dimitris.chesspuzzler.core.ChessPuzzle;
 
 /**
  * Created by dimitris on 10/24/15.

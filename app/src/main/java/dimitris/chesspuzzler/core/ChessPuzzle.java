@@ -1,4 +1,4 @@
-package dimitris.chesspuzzler.app;
+package dimitris.chesspuzzler.core;
 
 /**
  * Created by dimitris on 10/24/15.

@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import dimitris.chesspuzzler.app.ChessPuzzle;
+import dimitris.chesspuzzler.core.ChessPuzzle;
 
 public class BoardContainerView extends View implements View.OnTouchListener {
 
