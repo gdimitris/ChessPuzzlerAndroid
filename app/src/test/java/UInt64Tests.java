@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import dimitris.dimitris.chess.bitboards.UInt64;
+import dimitris.chess.bitboards.UInt64;
 
 import static org.junit.Assert.assertEquals;
 

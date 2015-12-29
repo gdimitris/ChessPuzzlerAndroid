@@ -1,4 +1,4 @@
-package dimitris.dimitris.chess.bitboards;
+package dimitris.chess.bitboards;
 
 import java.util.Arrays;
 import java.util.BitSet;

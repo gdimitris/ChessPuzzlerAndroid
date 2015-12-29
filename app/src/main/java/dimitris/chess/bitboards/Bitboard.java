@@ -1,9 +1,7 @@
-package dimitris.dimitris.chess.bitboards;
+package dimitris.chess.bitboards;
 
-import dimitris.dimitris.chess.bitboards.BoardHelper.BoardCoords;
-
-import static dimitris.dimitris.chess.bitboards.Bitboard.PieceColor.Black;
-import static dimitris.dimitris.chess.bitboards.Bitboard.PieceColor.White;
+import static dimitris.chess.bitboards.Bitboard.PieceColor.Black;
+import static dimitris.chess.bitboards.Bitboard.PieceColor.White;
 
 public class Bitboard {
 
@@ -96,7 +94,7 @@ public class Bitboard {
     }
 
     public PieceType getPieceType(String square){
-        BoardCoords coords = BoardHelper.getSquareCoords(square);
+        BoardHelper.BoardCoords coords = BoardHelper.getSquareCoords(square);
         int index = squareIndexes[coords.row][coords.column];
         UInt64 mask = squareIsolationMasks[index];
 
@@ -111,7 +109,7 @@ public class Bitboard {
     }
 
     public PieceColor getPieceColor(String square){
-        BoardCoords coords = BoardHelper.getSquareCoords(square);
+        BoardHelper.BoardCoords coords = BoardHelper.getSquareCoords(square);
         int index = squareIndexes[coords.row][coords.column];
         UInt64 mask = squareIsolationMasks[index];
 
@@ -142,14 +140,14 @@ public class Bitboard {
     public void removePieceFromSquare(String squareName){
         PieceType type = getPieceType(squareName);
         PieceColor color = getPieceColor(squareName);
-        BoardCoords coords = BoardHelper.getSquareCoords(squareName);
+        BoardHelper.BoardCoords coords = BoardHelper.getSquareCoords(squareName);
         int index = squareIndexes[coords.row][coords.column];
 
         removePieceFromSquare(type, color, index);
     }
 
     public void setPieceAtSquare(PieceType type, PieceColor color, String square){
-        BoardCoords boardCoords = BoardHelper.getSquareCoords(square);
+        BoardHelper.BoardCoords boardCoords = BoardHelper.getSquareCoords(square);
         int index = squareIndexes[boardCoords.row][boardCoords.column];
         setPieceAtSquare(type, color, index);
     }

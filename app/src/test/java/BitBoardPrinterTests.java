@@ -8,13 +8,13 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import dimitris.dimitris.chess.bitboards.BitBoardPrinter;
-import dimitris.dimitris.chess.bitboards.UInt64;
+import dimitris.chess.bitboards.BitBoardPrinter;
+import dimitris.chess.bitboards.UInt64;
 
-import static dimitris.dimitris.chess.bitboards.BitboardConstants.A_FILE;
-import static dimitris.dimitris.chess.bitboards.BitboardConstants.F_FILE;
-import static dimitris.dimitris.chess.bitboards.BitboardConstants.RANK_1;
-import static dimitris.dimitris.chess.bitboards.BitboardConstants.RANK_5;
+import static dimitris.chess.bitboards.BitboardConstants.A_FILE;
+import static dimitris.chess.bitboards.BitboardConstants.F_FILE;
+import static dimitris.chess.bitboards.BitboardConstants.RANK_1;
+import static dimitris.chess.bitboards.BitboardConstants.RANK_5;
 import static junit.framework.Assert.assertEquals;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)

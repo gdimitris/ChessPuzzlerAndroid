@@ -3,19 +3,18 @@ import android.os.Build;
 import com.example.dimitris.chesspuzzler.BuildConfig;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import dimitris.dimitris.chess.bitboards.Bitboard;
-import dimitris.dimitris.chess.bitboards.UInt64;
+import dimitris.chess.bitboards.Bitboard;
+import dimitris.chess.bitboards.UInt64;
 
-import static dimitris.dimitris.chess.bitboards.Bitboard.*;
-import static dimitris.dimitris.chess.bitboards.Bitboard.PieceColor.*;
-import static dimitris.dimitris.chess.bitboards.Bitboard.PieceType.*;
-import static dimitris.dimitris.chess.bitboards.Bitboard.PieceType.NullPiece;
+import static dimitris.chess.bitboards.Bitboard.*;
+import static dimitris.chess.bitboards.Bitboard.PieceColor.*;
+import static dimitris.chess.bitboards.Bitboard.PieceType.*;
+import static dimitris.chess.bitboards.Bitboard.PieceType.NullPiece;
 import static junit.framework.Assert.assertEquals;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
