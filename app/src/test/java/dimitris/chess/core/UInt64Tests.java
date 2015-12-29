@@ -1,4 +1,4 @@
-package dimitris.chess.bitboards;
+package dimitris.chess.core;
 
 import android.os.Build;
 
@@ -9,12 +9,10 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import dimitris.chess.bitboards.UInt64;
-
 import static org.junit.Assert.assertEquals;
 
 /**
- * Created by enviouscreep on 12/27/15.
+ * Created by dimitris on 12/27/15.
  */
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)

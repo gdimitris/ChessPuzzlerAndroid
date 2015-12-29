@@ -1,10 +1,10 @@
-package dimitris.chess.bitboards;
+package dimitris.chess.core;
 
 import java.util.Arrays;
 import java.util.BitSet;
 
 /**
- * Created by enviouscreep on 12/27/15.
+ * Created by dimitris on 12/27/15.
  */
 public class UInt64 {
 

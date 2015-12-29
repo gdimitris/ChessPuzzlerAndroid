@@ -9,7 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import dimitris.android.chessviews.BoardContainerView;
-import dimitris.chesspuzzler.core.ChessPuzzle;
+import dimitris.chess.core.ChessPuzzle;
 
 /**
  * Created by dimitris on 10/23/15.

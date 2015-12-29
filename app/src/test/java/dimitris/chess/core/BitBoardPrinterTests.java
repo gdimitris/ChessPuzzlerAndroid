@@ -1,4 +1,4 @@
-package dimitris.chess.bitboards;
+package dimitris.chess.core;
 
 import android.os.Build;
 
@@ -10,36 +10,17 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import dimitris.chess.bitboards.BitBoardPrinter;
-import dimitris.chess.bitboards.UInt64;
 
-import static dimitris.chess.bitboards.BitboardConstants.A_FILE;
-import static dimitris.chess.bitboards.BitboardConstants.F_FILE;
-import static dimitris.chess.bitboards.BitboardConstants.RANK_1;
-import static dimitris.chess.bitboards.BitboardConstants.RANK_5;
 import static junit.framework.Assert.assertEquals;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 @RunWith(RobolectricGradleTestRunner.class)
 public class BitBoardPrinterTests {
 
+    private static final String A_FILE = "100000001000000010000000100000001000000010000000100000001";
+
     @Before
     public void setUp() {
-
-    }
-
-    @Test
-    public void testPrintsFFile() {
-        String expected = "00000100\n" +
-                "00000100\n" +
-                "00000100\n" +
-                "00000100\n" +
-                "00000100\n" +
-                "00000100\n" +
-                "00000100\n" +
-                "00000100\n";
-        String actual = BitBoardPrinter.print(F_FILE);
-        assertEquals(expected, actual);
 
     }
 
@@ -54,7 +35,7 @@ public class BitBoardPrinterTests {
                         + "10000000\n"
                         + "10000000\n";
 
-        String actual = BitBoardPrinter.print(A_FILE);
+        String actual = BitBoardPrinter.print(UInt64.create(A_FILE));
         assertEquals(expected, actual);
     }
 
@@ -69,22 +50,7 @@ public class BitBoardPrinterTests {
                         + "00000000\n"
                         + "11111111\n";
 
-        String actual = BitBoardPrinter.print(RANK_1);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testPrintsFifthRank(){
-        String expected = "00000000\n"
-                        + "00000000\n"
-                        + "00000000\n"
-                        + "11111111\n"
-                        + "00000000\n"
-                        + "00000000\n"
-                        + "00000000\n"
-                        + "00000000\n";
-
-        String actual = BitBoardPrinter.print(RANK_5);
+        String actual = BitBoardPrinter.print((long) 0b11111111);
         assertEquals(expected, actual);
     }
 

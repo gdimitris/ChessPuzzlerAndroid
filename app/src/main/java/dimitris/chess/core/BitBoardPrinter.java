@@ -1,4 +1,4 @@
-package dimitris.chess.bitboards;
+package dimitris.chess.core;
 
 public class BitBoardPrinter {
 
