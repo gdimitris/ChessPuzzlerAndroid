@@ -6,9 +6,12 @@ package dimitris.chess.core;
 public class Move {
     String source;
     String destination;
+    public boolean isCapture;
 
     public Move(String source, String destination){
         this.source = source;
         this.destination = destination;
+        this.isCapture = false;
     }
+
 }

@@ -10,6 +10,10 @@ public class UInt64 {
 
     private BitSet bitSet;
 
+    public static UInt64 create(String number){
+        return new UInt64(number);
+    }
+
     public UInt64(){
         bitSet = new BitSet(64);
         bitSet.set(0,63,false);
@@ -20,28 +24,6 @@ public class UInt64 {
         bitSet.set(0,63,false);
         number = insertLeadingZerosIfNecessary(number);
         initializeBitSet(number);
-    }
-
-    private String insertLeadingZerosIfNecessary(String number) {
-        String result = number;
-        if (number.length()<64){
-            int diff = 64 - number.length();
-            char[] chars = new char[diff];
-            Arrays.fill(chars,'0');
-            result = new String(chars) + result;
-        }
-
-        return result;
-    }
-
-    private void initializeBitSet(String number) {
-        for (int index = number.indexOf('1'); index >= 0 ; index = number.indexOf('1', index + 1)){
-            bitSet.set(index);
-        }
-    }
-
-    public static UInt64 create(String number){
-        return new UInt64(number);
     }
 
     public UInt64 and(UInt64 rhs){
@@ -101,5 +83,23 @@ public class UInt64 {
     public boolean equals(Object o) {
         UInt64 other = (UInt64)o;
         return this.bitSet.equals(other.bitSet);
+    }
+
+    private void initializeBitSet(String number) {
+        for (int index = number.indexOf('1'); index >= 0 ; index = number.indexOf('1', index + 1)){
+            bitSet.set(index);
+        }
+    }
+
+    private String insertLeadingZerosIfNecessary(String number) {
+        String result = number;
+        if (number.length()<64){
+            int diff = 64 - number.length();
+            char[] chars = new char[diff];
+            Arrays.fill(chars,'0');
+            result = new String(chars) + result;
+        }
+
+        return result;
     }
 }
