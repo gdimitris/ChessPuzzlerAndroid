@@ -43,11 +43,11 @@ public class Bitboard implements Board {
         for(int i=0;i<6;i++){
             for(int j=0;j<2;j++){
                 if((pieceBitboards[i][j].and(mask)).cardinality() != 0){
-                    return new Piece(Piece.PieceType.values()[i], Piece.PieceColor.values()[j]);
+                    return PieceFactory.createPiece(Piece.PieceType.values()[i], Piece.PieceColor.values()[j]);
                 }
             }
         }
-        return new Piece(NullPiece, NullColor);
+        return PieceFactory.createNullPiece();
     }
 
     public void setUpFenPosition(String Fen) {

@@ -10,8 +10,9 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import static dimitris.chess.core.Piece.PieceColor.*;
-import static dimitris.chess.core.Piece.PieceType.*;
+import dimitris.chess.core.Piece.PieceColor;
+import dimitris.chess.core.Piece.PieceType;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
@@ -30,11 +31,11 @@ public class BitboardTests {
     @Before
     public void setUp(){
         bb = new Bitboard();
-        whiteKing = new Piece(King, White);
-        blackBishop = new Piece(Bishop, Black);
-        whitePawn = new Piece(Pawn, White);
-        whiteRook = new Piece(Rook, White);
-        nullPiece = new Piece(NullPiece, NullColor);
+        whiteKing = PieceFactory.createPiece(PieceType.King, PieceColor.White);
+        blackBishop = PieceFactory.createPiece(PieceType.Bishop, PieceColor.Black);
+        whitePawn = PieceFactory.createPiece(PieceType.Pawn, PieceColor.White);
+        whiteRook = PieceFactory.createPiece(PieceType.Rook, PieceColor.White);
+        nullPiece = PieceFactory.createNullPiece();
         pieces = new Piece[]{whiteKing, blackBishop, whitePawn, whiteRook};
     }
 
@@ -81,13 +82,25 @@ public class BitboardTests {
     }
 
     @Test
-    public void test_makesMove(){
+    public void test_makesMoves(){
         bb.setUpFenPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
-        Move move = new Move("c2","c3");
-        bb.doMove(move);
+        Move move1 = new Move("c2","c3");
+        Move move2 = new Move("d1","c2");
+        Move move3 = new Move("e1", "f1");
+        Move move4 = new Move("c2", "a4");
 
-        assertExpectedPieceAtSquare(whitePawn, "c3");
-        assertSquareEmpty("c2");
+        Move moves[] = {move1, move2, move3, move4};
+        Piece pieces[] = {whitePawn, blackBishop, whiteKing, blackBishop};
+
+        for(int i=0;i<moves.length;i++){
+            bb.doMove(moves[i]);
+            assertMoveDone(pieces[i],moves[i]);
+        }
+    }
+
+    private void assertMoveDone(Piece piece, Move move) {
+        assertExpectedPieceAtSquare(piece, move.destination);
+        assertSquareEmpty(move.source);
     }
 
     private void assertSquareEmpty(String square) {

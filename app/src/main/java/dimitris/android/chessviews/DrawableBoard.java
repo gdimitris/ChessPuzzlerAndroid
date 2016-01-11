@@ -12,7 +12,7 @@ import dimitris.android.chessviews.Pieces.WhitePieceFactory;
 import dimitris.android.app.Move;
 import dimitris.android.app.MoveManager;
 import dimitris.android.app.MoveObserver;
-import dimitris.android.app.MovePrinter;
+import dimitris.chess.core.MovePrinter;
 import dimitris.android.app.MoveSubject;
 import dimitris.android.app.MoveValidator;
 
@@ -32,7 +32,7 @@ public class DrawableBoard extends MoveSubject {
         this.moveObservers = new ArrayList<>();
         this.moveManager = new MoveManager();
         this.moveChecker = new MoveValidator(this);
-        this.movePrinter = new MovePrinter(this);
+        //this.movePrinter = new MovePrinter(this);
         this.parentView = parentView;
     }
 

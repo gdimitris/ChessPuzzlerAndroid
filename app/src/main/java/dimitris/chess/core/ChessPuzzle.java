@@ -9,13 +9,12 @@ public class ChessPuzzle {
     public String solution;
     public String id;
 
-    @Override
-    public String toString() {
-        String result = "";
-        result += "Description: " + description + "\n";
-        result += "Id: " + id + "\n";
-        result += "FEN: " + fen + "\n";
-        result += "Solution: " + solution;
-        return result;
+    public ChessPuzzle(){}
+
+    public ChessPuzzle(String fen, String solution){
+        this.id = "";
+        this.description = "";
+        this.fen = fen;
+        this.solution = solution;
     }
 }
