@@ -43,7 +43,7 @@ public class HttpRequestTask extends AsyncTask<String, Void, InputStream> {
     @Override
     protected void onPostExecute(InputStream s) {
         super.onPostExecute(s);
-        ChessPuzzle puzzle = PuzzleParser.parse(s);
+        ChessPuzzle puzzle = JSONPuzzleParser.parse(s);
         boardView.setCurrentPuzzle(puzzle);
     }
 }

@@ -1,59 +1,45 @@
 package dimitris.chess.core;
 
-import java.util.ArrayList;
-
-import dimitris.android.app.*;
-import dimitris.android.chessviews.DrawableBoard;
-import dimitris.android.chessviews.Pieces.Pawn;
-import dimitris.android.chessviews.SquareView;
+import java.util.List;
 
 public class MovePrinter{
 
     public static final String PERIOD = ".";
     public static final String ELLIPSIS = "...";
-    public static final String MOVE_FORMAT = "%d%s %s";
-    private ArrayList<String> movesPlayed;
-    private Board board;
-    int fullMoveCounter = 1;
 
-    public MovePrinter(Board board){
-        movesPlayed = new ArrayList<>();
-    }
-
-
-    public String printMovesPlayed(){
+    public static String printMoveList(List<Move> moveList) {
         String result = "";
+        int fullMoveCounter = 0;
 
-        for(String move : movesPlayed){
-            result += move;
+        if( moveList.get(0).isWhiteMove() ){
+            result = printMovesStartingWithWhite(moveList, fullMoveCounter);
+        } else {
+            result = decorateFirstBlackMove(moveList, result, ++fullMoveCounter);
+            result+= printMovesStartingWithWhite(moveList.subList(1,moveList.size()), fullMoveCounter);
         }
 
         return result.trim();
     }
 
-//    private String printIndividualMove(Move moveToPrint){
-////        SquareView src = moveToPrint.getSourceSquare();
-////        SquareView dest = moveToPrint.getDestinationSquare();
-//        String capture = moveToPrint.isCapture ? "x" : "";
-////        String status = moveToPrint.isMate() ? "#" : moveToPrint.isCheck() ? "+" : "";
-//        String movePrefix = ((dest.getPiece() instanceof Pawn) && moveToPrint.isCapture) ? src.getColumn() : dest.getPiece().toString();
-//
-//        return movePrefix + capture + dest.toString();
-//    }
-//
-//    public void onMovePlayed(Move movePlayed) {
-//        String toReturn = "";
-//        String moveDecorator = movePlayed.isWhiteMove() ? PERIOD : ELLIPSIS;
-//
-//        if(movePlayed.isWhiteMove() || movesPlayed.size()== 0){
-//            String moveStr = String.format(MOVE_FORMAT, fullMoveCounter, moveDecorator,
-//                    printIndividualMove(movePlayed));
-//            toReturn+= moveStr + " ";
-//            fullMoveCounter++;
-//        } else {
-//            toReturn+= printIndividualMove(movePlayed) + " ";
-//        }
-//        movesPlayed.add(toReturn);
-//    }
+    private static String decorateFirstBlackMove(List<Move> moveList, String result, int fullMoveCounter) {
+        result+= " "+fullMoveCounter + ELLIPSIS;
+        result+= " "+ moveList.get(0).printSAN();
+        return result;
+    }
 
+    private static String printMovesStartingWithWhite(List<Move> moveList, int currentMoveIndex){
+        String result = "";
+        int fullMoveCounter = currentMoveIndex;
+
+
+        for(int i=0; i<moveList.size(); i++){
+            if( i % 2 == 0 ){
+                fullMoveCounter++;
+                result += " "+fullMoveCounter+ PERIOD;
+            }
+
+            result += " "+ moveList.get(i).printSAN();
+        }
+        return result;
+    }
 }

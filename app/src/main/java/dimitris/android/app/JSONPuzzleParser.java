@@ -11,7 +11,7 @@ import dimitris.chess.core.ChessPuzzle;
 /**
  * Created by dimitris on 10/24/15.
  */
-public class PuzzleParser {
+public class JSONPuzzleParser {
 
     public static ChessPuzzle parse(InputStream stream){
         ChessPuzzle puzzle = null;

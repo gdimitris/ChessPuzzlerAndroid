@@ -19,4 +19,9 @@ public class NullPiece extends Piece {
     public String getSANString() {
         return ".";
     }
+
+    @Override
+    public boolean isActualPiece() {
+        return false;
+    }
 }

@@ -2,19 +2,18 @@ package dimitris.android.chessviews;
 
 import android.graphics.Canvas;
 import android.graphics.Typeface;
-import android.util.Log;
 
 import java.util.ArrayList;
 
-import dimitris.android.chessviews.Pieces.BlackPieceFactory;
-import dimitris.android.chessviews.Pieces.FenParser;
-import dimitris.android.chessviews.Pieces.WhitePieceFactory;
 import dimitris.android.app.Move;
 import dimitris.android.app.MoveManager;
 import dimitris.android.app.MoveObserver;
-import dimitris.chess.core.MovePrinter;
 import dimitris.android.app.MoveSubject;
 import dimitris.android.app.MoveValidator;
+import dimitris.android.chessviews.Pieces.BlackPieceFactory;
+import dimitris.android.chessviews.Pieces.FenParser;
+import dimitris.android.chessviews.Pieces.WhitePieceFactory;
+import dimitris.chess.core.MovePrinter;
 
 
 public class DrawableBoard extends MoveSubject {
@@ -134,6 +133,6 @@ public class DrawableBoard extends MoveSubject {
     public void broadcastNewMoveToObservers(Move move) {
         for(MoveObserver observer : moveObservers)
             observer.onMoveDo(move);
-        Log.e("MovePrinter", "Current Moves: "+ movePrinter.printMovesPlayed());
+        //Log.e("MovePrinter", "Current Moves: "+ movePrinter.printMovesPlayed());
     }
 }

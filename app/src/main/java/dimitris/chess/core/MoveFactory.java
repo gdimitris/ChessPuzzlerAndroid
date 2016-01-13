@@ -12,6 +12,11 @@ public class MoveFactory {
     }
 
     public Move createMove(String source, String destination) {
-        return new Move(source,destination);
+        Move result = new Move(source, destination);
+        result.movingPiece = board.getPieceAtSquare(source);
+        result.capturedPiece = board.getPieceAtSquare(destination);
+        result.isCapture = result.capturedPiece.isActualPiece();
+
+        return result;
     }
 }

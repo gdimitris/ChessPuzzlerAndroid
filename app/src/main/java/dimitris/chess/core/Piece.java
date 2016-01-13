@@ -44,6 +44,10 @@ public abstract class Piece {
         NullColor
     }
 
+    public boolean isActualPiece(){
+        return true;
+    }
+
     public abstract String getFANString();
     public abstract String getSANString();
 
