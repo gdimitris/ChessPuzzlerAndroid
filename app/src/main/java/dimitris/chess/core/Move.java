@@ -19,6 +19,7 @@ public class Move {
 
     public String printSAN(){
         String piece = movingPiece.getSANString();
+        piece = (piece.equals("") && isCapture) ? source.substring(0,1) : piece ;
         String capture = isCapture ? "x" : "";
 
         return String.format(MOVE_FORMAT,piece,capture,destination);
