@@ -51,7 +51,7 @@ public class BitboardTests {
 
     @Test
     public void testRemovesPieces(){
-        bb.setUpFenPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
+        bb.setPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
         String squares[] = { "a1","a2", "b2", "c4", "d5", "d8", "e8", "f8"};
 
         for(int i=0; i<squares.length; i++){
@@ -63,7 +63,7 @@ public class BitboardTests {
     //Expected values calculated from here: http://cinnamonchess.altervista.org/bitboard_calculator/Calc.html
     @Test
     public void test_getsAllWhitePieces(){
-        bb.setUpFenPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
+        bb.setPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
 
         UInt64 actual = bb.getAllWhitePieces();
         UInt64 expected = UInt64.create("101100000010100000010001110011110010001");
@@ -73,7 +73,7 @@ public class BitboardTests {
 
     @Test
     public void test_getsAllBlackPieces(){
-        bb.setUpFenPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
+        bb.setPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
 
         UInt64 actual = bb.getAllBlackPieces();
         UInt64 expected = UInt64.create("1011100111110011000010000000010000001000000000000000000000001000");
@@ -83,7 +83,7 @@ public class BitboardTests {
 
     @Test
     public void test_makesMoves(){
-        bb.setUpFenPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
+        bb.setPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
         Move move1 = new Move("c2","c3");
         Move move2 = new Move("d1","c2");
         Move move3 = new Move("e1", "f1");

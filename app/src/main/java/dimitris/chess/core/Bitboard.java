@@ -50,7 +50,12 @@ public class Bitboard implements Board {
         return PieceFactory.createNullPiece();
     }
 
-    public void setUpFenPosition(String Fen) {
+    @Override
+    public void setPosition(String FEN) {
+        setUpFenPosition(FEN);
+    }
+
+    private void setUpFenPosition(String Fen) {
         String pieces_fen = Fen.split(" ")[0];
         int current_row = 0, current_col = 0;
 

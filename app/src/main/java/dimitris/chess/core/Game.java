@@ -11,24 +11,42 @@ public class Game {
     private PuzzleProvider puzzleProvider;
     private List<Move> playedMoves;
     private ChessPuzzle currentPuzzle;
+    private Board board;
+    private MoveFactory moveFactory;
 
     public Game(PuzzleProvider puzzleProvider) {
         this.puzzleProvider = puzzleProvider;
         playedMoves = new ArrayList<>();
+        this.board = new Bitboard();
+        this.moveFactory = new MoveFactory(board);
     }
 
     public void start(){
         currentPuzzle = puzzleProvider.getNextPuzzle();
+        board.setPosition(currentPuzzle.fen);
     }
 
-    public void playMove(Move move) {
+    public void playMove(String sourceSquare, String destinationSquare){
+        Move toPlay = moveFactory.createMove(sourceSquare,destinationSquare);
+        playMove(toPlay);
+    }
+
+    private void playMove(Move move) {
         playedMoves.add(move);
+        board.doMove(move);
     }
 
     public boolean puzzleIsSolved() {
         String currentMoves = MovePrinter.printMoveList(playedMoves);
-        String simplifiedSolution = currentPuzzle.solution.replaceAll("#","");
-        simplifiedSolution = simplifiedSolution.replaceAll("\\+","");
+        String simplifiedSolution = currentPuzzle.solution.replaceAll("#","").replaceAll("\\+","");
+
         return currentMoves.equals(simplifiedSolution.trim());
+    }
+
+    public boolean playedMovesAreCorrect() {
+        String currentMoves = MovePrinter.printMoveList(playedMoves);
+        String simplifiedSolution = currentPuzzle.solution.replaceAll("#","").replaceAll("\\+", "");
+
+        return simplifiedSolution.startsWith(currentMoves);
     }
 }

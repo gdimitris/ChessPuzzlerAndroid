@@ -22,14 +22,14 @@ import java.util.List;
 @RunWith(RobolectricGradleTestRunner.class)
 public class MovePrinterTests {
 
-    private Bitboard board;
+    private Board board;
     private MoveFactory moveFactory;
     private List<Move> moveList;
 
     @Before
     public void setUp(){
         board = new Bitboard();
-        board.setUpFenPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R");
+        board.setPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R");
 
         moveFactory = new MoveFactory(board);
         moveList = new ArrayList<>();

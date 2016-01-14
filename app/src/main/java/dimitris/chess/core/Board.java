@@ -8,4 +8,5 @@ public interface Board {
     void doMove(Move move);
     void undoMove(Move move);
     Piece getPieceAtSquare(String square);
+    void setPosition(String FEN);
 }
