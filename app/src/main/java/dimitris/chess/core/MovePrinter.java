@@ -31,7 +31,6 @@ public class MovePrinter{
         String result = "";
         int fullMoveCounter = currentMoveIndex;
 
-
         for(int i=0; i<moveList.size(); i++){
             if( i % 2 == 0 ){
                 fullMoveCounter++;

@@ -26,14 +26,14 @@ public class Game {
         board.setPosition(currentPuzzle.fen);
     }
 
-    public void playMove(String sourceSquare, String destinationSquare){
-        Move toPlay = moveFactory.createMove(sourceSquare,destinationSquare);
-        playMove(toPlay);
+    public ChessPuzzle getCurrentPuzzle(){
+        return currentPuzzle;
     }
 
-    private void playMove(Move move) {
-        playedMoves.add(move);
-        board.doMove(move);
+    public void playMove(String sourceSquare, String destinationSquare){
+        Move toPlay = moveFactory.createMove(sourceSquare,destinationSquare);
+        playedMoves.add(toPlay);
+        board.doMove(toPlay);
     }
 
     public boolean puzzleIsSolved() {

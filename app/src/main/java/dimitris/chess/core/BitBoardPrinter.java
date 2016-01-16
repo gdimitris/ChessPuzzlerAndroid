@@ -8,9 +8,6 @@ public class BitBoardPrinter {
 		
 		for(int i=0;i<zeros;i++)
 			str+="0";
-		
-//		String res =  applyNewLines(str+Long.toBinaryString(number));
-//		return res.replaceAll("0",".");
 		return applyNewLines(str+Long.toBinaryString(number));
 	}
 

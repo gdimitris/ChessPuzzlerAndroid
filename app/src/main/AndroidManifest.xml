@@ -20,8 +20,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="dimitris.android.app.TestActivity"
-            />
+        <activity android:name="dimitris.android.app.TestActivity"/>
+        <activity android:name="dimitris.android.app.TestBoardActivity"/>
     </application>
 
 </manifest>

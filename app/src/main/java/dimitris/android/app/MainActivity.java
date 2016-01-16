@@ -50,7 +50,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.board) {
-            Intent my_int = new Intent(this, TestActivity.class);
+            Intent my_int = new Intent(this, TestBoardActivity.class);
             startActivity(my_int);
         }
 

@@ -152,15 +152,4 @@ public class Bitboard implements Board {
 
         pieceBitboards[row][col] = pieceBitboards[row][col].and(squareIsolationMasks[index].flip());
     }
-
-//    public void printAllBitboards(){
-//        for(int j=0; j<2;j++)
-//            for (int i=0; i<6; i++ ){
-//                String color = PieceType.values()[j].toString();
-//                String pieceType = PieceType.values()[i].toString();
-//                String message = String.format("%s %s bitboard: ",color, pieceType);
-//                System.out.println(message);
-//                System.out.println(BitBoardPrinter.print(pieceBitboards[i][j]));
-//            }
-//    }
 }
