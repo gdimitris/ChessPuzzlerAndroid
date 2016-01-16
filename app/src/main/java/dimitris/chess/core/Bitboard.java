@@ -3,8 +3,10 @@ package dimitris.chess.core;
 import static dimitris.chess.core.Piece.PieceColor.*;
 import static dimitris.chess.core.Piece.PieceType.*;
 
-public class Bitboard implements Board {
+class Bitboard implements Board {
 
+    private static final int allPieceColors = Piece.PieceColor.values().length;
+    private static final int allPieceTypes = Piece.PieceType.values().length;
     private UInt64[] squareIsolationMasks;
     private int[][] squareIndexes = {{56,57,58,59,60,61,62,63},
                                      {48,49,50,51,52,53,54,55},
@@ -31,7 +33,13 @@ public class Bitboard implements Board {
 
     @Override
     public void undoMove(Move move) {
+        Piece movedPiece = getPieceAtSquare(move.destination);
+        Piece capturedPiece = move.capturedPiece;
 
+        removePieceFromSquare(move.source);
+        removePieceFromSquare(move.destination);
+        setPieceAtSquare(movedPiece, move.source);
+        setPieceAtSquare(capturedPiece, move.destination);
     }
 
     @Override
@@ -40,8 +48,8 @@ public class Bitboard implements Board {
         int index = squareIndexes[coords.row][coords.column];
         UInt64 mask = squareIsolationMasks[index];
 
-        for(int i=0;i<6;i++){
-            for(int j=0;j<2;j++){
+        for(int i=0;i<allPieceTypes;i++){
+            for(int j=0;j<allPieceColors;j++){
                 if((pieceBitboards[i][j].and(mask)).cardinality() != 0){
                     return PieceFactory.createPiece(Piece.PieceType.values()[i], Piece.PieceColor.values()[j]);
                 }
@@ -120,23 +128,23 @@ public class Bitboard implements Board {
 
     public UInt64 getAllWhitePieces(){
         UInt64 result = new UInt64();
-        for(int i=0; i<6; i++)
+        for(int i=0; i<allPieceTypes; i++)
             result = result.or(pieceBitboards[i][White.ordinal()]);
         return result;
     }
 
     public UInt64 getAllBlackPieces(){
         UInt64 result = new UInt64();
-        for(int i=0; i<6; i++)
+        for(int i=0; i<allPieceTypes; i++)
             result = result.or(pieceBitboards[i][Black.ordinal()]);
 
         return result;
     }
 
     private void initializeBitboards() {
-        pieceBitboards = new UInt64[6][2];
-        for (int i=0;i<6;i++)
-            for (int j=0; j<2;j++)
+        pieceBitboards = new UInt64[allPieceTypes][allPieceColors];
+        for (int i=0;i<allPieceTypes;i++)
+            for (int j=0; j<allPieceColors;j++)
                 pieceBitboards[i][j] = UInt64.create("0");
     }
 

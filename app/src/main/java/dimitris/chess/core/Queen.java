@@ -3,7 +3,7 @@ package dimitris.chess.core;
 /**
  * Created by dimitris on 4/3/15.
  */
-public class Queen extends Piece {
+class Queen extends Piece {
 
     public Queen(PieceColor color) {
         this.color = color;

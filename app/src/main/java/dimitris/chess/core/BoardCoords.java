@@ -3,7 +3,7 @@ package dimitris.chess.core;
 /**
  * Created by dimitris on 12/29/15.
  */
-public class BoardCoords {
+class BoardCoords {
     public int row;
     public int column;
 

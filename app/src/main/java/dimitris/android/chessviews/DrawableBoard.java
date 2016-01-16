@@ -2,6 +2,7 @@ package dimitris.android.chessviews;
 
 import android.graphics.Canvas;
 import android.graphics.Typeface;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -10,10 +11,13 @@ import dimitris.android.app.MoveManager;
 import dimitris.android.app.MoveObserver;
 import dimitris.android.app.MoveSubject;
 import dimitris.android.app.MoveValidator;
+import dimitris.android.app.TemporaryPuzzleProvider;
 import dimitris.android.chessviews.Pieces.BlackPieceFactory;
 import dimitris.android.chessviews.Pieces.FenParser;
 import dimitris.android.chessviews.Pieces.WhitePieceFactory;
+import dimitris.chess.core.Game;
 import dimitris.chess.core.MovePrinter;
+import dimitris.chess.core.PuzzleProvider;
 
 
 public class DrawableBoard extends MoveSubject {
@@ -22,7 +26,6 @@ public class DrawableBoard extends MoveSubject {
     private SquareView[][] squareViews;
     private MoveManager moveManager;
     private MoveValidator moveChecker;
-    private MovePrinter movePrinter;
     private BoardContainerView parentView;
     private int squareSize=1;
 
@@ -31,7 +34,6 @@ public class DrawableBoard extends MoveSubject {
         this.moveObservers = new ArrayList<>();
         this.moveManager = new MoveManager();
         this.moveChecker = new MoveValidator(this);
-        //this.movePrinter = new MovePrinter(this);
         this.parentView = parentView;
     }
 
@@ -58,8 +60,9 @@ public class DrawableBoard extends MoveSubject {
     private void dispatchNewMoveIfPassesFilters(int row, int col) {
         Move toMake = new Move(lastSelectedSquareView, squareViews[row][col]);
 
-        if (moveChecker.isValid(toMake))
+        if (moveChecker.isValid(toMake)) {
             doMove(toMake);
+        }
     }
 
     private void selectSquareIfNotEmpty(int row, int col) {

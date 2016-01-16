@@ -19,8 +19,6 @@ public class TestBoardActivity extends Activity implements View.OnClickListener 
 
     private BoardContainerView drawableBoard;
     private Button changePosButton;
-    private PuzzleProvider puzzleProvider;
-    private Game game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,15 +30,10 @@ public class TestBoardActivity extends Activity implements View.OnClickListener 
         changePosButton = (Button) findViewById(R.id.changePositionButton);
         changePosButton.setOnClickListener(this);
         drawableBoard = (BoardContainerView) findViewById(R.id.chessboard);
-        puzzleProvider = new TemporaryPuzzleProvider();
-        game = new Game(puzzleProvider);
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.changePositionButton){
-            game.start();
-            drawableBoard.setCurrentPuzzle(game.getCurrentPuzzle());
-        }
+
     }
 }

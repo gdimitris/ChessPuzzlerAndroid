@@ -3,7 +3,7 @@ package dimitris.chess.core;
 /**
  * Created by dimitris on 4/3/15.
  */
-public class Bishop extends Piece {
+class Bishop extends Piece {
 
     public Bishop(PieceColor color) {
         super();

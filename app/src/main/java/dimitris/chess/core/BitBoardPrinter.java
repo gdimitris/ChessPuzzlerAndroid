@@ -1,6 +1,6 @@
 package dimitris.chess.core;
 
-public class BitBoardPrinter {
+class BitBoardPrinter {
 
 	public static String print(Long number){
 		int zeros = Long.numberOfLeadingZeros(number);

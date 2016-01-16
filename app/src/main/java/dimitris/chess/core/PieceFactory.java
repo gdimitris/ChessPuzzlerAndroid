@@ -20,8 +20,10 @@ public class PieceFactory {
                 return new Bishop(color);
             case Knight:
                 return new Knight(color);
-            default:
+            case Pawn:
                 return new Pawn(color);
+            default:
+                return new NullPiece();
         }
     }
 }

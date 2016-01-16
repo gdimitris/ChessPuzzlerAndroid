@@ -3,7 +3,7 @@ package dimitris.chess.core;
 /**
  * Created by dimitris on 4/3/15.
  */
-public class Rook extends Piece {
+class Rook extends Piece {
 
     public Rook(PieceColor color) {
         this.color = color;

@@ -6,19 +6,21 @@ import java.util.List;
 /**
  * Created by dimitris on 1/1/16.
  */
-public class Game {
+public class Game implements GameEventsDispatcher {
 
     private PuzzleProvider puzzleProvider;
     private List<Move> playedMoves;
     private ChessPuzzle currentPuzzle;
     private Board board;
     private MoveFactory moveFactory;
+    private List<GameEventsListener> eventsListeners;
 
     public Game(PuzzleProvider puzzleProvider) {
         this.puzzleProvider = puzzleProvider;
+        eventsListeners = new ArrayList<>();
         playedMoves = new ArrayList<>();
-        this.board = new Bitboard();
-        this.moveFactory = new MoveFactory(board);
+        board = new Bitboard();
+        moveFactory = new MoveFactory(board);
     }
 
     public void start(){
@@ -48,5 +50,15 @@ public class Game {
         String simplifiedSolution = currentPuzzle.solution.replaceAll("#","").replaceAll("\\+", "");
 
         return simplifiedSolution.startsWith(currentMoves);
+    }
+
+    @Override
+    public void registerGameEventsListener(GameEventsListener toRegister) {
+        eventsListeners.add(toRegister);
+    }
+
+    @Override
+    public void removeGameEventsListener(GameEventsListener toRemove) {
+        eventsListeners.remove(toRemove);
     }
 }

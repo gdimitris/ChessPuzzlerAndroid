@@ -3,7 +3,7 @@ package dimitris.chess.core;
 /**
  * Created by dimitris on 4/3/15.
  */
-public class NullPiece extends Piece {
+class NullPiece extends Piece {
 
     public NullPiece() {
         this.type = PieceType.NullPiece;

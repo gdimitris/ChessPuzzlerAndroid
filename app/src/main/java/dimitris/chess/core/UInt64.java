@@ -6,7 +6,7 @@ import java.util.BitSet;
 /**
  * Created by dimitris on 12/27/15.
  */
-public class UInt64 {
+class UInt64 {
 
     private BitSet bitSet;
 

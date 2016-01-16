@@ -3,7 +3,7 @@ package dimitris.chess.core;
 /**
  * Created by dimitris on 12/29/15.
  */
-public abstract class Piece {
+abstract class Piece {
 
     public static final String White_King_Unicode = "\u2654";
     public static final String White_Queen_Unicode = "\u2655";

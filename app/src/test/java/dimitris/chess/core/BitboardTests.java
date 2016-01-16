@@ -27,6 +27,7 @@ public class BitboardTests {
     private Piece whiteRook;
     private Piece nullPiece;
     private Piece[] pieces;
+    private MoveFactory moveFactory;
 
     @Before
     public void setUp(){
@@ -37,11 +38,12 @@ public class BitboardTests {
         whiteRook = PieceFactory.createPiece(PieceType.Rook, PieceColor.White);
         nullPiece = PieceFactory.createNullPiece();
         pieces = new Piece[]{whiteKing, blackBishop, whitePawn, whiteRook};
+        moveFactory = new MoveFactory(bb);
     }
 
     @Test
     public void testSetsPieces(){
-        String squares[] = {"e1","d5","a2", "a1"};
+        String squares[] = {"e1","d5","a2","a1"};
 
         for(int i=0; i<squares.length;i++){
             bb.setPieceAtSquare(pieces[i], squares[i]);
@@ -84,10 +86,10 @@ public class BitboardTests {
     @Test
     public void test_makesMoves(){
         bb.setPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
-        Move move1 = new Move("c2","c3");
-        Move move2 = new Move("d1","c2");
-        Move move3 = new Move("e1", "f1");
-        Move move4 = new Move("c2", "a4");
+        Move move1 = moveFactory.createMove("c2","c3");
+        Move move2 = moveFactory.createMove("d1","c2");
+        Move move3 = moveFactory.createMove("e1", "f1");
+        Move move4 = moveFactory.createMove("c2", "a4");
 
         Move moves[] = {move1, move2, move3, move4};
         Piece pieces[] = {whitePawn, blackBishop, whiteKing, blackBishop};
@@ -96,6 +98,25 @@ public class BitboardTests {
             bb.doMove(moves[i]);
             assertMoveDone(pieces[i],moves[i]);
         }
+    }
+
+    @Test
+    public void test_canUndoMove(){
+        bb.setPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
+        Move move1 = moveFactory.createMove("c2","c3");
+        bb.doMove(move1);
+        assertMoveDone(whitePawn,move1);
+        bb.undoMove(move1);
+        assertMoveUndone(move1, whitePawn);
+    }
+
+    private void assertMoveUndone(Move move, Piece movedPiece){
+        Piece capturedPiece = move.capturedPiece;
+        assertExpectedPieceAtSquare(capturedPiece, move.destination);
+        assertExpectedPieceAtSquare(movedPiece, move.source);
+
+        Piece actualPiece = bb.getPieceAtSquare(move.source);
+        assertEquals(movedPiece,actualPiece);
     }
 
     private void assertMoveDone(Piece piece, Move move) {
