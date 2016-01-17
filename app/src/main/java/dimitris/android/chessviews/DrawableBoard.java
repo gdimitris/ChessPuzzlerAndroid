@@ -29,6 +29,7 @@ public class DrawableBoard extends MoveSubject {
     private BoardContainerView parentView;
     private int squareSize=1;
 
+
     public DrawableBoard(BoardContainerView parentView) {
         super();
         this.moveObservers = new ArrayList<>();
@@ -59,8 +60,12 @@ public class DrawableBoard extends MoveSubject {
 
     private void dispatchNewMoveIfPassesFilters(int row, int col) {
         Move toMake = new Move(lastSelectedSquareView, squareViews[row][col]);
+        String source = lastSelectedSquareView.getName();
+        String dest = squareViews[row][col].getName();
 
         if (moveChecker.isValid(toMake)) {
+            //NOTIFY PARENT HERE
+            parentView.moveDetected(source,dest);
             doMove(toMake);
         }
     }

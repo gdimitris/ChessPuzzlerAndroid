@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import dimitris.android.app.TestBoardActivity;
 import dimitris.chess.core.ChessPuzzle;
 
 public class BoardContainerView extends View implements View.OnTouchListener {
@@ -78,5 +79,10 @@ public class BoardContainerView extends View implements View.OnTouchListener {
 
     public void setCurrentPuzzle(ChessPuzzle puzzle){
         chessBoard.setPosition(puzzle.fen);
+    }
+
+    public void moveDetected(String source, String dest){
+        TestBoardActivity parent = (TestBoardActivity) this.getContext();
+        parent.onMoveDetected(source, dest);
     }
 }

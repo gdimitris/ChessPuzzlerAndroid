@@ -5,20 +5,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.dimitris.chesspuzzler.R;
 
 import dimitris.android.chessviews.BoardContainerView;
-import dimitris.chess.core.Game;
-import dimitris.chess.core.PuzzleProvider;
+import dimitris.chess.core.*;
+import dimitris.chess.core.Move;
 
 /**
  * Created by dimitris on 1/15/16.
  */
-public class TestBoardActivity extends Activity implements View.OnClickListener {
+public class TestBoardActivity extends Activity implements View.OnClickListener, GameEventsListener {
 
     private BoardContainerView drawableBoard;
     private Button changePosButton;
+    private Game game;
+    private PuzzleProvider puzzleProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,46 @@ public class TestBoardActivity extends Activity implements View.OnClickListener 
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        this.puzzleProvider = new TemporaryPuzzleProvider();
+        this.game = new Game(puzzleProvider);
+        initGame();
+    }
+
+    @Override
     public void onClick(View v) {
 
+    }
+
+    public void onMoveDetected(String source, String dest){
+        game.doMove(source,dest);
+    }
+
+    @Override
+    public void onMoveDo(dimitris.chess.core.Move move) {
+
+    }
+
+    @Override
+    public void onMoveUndo(dimitris.chess.core.Move move) {
+        Toast.makeText(this,"Move is not correct", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onGameStart() {
+        Toast.makeText(this, "Game Started", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onGameEnd() {
+        Toast.makeText(this, "Congrats! you solved it!", Toast.LENGTH_LONG).show();
+        initGame();
+    }
+
+    private void initGame(){
+        game.start();
+        drawableBoard.setCurrentPuzzle(game.getCurrentPuzzle());
     }
 }

@@ -36,9 +36,9 @@ public class GameTests {
     @Test
     public void testPuzzleIsSolved(){
         game.start();
-        game.playMove("d5", "f6");
-        game.playMove("g7", "f6");
-        game.playMove("c4", "f7");
+        game.doMove("d5", "f6");
+        game.doMove("g7", "f6");
+        game.doMove("c4", "f7");
 
         assertTrue(game.puzzleIsSolved());
     }
@@ -46,8 +46,8 @@ public class GameTests {
     @Test
     public void testPuzzleIsNotSolved(){
         game.start();
-        game.playMove("d5","f6");
-        game.playMove("g7","f6");
+        game.doMove("d5","f6");
+        game.doMove("g7","f6");
 
         assertFalse(game.puzzleIsSolved());
     }
@@ -55,8 +55,8 @@ public class GameTests {
     @Test
     public void testPlayedMovesAreCorrect(){
         game.start();
-        game.playMove("d5","f6");
-        game.playMove("g7","f6");
+        game.doMove("d5","f6");
+        game.doMove("g7","f6");
 
         assertTrue(game.playedMovesAreCorrect());
     }

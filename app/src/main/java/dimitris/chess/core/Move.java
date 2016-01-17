@@ -3,7 +3,7 @@ package dimitris.chess.core;
 /**
  * Created by dimitris on 12/29/15.
  */
-class Move {
+public class Move {
     String source;
     String destination;
     public boolean isCapture;

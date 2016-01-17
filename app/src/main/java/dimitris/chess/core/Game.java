@@ -26,16 +26,25 @@ public class Game implements GameEventsDispatcher {
     public void start(){
         currentPuzzle = puzzleProvider.getNextPuzzle();
         board.setPosition(currentPuzzle.fen);
+        gameStarted();
     }
 
     public ChessPuzzle getCurrentPuzzle(){
         return currentPuzzle;
     }
 
-    public void playMove(String sourceSquare, String destinationSquare){
+    public void doMove(String sourceSquare, String destinationSquare){
         Move toPlay = moveFactory.createMove(sourceSquare,destinationSquare);
         playedMoves.add(toPlay);
         board.doMove(toPlay);
+        moveDone(toPlay);
+        checkGameStatus();
+    }
+
+    public void undoMove(){
+        Move toUndo = playedMoves.remove(playedMoves.size()-1);
+        board.undoMove(toUndo);
+        moveUndone(toUndo);
     }
 
     public boolean puzzleIsSolved() {
@@ -52,6 +61,16 @@ public class Game implements GameEventsDispatcher {
         return simplifiedSolution.startsWith(currentMoves);
     }
 
+    private void checkGameStatus(){
+        if(puzzleIsSolved())
+            puzzleSolved();
+    }
+
+    private void puzzleSolved(){
+        for(GameEventsListener listener : eventsListeners)
+            listener.onGameEnd();
+    }
+
     @Override
     public void registerGameEventsListener(GameEventsListener toRegister) {
         eventsListeners.add(toRegister);
@@ -61,4 +80,20 @@ public class Game implements GameEventsDispatcher {
     public void removeGameEventsListener(GameEventsListener toRemove) {
         eventsListeners.remove(toRemove);
     }
+
+    private void gameStarted() {
+        for(GameEventsListener listener : eventsListeners)
+            listener.onGameStart();
+    }
+
+    private void moveDone(Move toPlay) {
+        for(GameEventsListener listener : eventsListeners)
+            listener.onMoveDo(toPlay);
+    }
+
+    private void moveUndone(Move toUndo) {
+        for(GameEventsListener listener : eventsListeners)
+            listener.onMoveUndo(toUndo);
+    }
+
 }

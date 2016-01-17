@@ -3,7 +3,7 @@ package dimitris.chess.core;
 /**
  * Created by dimitris on 4/3/15.
  */
-public class King extends Piece {
+class King extends Piece {
     public King(PieceColor color) {
         this.color = color;
         this.type = PieceType.King;
