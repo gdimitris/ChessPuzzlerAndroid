@@ -2,39 +2,22 @@ package dimitris.android.chessviews;
 
 import android.graphics.Canvas;
 import android.graphics.Typeface;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-
-import dimitris.android.app.Move;
-import dimitris.android.app.MoveManager;
-import dimitris.android.app.MoveObserver;
-import dimitris.android.app.MoveSubject;
-import dimitris.android.app.MoveValidator;
-import dimitris.android.app.TemporaryPuzzleProvider;
 import dimitris.android.chessviews.Pieces.BlackPieceFactory;
 import dimitris.android.chessviews.Pieces.FenParser;
 import dimitris.android.chessviews.Pieces.WhitePieceFactory;
-import dimitris.chess.core.Game;
-import dimitris.chess.core.MovePrinter;
-import dimitris.chess.core.PuzzleProvider;
 
 
-public class DrawableBoard extends MoveSubject {
+public class DrawableBoard {
 
     private SquareView lastSelectedSquareView;
     private SquareView[][] squareViews;
-    private MoveManager moveManager;
-    private MoveValidator moveChecker;
     private BoardContainerView parentView;
     private int squareSize=1;
 
 
     public DrawableBoard(BoardContainerView parentView) {
         super();
-        this.moveObservers = new ArrayList<>();
-        this.moveManager = new MoveManager();
-        this.moveChecker = new MoveValidator(this);
         this.parentView = parentView;
     }
 
@@ -59,15 +42,10 @@ public class DrawableBoard extends MoveSubject {
     }
 
     private void dispatchNewMoveIfPassesFilters(int row, int col) {
-        Move toMake = new Move(lastSelectedSquareView, squareViews[row][col]);
         String source = lastSelectedSquareView.getName();
         String dest = squareViews[row][col].getName();
-
-        if (moveChecker.isValid(toMake)) {
-            //NOTIFY PARENT HERE
-            parentView.moveDetected(source,dest);
-            doMove(toMake);
-        }
+        parentView.moveDetected(source,dest);
+        //doMove(toMake);
     }
 
     private void selectSquareIfNotEmpty(int row, int col) {
@@ -101,6 +79,9 @@ public class DrawableBoard extends MoveSubject {
 
     public void setSquareSize(int size){
         this.squareSize = size;
+        for(int i=0;i<8;i++)
+            for(int j=0;j<8;j++)
+                squareViews[i][j].resize(size,i,j);
     }
 
     public void setPosition(String FEN){
@@ -117,30 +98,10 @@ public class DrawableBoard extends MoveSubject {
         parentView.invalidate();
     }
 
-    public void doMove(Move toDo) {
-        moveManager.executeMove(toDo);
-        broadcastNewMoveToObservers(toDo);
-    }
-
     private void clearBoard(){
         for (int row = 0; row < 8; row++)
             for (int col = 0; col < 8; col++)
                 squareViews[row][col].setPiece(null);
     }
-    @Override
-    public void broadcastUndoToObservers() {
 
-    }
-
-    @Override
-    public void broadcastRedoToObservers() {
-
-    }
-
-    @Override
-    public void broadcastNewMoveToObservers(Move move) {
-        for(MoveObserver observer : moveObservers)
-            observer.onMoveDo(move);
-        //Log.e("MovePrinter", "Current Moves: "+ movePrinter.printMovesPlayed());
-    }
 }

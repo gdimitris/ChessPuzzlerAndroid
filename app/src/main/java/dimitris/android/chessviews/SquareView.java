@@ -10,7 +10,7 @@ public abstract class SquareView {
 
     protected final Paint itsPaint;
     private final String name;
-    private final Rect rect;
+    private Rect rect;
     private Piece piece;
     private boolean isSelected;
     private SquareHighlighter selector;
@@ -80,7 +80,7 @@ public abstract class SquareView {
         return name;
     }
 
-    public String getColumn(){
-        return name.substring(0,1);
+    public void resize(int size, int row, int col){
+        this.rect = new Rect(col * size, row * size, (col + 1) * size, (row + 1) * size);
     }
 }

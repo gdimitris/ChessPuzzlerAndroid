@@ -41,12 +41,13 @@ public class TestBoardActivity extends Activity implements View.OnClickListener,
 
         this.puzzleProvider = new TemporaryPuzzleProvider();
         this.game = new Game(puzzleProvider);
+        game.registerGameEventsListener(this);
         initGame();
     }
 
     @Override
     public void onClick(View v) {
-
+        initGame();
     }
 
     public void onMoveDetected(String source, String dest){

@@ -19,18 +19,21 @@ public class BoardContainerView extends View implements View.OnTouchListener {
         super(context);
         setOnTouchListener(this);
         chessBoard = new DrawableBoard(this);
+        chessBoard.createEmptyBoard();
     }
 
     public BoardContainerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnTouchListener(this);
         chessBoard = new DrawableBoard(this);
+        chessBoard.createEmptyBoard();
     }
 
     public BoardContainerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setOnTouchListener(this);
         chessBoard = new DrawableBoard(this);
+        chessBoard.createEmptyBoard();
     }
 
     @Override
@@ -48,16 +51,17 @@ public class BoardContainerView extends View implements View.OnTouchListener {
         int totalHeight = getMeasuredHeight();
 
         setMeasuredDimension(totalWidth, totalWidth);
-        initBoard(totalWidth, totalHeight);
+        resizeBoard(totalWidth, totalHeight);
     }
 
-    private void initBoard(int width, int height) {
+
+    private void resizeBoard(int width, int height){
         int min = (width < height) ? width : height;
         squareSize = min / 8;
         padding = (min % 8) / 2;
 
         chessBoard.setSquareSize(squareSize);
-        chessBoard.createInitialBoard();
+        invalidate();
     }
 
     @Override

@@ -38,7 +38,13 @@ public class Game implements GameEventsDispatcher {
         playedMoves.add(toPlay);
         board.doMove(toPlay);
         moveDone(toPlay);
+        checkCorrectMovesPlayed();
         checkGameStatus();
+    }
+
+    private void checkCorrectMovesPlayed() {
+        if(!playedMovesAreCorrect())
+            undoMove();
     }
 
     public void undoMove(){

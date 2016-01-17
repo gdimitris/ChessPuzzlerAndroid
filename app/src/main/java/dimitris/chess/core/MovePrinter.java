@@ -11,6 +11,9 @@ public class MovePrinter{
         String result = "";
         int fullMoveCounter = 0;
 
+        if(moveList.isEmpty())
+            return result;
+
         if( moveList.get(0).isWhiteMove() ){
             result = printMovesStartingWithWhite(moveList, fullMoveCounter);
         } else {
