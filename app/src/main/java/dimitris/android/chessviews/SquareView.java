@@ -3,10 +3,11 @@ package dimitris.android.chessviews;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 
 import dimitris.android.chessviews.Pieces.Piece;
 
-public abstract class SquareView {
+public abstract class SquareView extends Drawable {
 
     protected final Paint itsPaint;
     private final String name;
@@ -43,6 +44,7 @@ public abstract class SquareView {
         this.piece = piece;
     }
 
+    @Override
     public void draw(Canvas canvas) {
         canvas.drawRect(rect, itsPaint);
         drawSelector(canvas);
@@ -73,6 +75,7 @@ public abstract class SquareView {
 
     public void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
+        invalidateSelf();
     }
 
     @Override

@@ -1,74 +1,82 @@
 package dimitris.android.app;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.dimitris.chesspuzzler.R;
 
+import dimitris.android.chessviews.BoardContainerView;
+import dimitris.chess.core.*;
+import dimitris.chess.core.Move;
 
-public class MainActivity extends Activity implements View.OnClickListener{
+/**
+ * Created by dimitris on 1/15/16.
+ */
+public class MainActivity extends Activity implements View.OnClickListener, GameEventsListener {
 
-    private EditText sourceEditText;
-    private EditText destEditText;
-    private Button sendMoveButton;
-
+    private BoardContainerView drawableBoard;
+    private Button changePosButton;
+    private Game game;
+    private PuzzleProvider puzzleProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        //printBoard();
-        sourceEditText = (EditText) findViewById(R.id.sourceTextField);
-        destEditText = (EditText) findViewById(R.id.destTextField);
-        sendMoveButton = (Button) findViewById(R.id.sendMoveButton);
-        sendMoveButton.setOnClickListener(this);
-    }
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getActionBar().hide();
 
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        setContentView(R.layout.board_layout);
+        changePosButton = (Button) findViewById(R.id.changePositionButton);
+        changePosButton.setOnClickListener(this);
+        drawableBoard = (BoardContainerView) findViewById(R.id.chessboard);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    protected void onStart() {
+        super.onStart();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.board) {
-            Intent my_int = new Intent(this, TestBoardActivity.class);
-            startActivity(my_int);
-        }
-
-        return super.onOptionsItemSelected(item);
+        this.puzzleProvider = new TemporaryPuzzleProvider();
+        this.game = new Game(puzzleProvider);
+        game.registerGameEventsListener(this);
+        initGame();
     }
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.sendMoveButton) {
-            submitMove();
-
-        }
+        initGame();
     }
 
-    private void submitMove(){
-        String source = sourceEditText.getText().toString();
-        String dest =  destEditText.getText().toString();
-
+    public void onMoveDetected(String source, String dest){
+        game.doMove(source,dest);
     }
 
+    @Override
+    public void onMoveDo(dimitris.chess.core.Move move) {
+        Toast.makeText(this,game.printPlayedMoves(),Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onMoveUndo(dimitris.chess.core.Move move) {
+        Toast.makeText(this,"Move is not correct", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGameStart() {
+        Toast.makeText(this, "Game Started", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGameEnd() {
+        Toast.makeText(this, "Congrats! you solved it!", Toast.LENGTH_LONG).show();
+        initGame();
+    }
+
+    private void initGame(){
+        game.start();
+        drawableBoard.setCurrentPuzzle(game.getCurrentPuzzle());
+    }
 }

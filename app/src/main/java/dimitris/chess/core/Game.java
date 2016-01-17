@@ -24,6 +24,7 @@ public class Game implements GameEventsDispatcher {
     }
 
     public void start(){
+        playedMoves.clear();
         currentPuzzle = puzzleProvider.getNextPuzzle();
         board.setPosition(currentPuzzle.fen);
         gameStarted();
@@ -75,6 +76,10 @@ public class Game implements GameEventsDispatcher {
     private void puzzleSolved(){
         for(GameEventsListener listener : eventsListeners)
             listener.onGameEnd();
+    }
+
+    public String printPlayedMoves(){
+        return MovePrinter.printMoveList(playedMoves);
     }
 
     @Override

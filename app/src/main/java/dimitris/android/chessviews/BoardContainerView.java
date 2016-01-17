@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import dimitris.android.app.TestBoardActivity;
+import dimitris.android.app.MainActivity;
 import dimitris.chess.core.ChessPuzzle;
 
 public class BoardContainerView extends View implements View.OnTouchListener {
@@ -61,7 +61,7 @@ public class BoardContainerView extends View implements View.OnTouchListener {
         padding = (min % 8) / 2;
 
         chessBoard.setSquareSize(squareSize);
-        invalidate();
+        chessBoard.invalidateSelf();
     }
 
     @Override
@@ -77,7 +77,7 @@ public class BoardContainerView extends View implements View.OnTouchListener {
             chessBoard.squareSelectedAt(row, col);
         }
 
-        invalidate();
+        chessBoard.invalidateSelf();
         return true;
     }
 
@@ -86,7 +86,7 @@ public class BoardContainerView extends View implements View.OnTouchListener {
     }
 
     public void moveDetected(String source, String dest){
-        TestBoardActivity parent = (TestBoardActivity) this.getContext();
+        MainActivity parent = (MainActivity) this.getContext();
         parent.onMoveDetected(source, dest);
     }
 }

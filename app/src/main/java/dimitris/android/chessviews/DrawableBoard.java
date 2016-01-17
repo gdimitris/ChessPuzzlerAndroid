@@ -1,26 +1,28 @@
 package dimitris.android.chessviews;
 
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 
 import dimitris.android.chessviews.Pieces.BlackPieceFactory;
 import dimitris.android.chessviews.Pieces.FenParser;
 import dimitris.android.chessviews.Pieces.WhitePieceFactory;
 
 
-public class DrawableBoard {
+public class DrawableBoard extends Drawable{
 
     private SquareView lastSelectedSquareView;
     private SquareView[][] squareViews;
     private BoardContainerView parentView;
     private int squareSize=1;
 
-
     public DrawableBoard(BoardContainerView parentView) {
         super();
         this.parentView = parentView;
     }
 
+    @Override
     public void draw(Canvas canvas) {
         if (squareViews == null)
             return;
@@ -28,6 +30,21 @@ public class DrawableBoard {
         for (int row = 0; row < 8; row++)
             for (int col = 0; col < 8; col++)
                 squareViews[row][col].draw(canvas);
+    }
+
+    @Override
+    public void setAlpha(int alpha) {
+
+    }
+
+    @Override
+    public void setColorFilter(ColorFilter cf) {
+
+    }
+
+    @Override
+    public int getOpacity() {
+        return 0;
     }
 
     protected void squareSelectedAt(int row, int col) {
@@ -74,7 +91,7 @@ public class DrawableBoard {
     }
 
     public void createEmptyBoard(){
-            squareViews = new DrawableBoardFactory(squareSize).createEmptyBoard();
+        squareViews = new DrawableBoardFactory(squareSize).createEmptyBoard();
     }
 
     public void setSquareSize(int size){
@@ -95,7 +112,7 @@ public class DrawableBoard {
         } catch (FenParser.BadFenException e) {
             e.printStackTrace();
         }
-        parentView.invalidate();
+        invalidateSelf();
     }
 
     private void clearBoard(){
