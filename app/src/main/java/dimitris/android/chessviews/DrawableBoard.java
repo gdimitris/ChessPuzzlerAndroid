@@ -1,7 +1,11 @@
 package dimitris.android.chessviews;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 
@@ -16,10 +20,12 @@ public class DrawableBoard extends Drawable{
     private SquareView[][] squareViews;
     private BoardContainerView parentView;
     private int squareSize=1;
+    private Paint boardPaint;
 
     public DrawableBoard(BoardContainerView parentView) {
         super();
         this.parentView = parentView;
+        this.boardPaint = createCheckerBoard(60);
     }
 
     @Override
@@ -27,6 +33,8 @@ public class DrawableBoard extends Drawable{
         if (squareViews == null)
             return;
 
+        Rect bounds = getBounds();
+        canvas.drawRect(bounds.left,bounds.top,bounds.right,bounds.bottom,boardPaint);
         for (int row = 0; row < 8; row++)
             for (int col = 0; col < 8; col++)
                 squareViews[row][col].draw(canvas);
@@ -96,6 +104,7 @@ public class DrawableBoard extends Drawable{
 
     public void setSquareSize(int size){
         this.squareSize = size;
+        this.boardPaint = createCheckerBoard(size);
         for(int i=0;i<8;i++)
             for(int j=0;j<8;j++)
                 squareViews[i][j].resize(size,i,j);
@@ -112,13 +121,30 @@ public class DrawableBoard extends Drawable{
         } catch (FenParser.BadFenException e) {
             e.printStackTrace();
         }
-        invalidateSelf();
     }
 
     private void clearBoard(){
         for (int row = 0; row < 8; row++)
             for (int col = 0; col < 8; col++)
                 squareViews[row][col].setPiece(null);
+    }
+
+    private Paint createCheckerBoard(int pixelSize){
+        Bitmap bitmap = Bitmap.createBitmap(pixelSize * 2, pixelSize * 2, Bitmap.Config.ARGB_8888);
+
+        Paint fill = new Paint(Paint.ANTI_ALIAS_FLAG);
+        fill.setStyle(Paint.Style.FILL);
+        fill.setColor(0x22000000);
+
+        Canvas canvas = new Canvas(bitmap);
+        Rect rect = new Rect(0, 0, pixelSize, pixelSize);
+        canvas.drawRect(rect, fill);
+        rect.offset(pixelSize, pixelSize);
+        canvas.drawRect(rect, fill);
+
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setShader(new BitmapShader(bitmap, BitmapShader.TileMode.REPEAT, BitmapShader.TileMode.REPEAT));
+        return paint;
     }
 
 }

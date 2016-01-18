@@ -46,7 +46,7 @@ public abstract class SquareView extends Drawable {
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawRect(rect, itsPaint);
+        //canvas.drawRect(rect, itsPaint);
         drawSelector(canvas);
         drawPiece(canvas);
     }
@@ -75,7 +75,6 @@ public abstract class SquareView extends Drawable {
 
     public void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
-        invalidateSelf();
     }
 
     @Override

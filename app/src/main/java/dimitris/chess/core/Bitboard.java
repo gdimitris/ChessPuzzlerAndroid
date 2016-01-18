@@ -60,6 +60,7 @@ class Bitboard implements Board {
 
     @Override
     public void setPosition(String FEN) {
+        initializeBitboards();
         setUpFenPosition(FEN);
     }
 

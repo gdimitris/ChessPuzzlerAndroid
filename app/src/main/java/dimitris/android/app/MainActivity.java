@@ -10,8 +10,9 @@ import android.widget.Toast;
 import com.example.dimitris.chesspuzzler.R;
 
 import dimitris.android.chessviews.BoardContainerView;
-import dimitris.chess.core.*;
-import dimitris.chess.core.Move;
+import dimitris.chess.core.Game;
+import dimitris.chess.core.GameEventsListener;
+import dimitris.chess.core.PuzzleProvider;
 
 /**
  * Created by dimitris on 1/15/16.
@@ -43,6 +44,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Game
         this.game = new Game(puzzleProvider);
         game.registerGameEventsListener(this);
         initGame();
+
     }
 
     @Override
@@ -66,6 +68,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Game
 
     @Override
     public void onGameStart() {
+        drawableBoard.invalidate();
         Toast.makeText(this, "Game Started", Toast.LENGTH_SHORT).show();
     }
 

@@ -10,7 +10,7 @@ import dimitris.android.chessviews.Pieces.WhitePieceFactory;
 
 public class DrawableBoardFactory {
     private static final String INITIAL_FEN_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-    private int size = 0;
+    private int size = 30;
 
     public DrawableBoardFactory(int squareSize) {
         this.size = squareSize;
