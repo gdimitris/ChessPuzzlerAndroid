@@ -3,6 +3,7 @@ package dimitris.android.chessviews;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -25,7 +26,8 @@ public class DrawableBoard extends Drawable{
     public DrawableBoard(BoardContainerView parentView) {
         super();
         this.parentView = parentView;
-        this.boardPaint = createCheckerBoard(60);
+        this.boardPaint = createCheckerBoardPaint();
+
     }
 
     @Override
@@ -104,7 +106,7 @@ public class DrawableBoard extends Drawable{
 
     public void setSquareSize(int size){
         this.squareSize = size;
-        this.boardPaint = createCheckerBoard(size);
+        this.boardPaint = createCheckerBoardPaint();
         for(int i=0;i<8;i++)
             for(int j=0;j<8;j++)
                 squareViews[i][j].resize(size,i,j);
@@ -129,22 +131,40 @@ public class DrawableBoard extends Drawable{
                 squareViews[row][col].setPiece(null);
     }
 
-    private Paint createCheckerBoard(int pixelSize){
-        Bitmap bitmap = Bitmap.createBitmap(pixelSize * 2, pixelSize * 2, Bitmap.Config.ARGB_8888);
-
-        Paint fill = new Paint(Paint.ANTI_ALIAS_FLAG);
-        fill.setStyle(Paint.Style.FILL);
-        fill.setColor(0x22000000);
+    private Paint createCheckerBoardPaint(){
+        int darkSquareColor = Color.argb(255 , 160, 82, 45);
+        int lightSquareColor = Color.argb(255 ,255, 222, 173);
+        Bitmap bitmap = Bitmap.createBitmap(squareSize * 2, squareSize * 2, Bitmap.Config.ARGB_8888);
 
         Canvas canvas = new Canvas(bitmap);
-        Rect rect = new Rect(0, 0, pixelSize, pixelSize);
-        canvas.drawRect(rect, fill);
-        rect.offset(pixelSize, pixelSize);
-        canvas.drawRect(rect, fill);
+        paintLightSquaresInCanvas(canvas, getFillPaintWithColor(lightSquareColor));
+        paintDarkSquaresInCanvas(canvas, getFillPaintWithColor(darkSquareColor));
 
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setShader(new BitmapShader(bitmap, BitmapShader.TileMode.REPEAT, BitmapShader.TileMode.REPEAT));
         return paint;
+    }
+
+    private void paintLightSquaresInCanvas(Canvas canvas, Paint fillColor) {
+        Rect rect = new Rect(0, 0, squareSize, squareSize);
+        canvas.drawRect(rect, fillColor);
+        rect.offset(squareSize, squareSize);
+        canvas.drawRect(rect, fillColor);
+    }
+
+    private void paintDarkSquaresInCanvas(Canvas canvas, Paint fillColor){
+        Rect rect = new Rect(0,0,squareSize,squareSize);
+        rect.offset(squareSize,0);
+        canvas.drawRect(rect, fillColor);
+        rect.offset(-squareSize,squareSize);
+        canvas.drawRect(rect, fillColor);
+    }
+
+    private Paint getFillPaintWithColor(int lightSquareColor) {
+        Paint fillColor = new Paint(Paint.ANTI_ALIAS_FLAG);
+        fillColor.setStyle(Paint.Style.FILL);
+        fillColor.setColor(lightSquareColor);
+        return fillColor;
     }
 
 }

@@ -61,7 +61,7 @@ public class BoardContainerView extends View implements View.OnTouchListener {
         padding = (min % 8) / 2;
 
         chessBoard.setSquareSize(squareSize);
-        chessBoard.setBounds(0,0,width,height);
+        chessBoard.setBounds(0,0,8*squareSize,8*squareSize);
         invalidateDrawable(chessBoard);
     }
 
