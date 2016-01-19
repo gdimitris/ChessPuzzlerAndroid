@@ -60,7 +60,7 @@ public abstract class AbstractPieceFactory {
             case 'p':
                 return createPawn();
             default:
-                return null;
+                throw new RuntimeException("Character '"+piece+"' not a valid piece...");
         }
     }
 }

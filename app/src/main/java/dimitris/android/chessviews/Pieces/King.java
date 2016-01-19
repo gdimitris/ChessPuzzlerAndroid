@@ -5,8 +5,8 @@ import android.graphics.Paint;
 public class King extends Piece {
 
 
-    public King(Paint whitePaint, Paint blackPaint, PieceColor color) {
-        super(whitePaint, blackPaint, color);
+    public King(Paint whitePaint, Paint blackPaint) {
+        super(whitePaint, blackPaint);
     }
 
     @Override

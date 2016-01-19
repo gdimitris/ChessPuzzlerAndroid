@@ -1,24 +1,26 @@
 package dimitris.android.chessviews.Pieces;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
-
-import dimitris.android.chessviews.SquareView;
 
 public class FenParser {
 
-    private SquareView[][] board;
     private AbstractPieceFactory blackFactory;
     private AbstractPieceFactory whiteFactory;
     private int currentRow = 0;
     private int currentColumn = 0;
+    private int size;
+    private List<Piece> pieces;
 
-    public FenParser(SquareView[][] board, WhitePieceFactory whiteFactory, BlackPieceFactory blackFactory) {
-        this.board = board;
+    public FenParser(WhitePieceFactory whiteFactory, BlackPieceFactory blackFactory, int size) {
         this.whiteFactory = whiteFactory;
         this.blackFactory = blackFactory;
+        this.size = size;
+        pieces = new ArrayList<>();
     }
 
-    public void parse(String fen) throws BadFenException {
+    public List<Piece> parse(String fen) throws BadFenException {
         StringTokenizer tokenizer = new StringTokenizer(fen);
         String pieces = (String) tokenizer.nextElement();
         for (int currentChar = 0; currentChar < pieces.length(); currentChar++) {
@@ -32,6 +34,7 @@ public class FenParser {
                 handleSlash();
             } else throw new BadFenException("Bad character '" + current + "' at FEN String");
         }
+        return this.pieces;
     }
 
     private void handleSlash() {
@@ -46,7 +49,8 @@ public class FenParser {
     private void handleCharacter(char current) {
         AbstractPieceFactory factory = (Character.isUpperCase(current)) ? whiteFactory : blackFactory;
         Piece piece = factory.createPiece(current);
-        board[currentRow][currentColumn].setPiece(piece);
+        piece.setPositionRect(currentColumn * size, currentRow * size, (currentColumn + 1) * size, (currentRow + 1) * size);
+        pieces.add(piece);
         currentColumn++;
     }
 

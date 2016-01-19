@@ -19,21 +19,18 @@ public class BoardContainerView extends View implements View.OnTouchListener {
         super(context);
         setOnTouchListener(this);
         chessBoard = new DrawableBoard(this);
-        chessBoard.createEmptyBoard();
     }
 
     public BoardContainerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnTouchListener(this);
         chessBoard = new DrawableBoard(this);
-        chessBoard.createEmptyBoard();
     }
 
     public BoardContainerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setOnTouchListener(this);
         chessBoard = new DrawableBoard(this);
-        chessBoard.createEmptyBoard();
     }
 
     @Override

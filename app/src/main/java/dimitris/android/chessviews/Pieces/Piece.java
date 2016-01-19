@@ -11,29 +11,20 @@ public abstract class Piece {
     private final Paint blackPaint;
     protected String whiteLayerLetter;
     protected String blackLayerLetter;
-    protected PieceColor color;
+    private Rect positionRect;
 
-    public Piece(Paint whitePaint, Paint blackPaint, PieceColor color) {
+    public Piece(Paint whitePaint, Paint blackPaint) {
         this.whitePaint = whitePaint;
         this.blackPaint = blackPaint;
-        this.color = color;
+        this.positionRect = new Rect(0,0,0,0);
     }
 
-    public void draw(Canvas canvas, Rect rect) {
-        canvas.drawText(whiteLayerLetter, rect.left, rect.bottom, whitePaint);
-        canvas.drawText(blackLayerLetter, rect.left, rect.bottom, blackPaint);
-    }
-
-    public PieceColor getColor() {
-        return color;
+    public void draw(Canvas canvas) {
+        canvas.drawText(whiteLayerLetter, positionRect.left, positionRect.bottom, whitePaint);
+        canvas.drawText(blackLayerLetter, positionRect.left, positionRect.bottom, blackPaint);
     }
 
     public abstract String toString();
-
-    public enum PieceColor {
-        White,
-        Black
-    }
 
     public void setWhiteLayerLetter(String layerLetter){
         this.whiteLayerLetter = layerLetter;
@@ -41,5 +32,16 @@ public abstract class Piece {
 
     public void setBlackLayerLetter(String layerLetter){
         this.blackLayerLetter = layerLetter;
+    }
+
+    public void setPositionRect(int left,int top, int right, int bottom){
+        positionRect.set(left, top, right, bottom);
+    }
+
+    public void setSize(int size){
+        int left = positionRect.left;
+        int top = positionRect.top;
+
+        positionRect.set(left,top,left+size,top+size);
     }
 }

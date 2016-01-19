@@ -1,15 +1,14 @@
 package dimitris.android.chessviews;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.graphics.ColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
 import dimitris.android.chessviews.Pieces.Piece;
 
-public abstract class SquareView extends Drawable {
+public class SquareView extends Drawable {
 
-    protected final Paint itsPaint;
     private final String name;
     private Rect rect;
     private Piece piece;
@@ -19,17 +18,11 @@ public abstract class SquareView extends Drawable {
     public SquareView(String name, Rect rect) {
         this.name = name;
         this.rect = rect;
-        itsPaint = new Paint();
         isSelected = false;
-        selector = new SquareHighlighter(rect);
     }
 
     public String getName() {
         return name;
-    }
-
-    public boolean contains(int x, int y) {
-        return rect.contains(x, y);
     }
 
     public Rect getRect() {
@@ -46,34 +39,37 @@ public abstract class SquareView extends Drawable {
 
     @Override
     public void draw(Canvas canvas) {
-        //canvas.drawRect(rect, itsPaint);
         drawSelector(canvas);
         drawPiece(canvas);
     }
 
     private void drawSelector(Canvas canvas) {
-        if (isSelected)
+        if(isSelected)
             selector.draw(canvas);
     }
 
     private void drawPiece(Canvas canvas) {
         if (piece != null)
-            piece.draw(canvas, getRect());
+            piece.draw(canvas);
     }
 
     public boolean isEmpty() {
-        return (piece == null);
+        return piece == null;
     }
 
     @Override
     public boolean equals(Object o) {
         SquareView toCheck = (SquareView) o;
-        if (name.equals(toCheck.name) && piece == toCheck.piece)
-            return true;
-        return false;
+
+        return name.equals(toCheck.name) && piece == toCheck.piece;
     }
 
     public void setSelected(boolean isSelected) {
+        if(isSelected)
+            selector = new SquareHighlighter(getRect());
+        else
+            selector = null;
+
         this.isSelected = isSelected;
     }
 
@@ -83,6 +79,21 @@ public abstract class SquareView extends Drawable {
     }
 
     public void resize(int size, int row, int col){
-        this.rect = new Rect(col * size, row * size, (col + 1) * size, (row + 1) * size);
+        rect.set(col * size, row * size, (col + 1) * size, (row + 1) * size);
+    }
+
+    @Override
+    public void setAlpha(int alpha) {
+
+    }
+
+    @Override
+    public void setColorFilter(ColorFilter cf) {
+
+    }
+
+    @Override
+    public int getOpacity() {
+        return 0;
     }
 }
