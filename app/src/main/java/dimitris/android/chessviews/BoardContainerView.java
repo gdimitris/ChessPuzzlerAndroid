@@ -59,7 +59,7 @@ public class BoardContainerView extends View implements View.OnTouchListener {
 
         chessBoard.setSquareSize(squareSize);
         chessBoard.setBounds(0,0,8*squareSize,8*squareSize);
-        invalidateDrawable(chessBoard);
+        invalidate();
     }
 
     @Override
@@ -72,16 +72,16 @@ public class BoardContainerView extends View implements View.OnTouchListener {
             int row = (yCoord - padding) / squareSize;
             int col = (xCoord - padding) / squareSize;
 
-            chessBoard.squareSelectedAt(row, col);
+            chessBoard.squareClickedAt(row, col);
+            invalidate();
         }
 
-        invalidateDrawable(chessBoard);
         return true;
     }
 
     public void setCurrentPuzzle(ChessPuzzle puzzle){
         chessBoard.setPosition(puzzle.fen);
-        invalidateDrawable(chessBoard);
+        invalidate();
     }
 
     public void moveDetected(String source, String dest){

@@ -20,77 +20,21 @@ import dimitris.android.chessviews.Pieces.WhitePieceFactory;
 
 public class DrawableBoard extends Drawable{
 
-    //private SquareView lastSelectedSquareView;
-    //private SquareView[][] squareViews;
-
     private BoardContainerView parentView;
-    private int squareSize=1;
+    private int squareSize;
     private Paint boardPaint;
     private List<Piece> alivePieces;
+    private Rect lastSelectedSquare;
+    private SquareHighlighter squareHighlighter;
 
     public DrawableBoard(BoardContainerView parentView) {
         super();
+
         this.parentView = parentView;
-        this.boardPaint = createCheckerBoardPaint();
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        if (alivePieces == null)
-            return;
-
-        Rect bounds = getBounds();
-        canvas.drawRect(bounds.left,bounds.top,bounds.right,bounds.bottom,boardPaint);
-
-        for(Piece p: alivePieces)
-            p.draw(canvas);
-
-//        for (int row = 0; row < 8; row++)
-//            for (int col = 0; col < 8; col++)
-//                squareViews[row][col].draw(canvas);
-    }
-
-    protected void squareSelectedAt(int row, int col) {
-//        if (lastSelectedSquareView == null) {
-//            selectSquareIfNotEmpty(row, col);
-//        } else if (lastSelectedSquareView == squareViews[row][col]) {
-//            clearSelection();
-//        } else {
-//            dispatchNewMoveIfPassesFilters(row, col);
-//            clearSelection();
-//        }
-    }
-
-//    private void dispatchNewMoveIfPassesFilters(int row, int col) {
-//        String source = lastSelectedSquareView.getName();
-//        String dest = squareViews[row][col].getName();
-//        parentView.moveDetected(source,dest);
-//        //doMove(toMake);
-//    }
-//
-//    private void selectSquareIfNotEmpty(int row, int col) {
-//        if (!squareIsEmpty(row, col)) {
-//            lastSelectedSquareView = squareViews[row][col];
-//            lastSelectedSquareView.setSelected(true);
-//        }
-//    }
-//
-//    private boolean squareIsEmpty(int row, int col) {
-//        return squareViews[row][col].isEmpty();
-//    }
-//
-//    private void clearSelection() {
-//        lastSelectedSquareView.setSelected(false);
-//        lastSelectedSquareView = null;
-//    }
-
-    public void setSquareSize(int size){
-        this.squareSize = size;
-        this.boardPaint = createCheckerBoardPaint();
-
-//        for(int i=0;i<8;i++)
-//            for(int j=0;j<8;j++)
-//                squareViews[i][j].resize(size,i,j);
+        squareSize = 1;
+        boardPaint = createChessBoardPaint();
+        lastSelectedSquare = null;
+        squareHighlighter = new SquareHighlighter(getRectForSquareAt(0,0));
     }
 
     public void setPosition(String FEN){
@@ -106,12 +50,90 @@ public class DrawableBoard extends Drawable{
         }
     }
 
+    public void setSquareSize(int size){
+        this.squareSize = size;
+        this.boardPaint = createChessBoardPaint();
+
+        for(Piece p : alivePieces)
+            p.setSize(size);
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        if (noPiecesExist())
+            return;
+
+        drawBoard(canvas);
+        drawSelectedSquare(canvas);
+        drawAlivePieces(canvas);
+    }
+
+    public void squareClickedAt(int row, int col) {
+        Rect clicked = getRectForSquareAt(row,col);
+
+        if (lastSelectedSquare == null) {
+            selectSquareIfNotEmpty(clicked);
+        } else if (clicked.equals(lastSelectedSquare)) {
+            clearSelection();
+        } else {
+            //dispatchNewMoveIfPassesFilters(row, col);
+            clearSelection();
+        }
+        parentView.invalidateDrawable(this);
+    }
+
+    private boolean noPiecesExist() {
+        return alivePieces == null || alivePieces.isEmpty();
+    }
+
+    private void drawSelectedSquare(Canvas canvas){
+        if (lastSelectedSquare != null){
+            squareHighlighter.draw(canvas);
+        }
+    }
+
+    private void drawAlivePieces(Canvas canvas) {
+        for(Piece p: alivePieces)
+            p.draw(canvas);
+    }
+
+    private void drawBoard(Canvas canvas) {
+        Rect bounds = getBounds();
+        canvas.drawRect(bounds.left,bounds.top,bounds.right,bounds.bottom,boardPaint);
+    }
+
+//    private void dispatchNewMoveIfPassesFilters(int row, int col) {
+//        String source = lastSelectedSquareView.getName();
+//        String dest = squareViews[row][col].getName();
+//        parentView.moveDetected(source,dest);
+//        //doMove(toMake);
+//    }
+//
+    private void selectSquareIfNotEmpty(Rect squareToSelect) {
+        if (!squareIsEmpty(squareToSelect)) {
+            lastSelectedSquare = squareToSelect;
+            squareHighlighter.setSquare(lastSelectedSquare);
+        }
+    }
+
+    private void clearSelection(){
+        lastSelectedSquare = null;
+    }
+
+    private boolean squareIsEmpty(Rect squareToCheck) {
+        for(Piece p: alivePieces){
+            if(p.getPositionRect().contains(squareToCheck))
+                return false;
+        }
+        return true;
+    }
+
     private void clearBoard(){
         if(alivePieces!= null)
             alivePieces.clear();
     }
 
-    private Paint createCheckerBoardPaint(){
+    private Paint createChessBoardPaint(){
         int darkSquareColor = Color.argb(255 , 160, 82, 45);
         int lightSquareColor = Color.argb(255 ,255, 222, 173);
         Bitmap bitmap = Bitmap.createBitmap(squareSize * 2, squareSize * 2, Bitmap.Config.ARGB_8888);
@@ -147,19 +169,23 @@ public class DrawableBoard extends Drawable{
         return fillColor;
     }
 
-    @Override
-    public void setAlpha(int alpha) {
+    private String getSquareName(int currentRow, int currentCol) {
+        String rows = "12345678";
+        String columns = "hgfedcba";
+        return "" + columns.charAt(7 - currentCol) + rows.charAt(7 - currentRow);
+    }
 
+    private Rect getRectForSquareAt(int row, int col) {
+        return new Rect(col * squareSize, row * squareSize, (col + 1) * squareSize, (row + 1) * squareSize);
     }
 
     @Override
-    public void setColorFilter(ColorFilter cf) {
-
-    }
+    public void setAlpha(int alpha) {}
 
     @Override
-    public int getOpacity() {
-        return 0;
-    }
+    public void setColorFilter(ColorFilter cf) {}
+
+    @Override
+    public int getOpacity() { return 0; }
 
 }

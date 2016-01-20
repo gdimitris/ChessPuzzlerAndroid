@@ -16,7 +16,7 @@ public abstract class Piece {
     public Piece(Paint whitePaint, Paint blackPaint) {
         this.whitePaint = whitePaint;
         this.blackPaint = blackPaint;
-        this.positionRect = new Rect(0,0,0,0);
+        this.positionRect = new Rect(0,0,60,60);
     }
 
     public void draw(Canvas canvas) {
@@ -36,6 +36,10 @@ public abstract class Piece {
 
     public void setPositionRect(int left,int top, int right, int bottom){
         positionRect.set(left, top, right, bottom);
+    }
+
+    public Rect getPositionRect(){
+        return positionRect;
     }
 
     public void setSize(int size){
