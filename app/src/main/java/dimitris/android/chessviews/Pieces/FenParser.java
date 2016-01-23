@@ -49,7 +49,8 @@ public class FenParser {
     private void handleCharacter(char current) {
         AbstractPieceFactory factory = (Character.isUpperCase(current)) ? whiteFactory : blackFactory;
         Piece piece = factory.createPiece(current);
-        piece.setPositionRect(currentColumn * size, currentRow * size, (currentColumn + 1) * size, (currentRow + 1) * size);
+        piece.setPositionCoords(currentRow,currentColumn);
+        piece.setSize(size);
         pieces.add(piece);
         currentColumn++;
     }

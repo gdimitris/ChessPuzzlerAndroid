@@ -18,6 +18,7 @@ public class TemporaryPuzzleProvider implements PuzzleProvider {
         this.puzzleList = new ArrayList<>();
         initializePuzzles();
         this.random = new Random();
+        random.setSeed(System.currentTimeMillis());
     }
 
     @Override

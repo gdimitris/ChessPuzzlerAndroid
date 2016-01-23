@@ -36,8 +36,7 @@ public class BoardContainerView extends View implements View.OnTouchListener {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (chessBoard != null)
-            chessBoard.draw(canvas);
+        chessBoard.draw(canvas);
     }
 
     @Override
@@ -57,9 +56,11 @@ public class BoardContainerView extends View implements View.OnTouchListener {
         squareSize = min / 8;
         padding = (min % 8) / 2;
 
-        chessBoard.setSquareSize(squareSize);
-        chessBoard.setBounds(0,0,8*squareSize,8*squareSize);
-        invalidate();
+        if(chessBoard.getSquareSize() != squareSize){
+            chessBoard.setSquareSize(squareSize);
+            chessBoard.setBounds(0,0,8 * squareSize,8 * squareSize);
+            //invalidate();
+        }
     }
 
     @Override

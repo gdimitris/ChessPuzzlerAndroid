@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import java.util.List;
 
@@ -51,6 +52,9 @@ public class DrawableBoard extends Drawable{
     }
 
     public void setSquareSize(int size){
+        if(squareSize == size)
+            return;
+
         this.squareSize = size;
         this.boardPaint = createChessBoardPaint();
 
@@ -64,7 +68,7 @@ public class DrawableBoard extends Drawable{
             return;
 
         drawBoard(canvas);
-        drawSelectedSquare(canvas);
+        //drawSelectedSquare(canvas);
         drawAlivePieces(canvas);
     }
 
@@ -79,7 +83,10 @@ public class DrawableBoard extends Drawable{
             //dispatchNewMoveIfPassesFilters(row, col);
             clearSelection();
         }
-        parentView.invalidateDrawable(this);
+    }
+
+    public int getSquareSize(){
+        return squareSize;
     }
 
     private boolean noPiecesExist() {
@@ -100,6 +107,7 @@ public class DrawableBoard extends Drawable{
     private void drawBoard(Canvas canvas) {
         Rect bounds = getBounds();
         canvas.drawRect(bounds.left,bounds.top,bounds.right,bounds.bottom,boardPaint);
+        Log.e("drawBoard", "Drawing Board with left:"+bounds.left+" top:"+bounds.top+" right:"+bounds.right+" bottom:"+bounds.bottom);
     }
 
 //    private void dispatchNewMoveIfPassesFilters(int row, int col) {
@@ -131,6 +139,7 @@ public class DrawableBoard extends Drawable{
     private void clearBoard(){
         if(alivePieces!= null)
             alivePieces.clear();
+        clearSelection();
     }
 
     private Paint createChessBoardPaint(){

@@ -1,30 +1,40 @@
 package dimitris.android.chessviews.Pieces;
 
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 
-public abstract class Piece {
+public abstract class Piece extends Drawable {
 
     private final Paint whitePaint;
     private final Paint blackPaint;
     protected String whiteLayerLetter;
     protected String blackLayerLetter;
     private Rect positionRect;
+    private int currentPositionRow;
+    private int currentPositionColumn;
+    private int drawSize;
 
     public Piece(Paint whitePaint, Paint blackPaint) {
         this.whitePaint = whitePaint;
         this.blackPaint = blackPaint;
-        this.positionRect = new Rect(0,0,60,60);
+        this.positionRect = new Rect();
     }
 
+    @Override
     public void draw(Canvas canvas) {
-        canvas.drawText(whiteLayerLetter, positionRect.left, positionRect.bottom, whitePaint);
-        canvas.drawText(blackLayerLetter, positionRect.left, positionRect.bottom, blackPaint);
-    }
+        int x = currentPositionColumn * drawSize;
+        int y = (currentPositionRow + 1) * drawSize;
 
-    public abstract String toString();
+        canvas.drawText(whiteLayerLetter, x, y, whitePaint);
+        Log.e("PieceWhiteLayer","Drawing letter '" + whiteLayerLetter + "' at x:" + x + " y:"+y);
+        canvas.drawText(blackLayerLetter, x, y, blackPaint);
+        Log.e("PieceBlackLayer","Drawing letter '" + blackLayerLetter + "' at x:" + x + " y:"+y);
+    }
 
     public void setWhiteLayerLetter(String layerLetter){
         this.whiteLayerLetter = layerLetter;
@@ -34,8 +44,9 @@ public abstract class Piece {
         this.blackLayerLetter = layerLetter;
     }
 
-    public void setPositionRect(int left,int top, int right, int bottom){
-        positionRect.set(left, top, right, bottom);
+    public void setPositionCoords(int row, int col){
+        this.currentPositionColumn = col;
+        this.currentPositionRow = row;
     }
 
     public Rect getPositionRect(){
@@ -43,9 +54,24 @@ public abstract class Piece {
     }
 
     public void setSize(int size){
-        int left = positionRect.left;
-        int top = positionRect.top;
+        drawSize = size;
+        positionRect.set(currentPositionColumn * size, currentPositionRow * size, (currentPositionColumn + 1) * size, (currentPositionRow + 1) * size);
+    }
 
-        positionRect.set(left,top,left+size,top+size);
+    public abstract String toString();
+
+    @Override
+    public int getOpacity() {
+        return 0;
+    }
+
+    @Override
+    public void setColorFilter(ColorFilter cf) {
+
+    }
+
+    @Override
+    public void setAlpha(int alpha) {
+
     }
 }
