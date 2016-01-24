@@ -3,6 +3,7 @@ package dimitris.android.app;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
@@ -34,17 +35,22 @@ public class MainActivity extends Activity implements View.OnClickListener, Game
         changePosButton = (Button) findViewById(R.id.changePositionButton);
         changePosButton.setOnClickListener(this);
         drawableBoard = (BoardContainerView) findViewById(R.id.chessboard);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
         this.puzzleProvider = new TemporaryPuzzleProvider();
         this.game = new Game(puzzleProvider);
         game.registerGameEventsListener(this);
-        initGame();
+//        drawableBoard.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                initGame();
+//            }
+//        });
+    }
 
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        initGame();
     }
 
     @Override
@@ -68,7 +74,6 @@ public class MainActivity extends Activity implements View.OnClickListener, Game
 
     @Override
     public void onGameStart() {
-        drawableBoard.invalidate();
         Toast.makeText(this, "Game Started", Toast.LENGTH_SHORT).show();
     }
 

@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import dimitris.android.app.MainActivity;
 import dimitris.chess.core.ChessPuzzle;
@@ -47,9 +48,13 @@ public class BoardContainerView extends View implements View.OnTouchListener {
         int totalHeight = getMeasuredHeight();
 
         setMeasuredDimension(totalWidth, totalWidth);
-        resizeBoard(totalWidth, totalHeight);
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        resizeBoard(w,h);
+    }
 
     private void resizeBoard(int width, int height){
         int min = (width < height) ? width : height;
@@ -59,7 +64,7 @@ public class BoardContainerView extends View implements View.OnTouchListener {
         if(chessBoard.getSquareSize() != squareSize){
             chessBoard.setSquareSize(squareSize);
             chessBoard.setBounds(0,0,8 * squareSize,8 * squareSize);
-            //invalidate();
+            invalidate();
         }
     }
 

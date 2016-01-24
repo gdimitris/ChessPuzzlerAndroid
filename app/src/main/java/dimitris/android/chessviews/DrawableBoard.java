@@ -11,6 +11,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dimitris.android.chessviews.Pieces.BlackPieceFactory;
@@ -30,12 +31,12 @@ public class DrawableBoard extends Drawable{
 
     public DrawableBoard(BoardContainerView parentView) {
         super();
-
         this.parentView = parentView;
-        squareSize = 1;
+        squareSize = 80;
         boardPaint = createChessBoardPaint();
         lastSelectedSquare = null;
         squareHighlighter = new SquareHighlighter(getRectForSquareAt(0,0));
+        alivePieces = new ArrayList<>();
     }
 
     public void setPosition(String FEN){
@@ -68,7 +69,7 @@ public class DrawableBoard extends Drawable{
             return;
 
         drawBoard(canvas);
-        //drawSelectedSquare(canvas);
+        drawSelectedSquare(canvas);
         drawAlivePieces(canvas);
     }
 
