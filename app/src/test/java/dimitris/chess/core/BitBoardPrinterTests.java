@@ -1,20 +1,10 @@
 package dimitris.chess.core;
 
-import android.os.Build;
-
-import com.example.dimitris.chesspuzzler.BuildConfig;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
-
 
 import static junit.framework.Assert.assertEquals;
 
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(RobolectricGradleTestRunner.class)
 public class BitBoardPrinterTests {
 
     private static final String A_FILE = "100000001000000010000000100000001000000010000000100000001";

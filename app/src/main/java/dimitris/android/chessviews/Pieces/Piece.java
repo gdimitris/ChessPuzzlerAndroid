@@ -31,7 +31,7 @@ public abstract class Piece extends Drawable {
         int y = (currentPositionRow + 1) * drawSize;
 
         canvas.drawText(whiteLayerLetter, x, y, whitePaint);
-        Log.e("PieceWhiteLayer","Drawing letter '" + whiteLayerLetter + "' at x:" + x + " y:"+ y +" and drawSize: "+drawSize);
+        //Log.e("PieceWhiteLayer","Drawing letter '" + whiteLayerLetter + "' at x:" + x + " y:"+ y +" and drawSize: "+drawSize);
         canvas.drawText(blackLayerLetter, x, y, blackPaint);
         //Log.e("PieceBlackLayer","Drawing letter '" + blackLayerLetter + "' at x:" + x + " y:"+ y +" and drawSize: "+drawSize);
     }

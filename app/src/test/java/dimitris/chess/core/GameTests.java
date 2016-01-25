@@ -1,14 +1,7 @@
 package dimitris.chess.core;
 
-import android.os.Build;
-
-import com.example.dimitris.chesspuzzler.BuildConfig;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -16,8 +9,6 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by dimitris on 1/1/16.
  */
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(RobolectricGradleTestRunner.class)
 public class GameTests {
 
     private Game game;

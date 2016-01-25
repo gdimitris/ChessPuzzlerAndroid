@@ -1,22 +1,12 @@
 package dimitris.chess.core;
 
-import android.os.Build;
-
-import com.example.dimitris.chesspuzzler.BuildConfig;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * Created by dimitris on 12/27/15.
  */
-
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(RobolectricGradleTestRunner.class)
 
 public class UInt64Tests {
 

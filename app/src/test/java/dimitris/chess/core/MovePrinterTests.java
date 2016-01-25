@@ -1,15 +1,8 @@
 package dimitris.chess.core;
 
-import android.os.Build;
-
-import com.example.dimitris.chesspuzzler.BuildConfig;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +10,6 @@ import java.util.List;
 /**
  * Created by dimitris on 1/13/16.
  */
-
-@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
-@RunWith(RobolectricGradleTestRunner.class)
 public class MovePrinterTests {
 
     private Board board;
