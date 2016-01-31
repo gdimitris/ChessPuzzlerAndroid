@@ -1,9 +1,6 @@
 package dimitris.android.chessviews;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -26,14 +23,14 @@ public class DrawableBoard extends Drawable{
     private int squareSize;
     private Paint boardPaint;
     private List<Piece> alivePieces;
-    private Rect lastSelectedSquare;
+    private Square lastSelectedSquare;
     private SquareHighlighter squareHighlighter;
 
     public DrawableBoard(BoardContainerView parentView) {
         super();
         this.parentView = parentView;
         squareSize = 80;
-        boardPaint = createChessBoardPaint();
+        boardPaint = BoardPaintCreator.createPaintWithSquareSize(squareSize);
         lastSelectedSquare = null;
         squareHighlighter = new SquareHighlighter(getRectForSquareAt(0,0));
         alivePieces = new ArrayList<>();
@@ -57,7 +54,7 @@ public class DrawableBoard extends Drawable{
             return;
 
         this.squareSize = size;
-        this.boardPaint = createChessBoardPaint();
+        this.boardPaint = BoardPaintCreator.createPaintWithSquareSize(squareSize);
 
         for(Piece p : alivePieces)
             p.setSize(size);
@@ -77,13 +74,20 @@ public class DrawableBoard extends Drawable{
         Rect clicked = getRectForSquareAt(row,col);
 
         if (lastSelectedSquare == null) {
-            selectSquareIfNotEmpty(clicked);
+            selectSquareIfNotEmpty(clicked,row,col);
         } else if (clicked.equals(lastSelectedSquare)) {
             clearSelection();
         } else {
-            //dispatchNewMoveIfPassesFilters(row, col);
+            dispatchNewMoveIfPassesFilters(row, col);
             clearSelection();
         }
+    }
+
+    private void dispatchNewMoveIfPassesFilters(int row, int col) {
+        String source = lastSelectedSquare.getName();
+        //String dest = squareViews[row][col].getName();
+        //parentView.moveDetected(source,dest);
+        //doMove(toMake);
     }
 
     public int getSquareSize(){
@@ -111,16 +115,9 @@ public class DrawableBoard extends Drawable{
         Log.e("drawBoard", "Drawing Board with left:"+bounds.left+" top:"+bounds.top+" right:"+bounds.right+" bottom:"+bounds.bottom);
     }
 
-//    private void dispatchNewMoveIfPassesFilters(int row, int col) {
-//        String source = lastSelectedSquareView.getName();
-//        String dest = squareViews[row][col].getName();
-//        parentView.moveDetected(source,dest);
-//        //doMove(toMake);
-//    }
-//
-    private void selectSquareIfNotEmpty(Rect squareToSelect) {
-        if (!squareIsEmpty(squareToSelect)) {
-            lastSelectedSquare = squareToSelect;
+    private void selectSquareIfNotEmpty(Rect selectedRect, int row, int col) {
+        if (!squareIsEmpty(selectedRect)) {
+            lastSelectedSquare = new Square(selectedRect, row, col);
             squareHighlighter.setSquare(lastSelectedSquare);
         }
     }
@@ -141,48 +138,6 @@ public class DrawableBoard extends Drawable{
         if(alivePieces!= null)
             alivePieces.clear();
         clearSelection();
-    }
-
-    private Paint createChessBoardPaint(){
-        int darkSquareColor = Color.argb(255 , 160, 82, 45);
-        int lightSquareColor = Color.argb(255 ,255, 222, 173);
-        Bitmap bitmap = Bitmap.createBitmap(squareSize * 2, squareSize * 2, Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(bitmap);
-        paintLightSquaresInCanvas(canvas, getFillPaintWithColor(lightSquareColor));
-        paintDarkSquaresInCanvas(canvas, getFillPaintWithColor(darkSquareColor));
-
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setShader(new BitmapShader(bitmap, BitmapShader.TileMode.REPEAT, BitmapShader.TileMode.REPEAT));
-        return paint;
-    }
-
-    private void paintLightSquaresInCanvas(Canvas canvas, Paint fillColor) {
-        Rect rect = new Rect(0, 0, squareSize, squareSize);
-        canvas.drawRect(rect, fillColor);
-        rect.offset(squareSize, squareSize);
-        canvas.drawRect(rect, fillColor);
-    }
-
-    private void paintDarkSquaresInCanvas(Canvas canvas, Paint fillColor){
-        Rect rect = new Rect(0,0,squareSize,squareSize);
-        rect.offset(squareSize,0);
-        canvas.drawRect(rect, fillColor);
-        rect.offset(-squareSize,squareSize);
-        canvas.drawRect(rect, fillColor);
-    }
-
-    private Paint getFillPaintWithColor(int lightSquareColor) {
-        Paint fillColor = new Paint(Paint.ANTI_ALIAS_FLAG);
-        fillColor.setStyle(Paint.Style.FILL);
-        fillColor.setColor(lightSquareColor);
-        return fillColor;
-    }
-
-    private String getSquareName(int currentRow, int currentCol) {
-        String rows = "12345678";
-        String columns = "hgfedcba";
-        return "" + columns.charAt(7 - currentCol) + rows.charAt(7 - currentRow);
     }
 
     private Rect getRectForSquareAt(int row, int col) {

@@ -18,8 +18,8 @@ public class SquareHighlighter {
         selectionRect = squareRect;
     }
 
-    public void setSquare(Rect rect){
-        selectionRect = rect;
+    public void setSquare(Square square){
+        selectionRect = square.getRect();
     }
 
     public void draw(Canvas canvas) {
