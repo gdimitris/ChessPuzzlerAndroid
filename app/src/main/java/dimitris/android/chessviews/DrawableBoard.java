@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,9 @@ public class DrawableBoard extends Drawable{
     private Paint boardPaint;
     private List<Piece> alivePieces;
     private Square lastSelectedSquare;
+    private Square[][] board;
     private SquareHighlighter squareHighlighter;
+    private List<UIMove> playedMoves;
 
     public DrawableBoard(BoardContainerView parentView) {
         super();
@@ -34,6 +35,12 @@ public class DrawableBoard extends Drawable{
         lastSelectedSquare = null;
         squareHighlighter = new SquareHighlighter(getRectForSquareAt(0,0));
         alivePieces = new ArrayList<>();
+        playedMoves = new ArrayList<>();
+        board = new Square[8][8];
+
+        for(int i=0;i<8;i++)
+            for(int j=0;j<8;j++)
+                board[i][j] = new Square(i,j);
     }
 
     public void setPosition(String FEN){
@@ -58,6 +65,10 @@ public class DrawableBoard extends Drawable{
 
         for(Piece p : alivePieces)
             p.setSize(size);
+
+        for(int i=0;i<8;i++)
+            for(int j=0;j<8;j++)
+                board[i][j].setSize(size);
     }
 
     @Override
@@ -70,24 +81,34 @@ public class DrawableBoard extends Drawable{
         drawAlivePieces(canvas);
     }
 
+    public void doMove(UIMove move) {
+        move.execute();
+        playedMoves.add(move);
+    }
+
+
+    public void undoMove(UIMove move) {
+
+    }
+
     public void squareClickedAt(int row, int col) {
-        Rect clicked = getRectForSquareAt(row,col);
+        Square selectedSquare = board[row][col];
 
         if (lastSelectedSquare == null) {
-            selectSquareIfNotEmpty(clicked,row,col);
-        } else if (clicked.equals(lastSelectedSquare)) {
+            selectSquareIfNotEmpty(row,col);
+        } else if (selectedSquare.equals(lastSelectedSquare)) {
             clearSelection();
         } else {
-            dispatchNewMoveIfPassesFilters(row, col);
+            dispatchMove(lastSelectedSquare, selectedSquare);
             clearSelection();
         }
     }
 
-    private void dispatchNewMoveIfPassesFilters(int row, int col) {
-        String source = lastSelectedSquare.getName();
-        //String dest = squareViews[row][col].getName();
-        //parentView.moveDetected(source,dest);
-        //doMove(toMake);
+    private void dispatchMove(Square src, Square dest) {
+        parentView.moveDetected(src.getName(),dest.getName());
+
+        UIMove move = new UIMove(src,dest);
+        doMove(move);
     }
 
     public int getSquareSize(){
@@ -112,12 +133,13 @@ public class DrawableBoard extends Drawable{
     private void drawBoard(Canvas canvas) {
         Rect bounds = getBounds();
         canvas.drawRect(bounds.left,bounds.top,bounds.right,bounds.bottom,boardPaint);
-        Log.e("drawBoard", "Drawing Board with left:"+bounds.left+" top:"+bounds.top+" right:"+bounds.right+" bottom:"+bounds.bottom);
+        //Log.e("drawBoard", "Drawing Board with left:"+bounds.left+" top:"+bounds.top+" right:"+bounds.right+" bottom:"+bounds.bottom);
     }
 
-    private void selectSquareIfNotEmpty(Rect selectedRect, int row, int col) {
-        if (!squareIsEmpty(selectedRect)) {
-            lastSelectedSquare = new Square(selectedRect, row, col);
+    private void selectSquareIfNotEmpty(int row, int col) {
+        Square selectedSquare = board[row][col];
+        if (!squareIsEmpty(selectedSquare)) {
+            lastSelectedSquare = selectedSquare;
             squareHighlighter.setSquare(lastSelectedSquare);
         }
     }
@@ -126,12 +148,8 @@ public class DrawableBoard extends Drawable{
         lastSelectedSquare = null;
     }
 
-    private boolean squareIsEmpty(Rect squareToCheck) {
-        for(Piece p: alivePieces){
-            if(p.getPositionRect().contains(squareToCheck))
-                return false;
-        }
-        return true;
+    private boolean squareIsEmpty(Square squareToCheck) {
+        return squareToCheck.getPiece() == null;
     }
 
     private void clearBoard(){

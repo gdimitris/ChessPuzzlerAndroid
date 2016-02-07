@@ -47,6 +47,7 @@ public abstract class Piece extends Drawable {
     public void setPositionCoords(int row, int col){
         this.currentPositionColumn = col;
         this.currentPositionRow = row;
+        positionRect.set(currentPositionColumn * drawSize, currentPositionRow * drawSize, (currentPositionColumn + 1) * drawSize, (currentPositionRow + 1) * drawSize);
     }
 
     public Rect getPositionRect(){
