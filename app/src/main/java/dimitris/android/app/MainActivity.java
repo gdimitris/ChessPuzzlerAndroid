@@ -21,6 +21,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Game
 
     private BoardContainerView drawableBoard;
     private Button changePosButton;
+    private Button nextPosButton;
     private Game game;
     private PuzzleProvider puzzleProvider;
 
@@ -33,6 +34,10 @@ public class MainActivity extends Activity implements View.OnClickListener, Game
         setContentView(R.layout.board_layout);
         changePosButton = (Button) findViewById(R.id.changePositionButton);
         changePosButton.setOnClickListener(this);
+        nextPosButton = (Button) findViewById(R.id.nextPuzzleButton);
+        nextPosButton.setOnClickListener(this);
+        nextPosButton.setEnabled(false);
+
         drawableBoard = (BoardContainerView) findViewById(R.id.chessboard);
         this.puzzleProvider = new TemporaryPuzzleProvider();
         this.game = new Game(puzzleProvider);
@@ -54,7 +59,8 @@ public class MainActivity extends Activity implements View.OnClickListener, Game
 
     @Override
     public void onClick(View v) {
-        initGame();
+        if(v.getId()==R.id.nextPuzzleButton)
+            initGame();
     }
 
     public void onMoveDetected(String source, String dest){
@@ -63,7 +69,7 @@ public class MainActivity extends Activity implements View.OnClickListener, Game
 
     @Override
     public void onMoveDo(dimitris.chess.core.Move move) {
-        Toast.makeText(this,game.printPlayedMoves(),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,game.printPlayedMoves(),Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -80,11 +86,12 @@ public class MainActivity extends Activity implements View.OnClickListener, Game
     @Override
     public void onGameEnd() {
         Toast.makeText(this, "Congrats! you solved it!", Toast.LENGTH_SHORT).show();
-        initGame();
+        nextPosButton.setEnabled(true);
     }
 
     private void initGame(){
         game.start();
         drawableBoard.setCurrentPuzzle(game.getCurrentPuzzle());
+        nextPosButton.setEnabled(false);
     }
 }
