@@ -44,14 +44,14 @@ public class UIMove {
         return movedPiece;
     }
 
-    public Square getDestinationSquare(){
-        return destination;
-    }
-
     public void undo() {
         movedPiece = destination.getPiece();
         source.setPiece(movedPiece);
         destination.setPiece(capturedPiece);
         isExecuted = false;
+    }
+
+    public boolean isExecuted() {
+        return isExecuted;
     }
 }

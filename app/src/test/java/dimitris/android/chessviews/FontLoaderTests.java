@@ -1,5 +1,7 @@
 package dimitris.android.chessviews;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Build;
 
 import com.example.dimitris.chesspuzzler.BuildConfig;
@@ -10,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 /**
@@ -18,13 +21,24 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants= BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 public class FontLoaderTests {
+
+    private Context context;
+
     @Before
     public void setup(){
-
+        context = RuntimeEnvironment.application.getApplicationContext();
     }
 
     @Test
-    public void testItWorks(){
-        Assert.assertTrue(true);
+    public void testDefaultFontNotNull(){
+        Typeface typeface = FontLoader.loadDefaultFont(context);
+        Assert.assertNotNull(typeface);
     }
+
+    @Test
+    public void testChessCasesFontLoads(){
+        Typeface typeface = FontLoader.loadFont(context,"Chesscases.ttf");
+        Assert.assertNotNull(typeface);
+    }
+
 }

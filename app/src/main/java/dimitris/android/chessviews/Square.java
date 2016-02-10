@@ -1,6 +1,5 @@
 package dimitris.android.chessviews;
 
-import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import dimitris.android.chessviews.Pieces.Piece;
@@ -23,12 +22,6 @@ public class Square {
         itsRect = new Rect(0,0,0,0);
     }
 
-    public Square(Rect itsRect, int row, int col){
-        this.itsRect = itsRect;
-        this.row = row;
-        this.col = col;
-    }
-
     public Rect getRect() {
         return itsRect;
     }
@@ -48,21 +41,8 @@ public class Square {
         }
     }
 
-    public int getRow(){
-        return row;
-    }
-
-    public int getCol(){
-        return col;
-    }
-
     public void setSize(int size){
         itsRect.set(col * size, row * size, (col + 1) * size, (row + 1) * size);
-    }
-
-    public void draw(Canvas canvas){
-        if(piece != null)
-            piece.draw(canvas);
     }
 
     public void clear(){

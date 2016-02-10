@@ -43,7 +43,6 @@ public class DrawableBoard extends Drawable{
     }
 
     public void setPosition(String FEN){
-        try {
             clearBoard();
             Typeface typeface = FontLoader.loadDefaultFont(parentView.getContext());
             WhitePieceFactory whiteFactory = new WhitePieceFactory(typeface, squareSize);
@@ -51,9 +50,6 @@ public class DrawableBoard extends Drawable{
             FenParser parser = new FenParser(whiteFactory, blackPieceFactory,squareSize);
             alivePieces = parser.parse(FEN);
             populateBoardWithAlive();
-        } catch (FenParser.BadFenException e) {
-            e.printStackTrace();
-        }
     }
 
     private void populateBoardWithAlive() {

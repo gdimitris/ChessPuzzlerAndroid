@@ -25,7 +25,8 @@ public class FenParser {
         pieces = new ArrayList<>();
     }
 
-    public List<Piece> parse(String fen) throws BadFenException {
+    public List<Piece> parse(String fen) throws RuntimeException {
+        pieces.clear();
         StringTokenizer tokenizer = new StringTokenizer(fen);
         String pieces = (String) tokenizer.nextElement();
         for (int currentChar = 0; currentChar < pieces.length(); currentChar++) {
@@ -37,7 +38,7 @@ public class FenParser {
                 handleDigit(Integer.parseInt(String.valueOf(current)));
             } else if ("/".equals(String.valueOf(current))) {
                 handleSlash();
-            } else throw new BadFenException("Bad character '" + current + "' at FEN String");
+            } else throw new RuntimeException("Bad character '" + current + "' at FEN String");
         }
         return this.pieces;
     }
@@ -60,10 +61,4 @@ public class FenParser {
         currentColumn++;
     }
 
-
-    public class BadFenException extends Exception {
-        public BadFenException(String description) {
-            super(description);
-        }
-    }
 }

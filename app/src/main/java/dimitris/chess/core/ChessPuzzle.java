@@ -9,8 +9,6 @@ public class ChessPuzzle {
     public String solution;
     public String id;
 
-    public ChessPuzzle(){}
-
     public ChessPuzzle(String fen, String solution){
         this.id = "";
         this.description = "";
