@@ -21,5 +21,37 @@ public class UIMove {
     public void execute(){
         movedPiece = source.getPiece();
         capturedPiece = destination.getPiece();
+        source.setPiece(null);
+        destination.setPiece(movedPiece);
+        isExecuted = true;
+    }
+
+    public boolean isCaptureMove(){
+        if (isExecuted)
+            return capturedPiece != null;
+        else
+            return destination.getPiece() != null;
+    }
+
+    public Piece getCapturedPiece(){
+        if(isExecuted)
+            return capturedPiece;
+        else
+            return destination.getPiece();
+    }
+
+    public Piece getMovedPiece(){
+        return movedPiece;
+    }
+
+    public Square getDestinationSquare(){
+        return destination;
+    }
+
+    public void undo() {
+        movedPiece = destination.getPiece();
+        source.setPiece(movedPiece);
+        destination.setPiece(capturedPiece);
+        isExecuted = false;
     }
 }

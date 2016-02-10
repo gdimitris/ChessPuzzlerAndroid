@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 import dimitris.android.app.MainActivity;
 import dimitris.chess.core.ChessPuzzle;
@@ -93,5 +92,9 @@ public class BoardContainerView extends View implements View.OnTouchListener {
     public void moveDetected(String source, String dest){
         MainActivity parent = (MainActivity) this.getContext();
         parent.onMoveDetected(source, dest);
+    }
+
+    public void undoMove(){
+        chessBoard.undoMove();
     }
 }

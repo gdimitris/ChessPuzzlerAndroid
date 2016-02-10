@@ -42,8 +42,18 @@ public class Square {
     }
 
     public void setPiece(Piece piece){
-        piece.setPositionCoords(row,col);
-        this.piece = piece;
+        if(piece!= null) {
+            piece.setPositionCoords(row, col);
+            this.piece = piece;
+        }
+    }
+
+    public int getRow(){
+        return row;
+    }
+
+    public int getCol(){
+        return col;
     }
 
     public void setSize(int size){
@@ -53,5 +63,9 @@ public class Square {
     public void draw(Canvas canvas){
         if(piece != null)
             piece.draw(canvas);
+    }
+
+    public void clear(){
+        this.piece = null;
     }
 }

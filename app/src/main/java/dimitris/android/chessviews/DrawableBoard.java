@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dimitris.android.chessviews.Pieces.BlackPieceFactory;
-import dimitris.android.chessviews.Pieces.FenParser;
 import dimitris.android.chessviews.Pieces.Piece;
 import dimitris.android.chessviews.Pieces.WhitePieceFactory;
 
@@ -51,8 +50,18 @@ public class DrawableBoard extends Drawable{
             BlackPieceFactory blackPieceFactory = new BlackPieceFactory(typeface, squareSize);
             FenParser parser = new FenParser(whiteFactory, blackPieceFactory,squareSize);
             alivePieces = parser.parse(FEN);
+            populateBoardWithAlive();
         } catch (FenParser.BadFenException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void populateBoardWithAlive() {
+        for(Piece p : alivePieces){
+            int row = p.getRow();
+            int col = p.getCol();
+
+            board[row][col].setPiece(p);
         }
     }
 
@@ -84,11 +93,14 @@ public class DrawableBoard extends Drawable{
     public void doMove(UIMove move) {
         move.execute();
         playedMoves.add(move);
+        removeFromAlive(move.getCapturedPiece());
     }
 
-
-    public void undoMove(UIMove move) {
-
+    public void undoMove() {
+        int lastIndex = playedMoves.size()-1;
+        UIMove move = playedMoves.remove(lastIndex);
+        move.undo();
+        addInAlive(move.getCapturedPiece());
     }
 
     public void squareClickedAt(int row, int col) {
@@ -105,10 +117,10 @@ public class DrawableBoard extends Drawable{
     }
 
     private void dispatchMove(Square src, Square dest) {
-        parentView.moveDetected(src.getName(),dest.getName());
-
         UIMove move = new UIMove(src,dest);
         doMove(move);
+
+        parentView.moveDetected(src.getName(),dest.getName());
     }
 
     public int getSquareSize(){
@@ -156,10 +168,33 @@ public class DrawableBoard extends Drawable{
         if(alivePieces!= null)
             alivePieces.clear();
         clearSelection();
+        for(int i=0;i<8;i++)
+            for(int j=0;j<8;j++)
+                board[i][j].clear();
     }
 
     private Rect getRectForSquareAt(int row, int col) {
         return new Rect(col * squareSize, row * squareSize, (col + 1) * squareSize, (row + 1) * squareSize);
+    }
+
+    public void removeFromAlive(Piece p){
+        if(p!=null)
+            alivePieces.remove(p);
+    }
+
+    public void addInAlive(Piece p){
+        if(p!=null)
+            alivePieces.add(p);
+    }
+
+    private Square getSquare(String square){
+        char squareColumn = square.charAt(0);
+        int squareRow = Integer.parseInt(String.valueOf(square.charAt(1)));
+
+        int row = 8 - squareRow;
+        int column = squareColumn - 'a';
+
+        return board[row][column];
     }
 
     @Override

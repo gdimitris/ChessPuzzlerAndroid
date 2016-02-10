@@ -5,7 +5,6 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 
 public abstract class Piece extends Drawable {
@@ -55,10 +54,18 @@ public abstract class Piece extends Drawable {
     }
 
     public void setSize(int size){
-        Log.e("setSize","Changing size from " + drawSize + " to "+size);
+        //Log.e("setSize","Changing size from " + drawSize + " to "+size);
         drawSize = size;
         positionRect.set(currentPositionColumn * size, currentPositionRow * size, (currentPositionColumn + 1) * size, (currentPositionRow + 1) * size);
-        Log.e("setSize", "Position rect is :" +positionRect.toString());
+        //Log.e("setSize", "Position rect is :" +positionRect.toString());
+    }
+
+    public int getRow(){
+        return currentPositionRow;
+    }
+
+    public int getCol(){
+        return currentPositionColumn;
     }
 
     public abstract String toString();

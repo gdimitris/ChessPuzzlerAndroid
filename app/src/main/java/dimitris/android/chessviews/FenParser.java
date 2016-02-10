@@ -1,8 +1,13 @@
-package dimitris.android.chessviews.Pieces;
+package dimitris.android.chessviews;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import dimitris.android.chessviews.Pieces.AbstractPieceFactory;
+import dimitris.android.chessviews.Pieces.BlackPieceFactory;
+import dimitris.android.chessviews.Pieces.Piece;
+import dimitris.android.chessviews.Pieces.WhitePieceFactory;
 
 public class FenParser {
 

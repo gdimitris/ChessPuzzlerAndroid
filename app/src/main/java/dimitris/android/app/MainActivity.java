@@ -3,7 +3,6 @@ package dimitris.android.app;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
@@ -64,22 +63,23 @@ public class MainActivity extends Activity implements View.OnClickListener, Game
 
     @Override
     public void onMoveDo(dimitris.chess.core.Move move) {
-        Toast.makeText(this,game.printPlayedMoves(),Toast.LENGTH_LONG).show();
+        Toast.makeText(this,game.printPlayedMoves(),Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onMoveUndo(dimitris.chess.core.Move move) {
         Toast.makeText(this,"Move is not correct", Toast.LENGTH_SHORT).show();
+        drawableBoard.undoMove();
     }
 
     @Override
     public void onGameStart() {
-        Toast.makeText(this, "Game Started", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Game Started", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onGameEnd() {
-        Toast.makeText(this, "Congrats! you solved it!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Congrats! you solved it!", Toast.LENGTH_SHORT).show();
         initGame();
     }
 
