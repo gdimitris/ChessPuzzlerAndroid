@@ -19,10 +19,14 @@ public class SquareHighlighter {
     }
 
     public void setSquare(Square square){
-        selectionRect = square.getRect();
+        if(square!= null)
+            selectionRect = square.getRect();
+        else
+            selectionRect = null;
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawRect(selectionRect, selectionPaint);
+        if(selectionRect!= null)
+            canvas.drawRect(selectionRect, selectionPaint);
     }
 }

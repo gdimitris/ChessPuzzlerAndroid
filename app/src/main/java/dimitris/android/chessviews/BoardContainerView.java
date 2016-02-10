@@ -2,6 +2,7 @@ package dimitris.android.chessviews;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,25 +13,30 @@ import dimitris.chess.core.ChessPuzzle;
 public class BoardContainerView extends View implements View.OnTouchListener {
 
     protected DrawableBoard chessBoard;
+    private MoveDispatcher moveDispatcher;
     private int squareSize;
     private int padding;
+    private Typeface typeface;
 
     public BoardContainerView(Context context) {
         super(context);
         setOnTouchListener(this);
-        chessBoard = new DrawableBoard(this);
+        chessBoard = new DrawableBoard();
+        moveDispatcher = new MoveDispatcher(chessBoard,this);
     }
 
     public BoardContainerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnTouchListener(this);
-        chessBoard = new DrawableBoard(this);
+        chessBoard = new DrawableBoard();
+        moveDispatcher = new MoveDispatcher(chessBoard,this);
     }
 
     public BoardContainerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setOnTouchListener(this);
-        chessBoard = new DrawableBoard(this);
+        chessBoard = new DrawableBoard();
+        moveDispatcher = new MoveDispatcher(chessBoard,this);
     }
 
     @Override
@@ -77,7 +83,7 @@ public class BoardContainerView extends View implements View.OnTouchListener {
             int row = (yCoord - padding) / squareSize;
             int col = (xCoord - padding) / squareSize;
 
-            chessBoard.squareClickedAt(row, col);
+            moveDispatcher.squareClickedAt(row, col);
             invalidate();
         }
 
@@ -85,8 +91,14 @@ public class BoardContainerView extends View implements View.OnTouchListener {
     }
 
     public void setCurrentPuzzle(ChessPuzzle puzzle){
-        chessBoard.setPosition(puzzle.fen);
+        initializeFontIfNeeded();
+        chessBoard.setPosition(typeface,puzzle.fen);
         invalidate();
+    }
+
+    private void initializeFontIfNeeded() {
+        if(typeface == null)
+            typeface = FontLoader.loadDefaultFont(getContext());
     }
 
     public void moveDetected(String source, String dest){
@@ -96,5 +108,6 @@ public class BoardContainerView extends View implements View.OnTouchListener {
 
     public void undoMove(){
         chessBoard.undoMove();
+        invalidate();
     }
 }

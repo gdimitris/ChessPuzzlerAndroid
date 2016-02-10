@@ -17,24 +17,25 @@ import dimitris.android.chessviews.Pieces.WhitePieceFactory;
 
 public class DrawableBoard extends Drawable{
 
-    private BoardContainerView parentView;
+    //private BoardContainerView parentView;
     private int squareSize;
     private Paint boardPaint;
     private List<Piece> alivePieces;
-    private Square lastSelectedSquare;
     private Square[][] board;
     private SquareHighlighter squareHighlighter;
     private List<UIMove> playedMoves;
 
-    public DrawableBoard(BoardContainerView parentView) {
+    public DrawableBoard() {
         super();
-        this.parentView = parentView;
         squareSize = 80;
         boardPaint = BoardPaintCreator.createPaintWithSquareSize(squareSize);
-        lastSelectedSquare = null;
         squareHighlighter = new SquareHighlighter(getRectForSquareAt(0,0));
         alivePieces = new ArrayList<>();
         playedMoves = new ArrayList<>();
+        initialiseBoard();
+    }
+
+    private void initialiseBoard() {
         board = new Square[8][8];
 
         for(int i=0;i<8;i++)
@@ -42,17 +43,16 @@ public class DrawableBoard extends Drawable{
                 board[i][j] = new Square(i,j);
     }
 
-    public void setPosition(String FEN){
+    public void setPosition(Typeface typeface,String FEN){
             clearBoard();
-            Typeface typeface = FontLoader.loadDefaultFont(parentView.getContext());
             WhitePieceFactory whiteFactory = new WhitePieceFactory(typeface, squareSize);
             BlackPieceFactory blackPieceFactory = new BlackPieceFactory(typeface, squareSize);
             FenParser parser = new FenParser(whiteFactory, blackPieceFactory,squareSize);
             alivePieces = parser.parse(FEN);
-            populateBoardWithAlive();
+            populateBoardWithAlivePieces();
     }
 
-    private void populateBoardWithAlive() {
+    private void populateBoardWithAlivePieces() {
         for(Piece p : alivePieces){
             int row = p.getRow();
             int col = p.getCol();
@@ -97,26 +97,7 @@ public class DrawableBoard extends Drawable{
         UIMove move = playedMoves.remove(lastIndex);
         move.undo();
         addInAlive(move.getCapturedPiece());
-    }
-
-    public void squareClickedAt(int row, int col) {
-        Square selectedSquare = board[row][col];
-
-        if (lastSelectedSquare == null) {
-            selectSquareIfNotEmpty(row,col);
-        } else if (selectedSquare.equals(lastSelectedSquare)) {
-            clearSelection();
-        } else {
-            dispatchMove(lastSelectedSquare, selectedSquare);
-            clearSelection();
-        }
-    }
-
-    private void dispatchMove(Square src, Square dest) {
-        UIMove move = new UIMove(src,dest);
-        doMove(move);
-
-        parentView.moveDetected(src.getName(),dest.getName());
+        clearLastSelectedSquare();
     }
 
     public int getSquareSize(){
@@ -128,9 +109,7 @@ public class DrawableBoard extends Drawable{
     }
 
     private void drawSelectedSquare(Canvas canvas){
-        if (lastSelectedSquare != null){
-            squareHighlighter.draw(canvas);
-        }
+        squareHighlighter.draw(canvas);
     }
 
     private void drawAlivePieces(Canvas canvas) {
@@ -144,29 +123,18 @@ public class DrawableBoard extends Drawable{
         //Log.e("drawBoard", "Drawing Board with left:"+bounds.left+" top:"+bounds.top+" right:"+bounds.right+" bottom:"+bounds.bottom);
     }
 
-    private void selectSquareIfNotEmpty(int row, int col) {
-        Square selectedSquare = board[row][col];
-        if (!squareIsEmpty(selectedSquare)) {
-            lastSelectedSquare = selectedSquare;
-            squareHighlighter.setSquare(lastSelectedSquare);
-        }
-    }
 
-    private void clearSelection(){
-        lastSelectedSquare = null;
-    }
-
-    private boolean squareIsEmpty(Square squareToCheck) {
+    public boolean squareIsEmpty(Square squareToCheck) {
         return squareToCheck.getPiece() == null;
     }
 
     private void clearBoard(){
         if(alivePieces!= null)
             alivePieces.clear();
-        clearSelection();
         for(int i=0;i<8;i++)
             for(int j=0;j<8;j++)
                 board[i][j].clear();
+        clearLastSelectedSquare();
     }
 
     private Rect getRectForSquareAt(int row, int col) {
@@ -193,6 +161,10 @@ public class DrawableBoard extends Drawable{
         return board[row][column];
     }
 
+    public Square getSquareAt(int row, int col){
+        return board[row][col];
+    }
+
     @Override
     public void setAlpha(int alpha) {}
 
@@ -202,4 +174,11 @@ public class DrawableBoard extends Drawable{
     @Override
     public int getOpacity() { return 0; }
 
+    public void selectSquare(int row, int col) {
+        squareHighlighter.setSquare(board[row][col]);
+    }
+
+    public void clearLastSelectedSquare(){
+        squareHighlighter.setSquare(null);
+    }
 }
