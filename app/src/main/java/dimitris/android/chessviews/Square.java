@@ -37,8 +37,8 @@ public class Square {
     public void setPiece(Piece piece){
         if(piece!= null) {
             piece.setPositionCoords(row, col);
-            this.piece = piece;
         }
+        this.piece = piece;
     }
 
     public void setSize(int size){
