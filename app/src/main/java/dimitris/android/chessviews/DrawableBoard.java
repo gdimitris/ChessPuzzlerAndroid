@@ -17,7 +17,6 @@ import dimitris.android.chessviews.Pieces.WhitePieceFactory;
 
 public class DrawableBoard extends Drawable{
 
-    //private BoardContainerView parentView;
     private int squareSize;
     private Paint boardPaint;
     private List<Piece> alivePieces;
@@ -78,10 +77,11 @@ public class DrawableBoard extends Drawable{
 
     @Override
     public void draw(Canvas canvas) {
+        drawBoard(canvas);
+
         if (noPiecesExist())
             return;
 
-        drawBoard(canvas);
         drawSelectedSquare(canvas);
         drawAlivePieces(canvas);
     }

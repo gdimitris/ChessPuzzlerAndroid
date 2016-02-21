@@ -2,23 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
     <fragment
         android:id="@+id/board_fragment"
         android:name="dimitris.android.app.BoardFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         tools:layout="@layout/board_fragment_layout"
-        android:tag="board"/>
+        android:tag="board"
+        android:layout_weight="1" />
 
     <fragment
         android:id="@+id/buttons_fragment"
         android:name="dimitris.android.app.ButtonsFragment"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:layout="@layout/buttons_fragment_layout"
-        android:tag="buttons"/>
+        android:tag="buttons"
+        android:layout_weight="1"/>
 
 </LinearLayout>
