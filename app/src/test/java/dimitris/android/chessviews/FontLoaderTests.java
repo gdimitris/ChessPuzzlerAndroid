@@ -37,7 +37,7 @@ public class FontLoaderTests {
 
     @Test
     public void testChessCasesFontLoads(){
-        Typeface typeface = FontLoader.loadFont(context,"Chesscases.ttf");
+        Typeface typeface = FontLoader.loadFont(context,"ChessCases.ttf");
         Assert.assertNotNull(typeface);
     }
 
