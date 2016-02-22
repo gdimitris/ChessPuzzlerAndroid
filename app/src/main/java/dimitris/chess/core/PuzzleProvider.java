@@ -5,5 +5,6 @@ package dimitris.chess.core;
  */
 public interface PuzzleProvider {
 
-    ChessPuzzle getNextPuzzle();
+    void setPuzzleReceiver(PuzzleReceiver receiver);
+    void requestNextPuzzle();
 }

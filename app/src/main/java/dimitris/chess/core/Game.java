@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by dimitris on 1/1/16.
  */
-public class Game implements GameEventsDispatcher {
+public class Game implements GameEventsDispatcher, PuzzleReceiver{
 
     private PuzzleProvider puzzleProvider;
     private List<Move> playedMoves;
@@ -17,6 +17,7 @@ public class Game implements GameEventsDispatcher {
 
     public Game(PuzzleProvider puzzleProvider) {
         this.puzzleProvider = puzzleProvider;
+        this.puzzleProvider.setPuzzleReceiver(this);
         eventsListeners = new ArrayList<>();
         playedMoves = new ArrayList<>();
         board = new Bitboard();
@@ -25,9 +26,7 @@ public class Game implements GameEventsDispatcher {
 
     public void start(){
         playedMoves.clear();
-        currentPuzzle = puzzleProvider.getNextPuzzle();
-        board.setPosition(currentPuzzle.fen);
-        gameStarted();
+        puzzleProvider.requestNextPuzzle();
     }
 
     public ChessPuzzle getCurrentPuzzle(){
@@ -107,4 +106,10 @@ public class Game implements GameEventsDispatcher {
             listener.onMoveUndo(toUndo);
     }
 
+    @Override
+    public void onPuzzleReady(ChessPuzzle puzzle) {
+        currentPuzzle = puzzle;
+        board.setPosition(currentPuzzle.fen);
+        gameStarted();
+    }
 }

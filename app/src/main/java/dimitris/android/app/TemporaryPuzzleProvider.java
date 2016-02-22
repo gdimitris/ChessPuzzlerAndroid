@@ -6,6 +6,7 @@ import java.util.Random;
 
 import dimitris.chess.core.ChessPuzzle;
 import dimitris.chess.core.PuzzleProvider;
+import dimitris.chess.core.PuzzleReceiver;
 
 /**
  * Created by dimitris on 1/15/16.
@@ -13,6 +14,7 @@ import dimitris.chess.core.PuzzleProvider;
 public class TemporaryPuzzleProvider implements PuzzleProvider {
     private List<ChessPuzzle> puzzleList;
     private Random random;
+    private PuzzleReceiver puzzleReceiver;
 
     public TemporaryPuzzleProvider(){
         this.puzzleList = new ArrayList<>();
@@ -22,9 +24,14 @@ public class TemporaryPuzzleProvider implements PuzzleProvider {
     }
 
     @Override
-    public ChessPuzzle getNextPuzzle() {
+    public void setPuzzleReceiver(PuzzleReceiver receiver) {
+        this.puzzleReceiver = receiver;
+    }
+
+    @Override
+    public void requestNextPuzzle() {
         int index = random.nextInt(puzzleList.size());
-        return puzzleList.get(index);
+        puzzleReceiver.onPuzzleReady(puzzleList.get(index));
     }
 
     private void initializePuzzles(){

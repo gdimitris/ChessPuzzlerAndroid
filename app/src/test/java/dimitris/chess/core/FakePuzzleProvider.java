@@ -5,13 +5,19 @@ package dimitris.chess.core;
  */
 public class FakePuzzleProvider implements PuzzleProvider {
     private ChessPuzzle puzzle;
+    private PuzzleReceiver receiver;
 
     public FakePuzzleProvider(ChessPuzzle puzzle){
         this.puzzle = puzzle;
     }
 
     @Override
-    public ChessPuzzle getNextPuzzle() {
-        return puzzle;
+    public void setPuzzleReceiver(PuzzleReceiver receiver) {
+        this.receiver = receiver;
+    }
+
+    @Override
+    public void requestNextPuzzle() {
+        receiver.onPuzzleReady(puzzle);
     }
 }

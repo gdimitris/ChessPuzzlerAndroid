@@ -22,6 +22,7 @@ public class GameTests {
         puzzle = new ChessPuzzle(testFen, testSolution);
         puzzleProvider = new FakePuzzleProvider(puzzle);
         game = new Game(puzzleProvider);
+
     }
 
     @Test
