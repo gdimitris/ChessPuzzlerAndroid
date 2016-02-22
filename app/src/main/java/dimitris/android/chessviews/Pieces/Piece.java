@@ -30,9 +30,7 @@ public abstract class Piece extends Drawable {
         int y = (currentPositionRow + 1) * drawSize;
 
         canvas.drawText(whiteLayerLetter, x, y, whitePaint);
-        //Log.e("PieceWhiteLayer","Drawing letter '" + whiteLayerLetter + "' at x:" + x + " y:"+ y +" and drawSize: "+drawSize);
         canvas.drawText(blackLayerLetter, x, y, blackPaint);
-        //Log.e("PieceBlackLayer","Drawing letter '" + blackLayerLetter + "' at x:" + x + " y:"+ y +" and drawSize: "+drawSize);
     }
 
     public void setWhiteLayerLetter(String layerLetter){
@@ -54,10 +52,10 @@ public abstract class Piece extends Drawable {
     }
 
     public void setSize(int size){
-        //Log.e("setSize","Changing size from " + drawSize + " to "+size);
         drawSize = size;
         positionRect.set(currentPositionColumn * size, currentPositionRow * size, (currentPositionColumn + 1) * size, (currentPositionRow + 1) * size);
-        //Log.e("setSize", "Position rect is :" +positionRect.toString());
+        whitePaint.setTextSize(size);
+        blackPaint.setTextSize(size);
     }
 
     public int getRow(){

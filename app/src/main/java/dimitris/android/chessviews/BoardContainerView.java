@@ -49,9 +49,7 @@ public class BoardContainerView extends View implements View.OnTouchListener {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int totalWidth = getMeasuredWidth();
-        int totalHeight = getMeasuredHeight();
-        int min = Math.min(totalWidth,totalHeight);
+        int min = Math.min(getMeasuredWidth(),getMeasuredHeight());
 
         setMeasuredDimension(min,min);
     }

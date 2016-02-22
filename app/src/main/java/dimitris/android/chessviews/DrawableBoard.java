@@ -44,8 +44,8 @@ public class DrawableBoard extends Drawable{
 
     public void setPosition(Typeface typeface,String FEN){
             clearBoard();
-            WhitePieceFactory whiteFactory = new WhitePieceFactory(typeface, squareSize);
-            BlackPieceFactory blackPieceFactory = new BlackPieceFactory(typeface, squareSize);
+            WhitePieceFactory whiteFactory = new WhitePieceFactory(typeface,squareSize);
+            BlackPieceFactory blackPieceFactory = new BlackPieceFactory(typeface,squareSize);
             FenParser parser = new FenParser(whiteFactory, blackPieceFactory,squareSize);
             alivePieces = parser.parse(FEN);
             populateBoardWithAlivePieces();
@@ -120,7 +120,6 @@ public class DrawableBoard extends Drawable{
     private void drawBoard(Canvas canvas) {
         Rect bounds = getBounds();
         canvas.drawRect(bounds.left,bounds.top,bounds.right,bounds.bottom,boardPaint);
-        //Log.e("drawBoard", "Drawing Board with left:"+bounds.left+" top:"+bounds.top+" right:"+bounds.right+" bottom:"+bounds.bottom);
     }
 
 

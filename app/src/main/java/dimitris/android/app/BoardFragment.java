@@ -20,9 +20,9 @@ public class BoardFragment extends Fragment {
     private MovesCallBack callBack;
 
     public interface MovesCallBack {
-
         void onMoveDetected(String source, String dest);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.board_fragment_layout,container,false);
@@ -40,7 +40,7 @@ public class BoardFragment extends Fragment {
         }
     }
 
-    public void undoMove(){
+    public void undoMove() {
         drawableBoard.undoMove();
     }
 
