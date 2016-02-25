@@ -7,18 +7,20 @@ import android.widget.Toast;
 
 import com.example.dimitris.chesspuzzler.R;
 
+import dimitris.chess.core.ChessPuzzle;
 import dimitris.chess.core.Game;
-import dimitris.chess.core.GameEventsListener;
+import dimitris.chess.core.Move;
+import dimitris.chess.core.PuzzleGameEventsListener;
 import dimitris.chess.core.PuzzleProvider;
 
 /**
  * Created by dimitris on 1/15/16.
  */
-public class MainActivity extends Activity implements GameEventsListener, BoardFragment.MovesCallBack, ButtonsFragment.NewPuzzleCallback {
+public class MainActivity extends Activity implements PuzzleGameEventsListener, BoardFragment.MovesCallBack, PuzzleComponentsFragment.GameEventsHandler {
     private Game game;
     private PuzzleProvider puzzleProvider;
     private BoardFragment boardFragment;
-    private ButtonsFragment buttonsFragment;
+    private PuzzleComponentsFragment puzzleComponentsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +33,8 @@ public class MainActivity extends Activity implements GameEventsListener, BoardF
         this.game = new Game(puzzleProvider);
         game.registerGameEventsListener(this);
         boardFragment = (BoardFragment) getFragmentManager().findFragmentById(R.id.board_fragment);
-        buttonsFragment = (ButtonsFragment) getFragmentManager().findFragmentById(R.id.buttons_fragment);
+        puzzleComponentsFragment = (PuzzleComponentsFragment) getFragmentManager().findFragmentById(R.id.buttons_fragment);
     }
-
 
     @Override
     public void onAttachedToWindow() {
@@ -47,31 +48,44 @@ public class MainActivity extends Activity implements GameEventsListener, BoardF
     }
 
     @Override
-    public void onMoveDo(dimitris.chess.core.Move move) {
-        //Toast.makeText(this,game.printPlayedMoves(),Toast.LENGTH_SHORT).show();
+    public void onMoveDo(Move move) {
+        Toast.makeText(this,game.printPlayedMoves(),Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onMoveUndo(dimitris.chess.core.Move move) {
+    public void onMoveUndo(Move move) {
         Toast.makeText(this,"Move is not correct", Toast.LENGTH_SHORT).show();
         boardFragment.undoMove();
     }
 
     @Override
-    public void onGameStart() {
+    public void onPuzzleGameStart(ChessPuzzle puzzle) {
         //Toast.makeText(this, "Game Started", Toast.LENGTH_SHORT).show();
+        puzzleComponentsFragment.initialise();
+        puzzleComponentsFragment.setPuzzleSolution(puzzle.solution);
     }
 
     @Override
-    public void onGameEnd() {
+    public void onPuzzleGameSolved() {
         Toast.makeText(this, "Congrats! you solved it!", Toast.LENGTH_SHORT).show();
-        buttonsFragment.enableNextPosButton();
+        puzzleComponentsFragment.enableNextPosButton();
+    }
+
+    @Override
+    public void onPuzzleGameQuit() {
+        puzzleComponentsFragment.showSolutionForPuzzle();
+        puzzleComponentsFragment.enableNextPosButton();
     }
 
     @Override
     public void initNewGame() {
         game.start();
         boardFragment.setCurrentPuzzle(game.getCurrentPuzzle());
-        buttonsFragment.disableNextPosButton();
+        puzzleComponentsFragment.disableNextPosButton();
+    }
+
+    @Override
+    public void quitGame() {
+        game.quitGame();
     }
 }

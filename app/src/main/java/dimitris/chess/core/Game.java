@@ -13,7 +13,8 @@ public class Game implements GameEventsDispatcher, PuzzleReceiver{
     private ChessPuzzle currentPuzzle;
     private Board board;
     private MoveFactory moveFactory;
-    private List<GameEventsListener> eventsListeners;
+    private List<PuzzleGameEventsListener> eventsListeners;
+    private boolean hasQuit;
 
     public Game(PuzzleProvider puzzleProvider) {
         this.puzzleProvider = puzzleProvider;
@@ -25,6 +26,7 @@ public class Game implements GameEventsDispatcher, PuzzleReceiver{
     }
 
     public void start(){
+        hasQuit = false;
         playedMoves.clear();
         puzzleProvider.requestNextPuzzle();
     }
@@ -34,6 +36,9 @@ public class Game implements GameEventsDispatcher, PuzzleReceiver{
     }
 
     public void doMove(String sourceSquare, String destinationSquare){
+        if (hasQuit)
+            return;
+
         Move toPlay = moveFactory.createMove(sourceSquare,destinationSquare);
         playedMoves.add(toPlay);
         board.doMove(toPlay);
@@ -48,6 +53,9 @@ public class Game implements GameEventsDispatcher, PuzzleReceiver{
     }
 
     public void undoMove(){
+        if (hasQuit)
+            return;
+
         Move toUndo = playedMoves.remove(playedMoves.size()-1);
         board.undoMove(toUndo);
         moveUndone(toUndo);
@@ -73,8 +81,14 @@ public class Game implements GameEventsDispatcher, PuzzleReceiver{
     }
 
     private void puzzleSolved(){
-        for(GameEventsListener listener : eventsListeners)
-            listener.onGameEnd();
+        for(PuzzleGameEventsListener listener : eventsListeners)
+            listener.onPuzzleGameSolved();
+    }
+
+    public void quitGame(){
+        hasQuit = true;
+        for (PuzzleGameEventsListener listener : eventsListeners)
+            listener.onPuzzleGameQuit();
     }
 
     public String printPlayedMoves(){
@@ -82,27 +96,27 @@ public class Game implements GameEventsDispatcher, PuzzleReceiver{
     }
 
     @Override
-    public void registerGameEventsListener(GameEventsListener toRegister) {
+    public void registerGameEventsListener(PuzzleGameEventsListener toRegister) {
         eventsListeners.add(toRegister);
     }
 
     @Override
-    public void removeGameEventsListener(GameEventsListener toRemove) {
+    public void removeGameEventsListener(PuzzleGameEventsListener toRemove) {
         eventsListeners.remove(toRemove);
     }
 
-    private void gameStarted() {
-        for(GameEventsListener listener : eventsListeners)
-            listener.onGameStart();
+    private void puzzleGameStarted(ChessPuzzle puzzle) {
+        for(PuzzleGameEventsListener listener : eventsListeners)
+            listener.onPuzzleGameStart(puzzle);
     }
 
     private void moveDone(Move toPlay) {
-        for(GameEventsListener listener : eventsListeners)
+        for(PuzzleGameEventsListener listener : eventsListeners)
             listener.onMoveDo(toPlay);
     }
 
     private void moveUndone(Move toUndo) {
-        for(GameEventsListener listener : eventsListeners)
+        for(PuzzleGameEventsListener listener : eventsListeners)
             listener.onMoveUndo(toUndo);
     }
 
@@ -110,6 +124,6 @@ public class Game implements GameEventsDispatcher, PuzzleReceiver{
     public void onPuzzleReady(ChessPuzzle puzzle) {
         currentPuzzle = puzzle;
         board.setPosition(currentPuzzle.fen);
-        gameStarted();
+        puzzleGameStarted(puzzle);
     }
 }

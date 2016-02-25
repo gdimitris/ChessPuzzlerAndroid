@@ -2,40 +2,87 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation = "horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="Next Puzzle"
+            android:id="@+id/nextPuzzleButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="+"
+            android:id="@+id/increaseSize"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="-"
+            android:id="@+id/decreaseSize"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:text="Change position"
-        android:id="@+id/changePositionButton"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.25"
-        android:visibility="gone" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation = "horizontal">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:text="Next Puzzle"
-        android:id="@+id/nextPuzzleButton"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.25" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Toggle Annotations"
+            android:id="@+id/toggleAnnotations"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:text="+"
-        android:id="@+id/increaseSize"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.25" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/flipBoard"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:text="Flip Board"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:text="-"
-        android:id="@+id/decreaseSize"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.25" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Show Solution"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:id="@+id/showSolution"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Test text ikjnsdfnadfssdfa"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:id="@+id/solutionText"/>
+
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

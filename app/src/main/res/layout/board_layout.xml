@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/buttons_fragment"
-        android:name="dimitris.android.app.ButtonsFragment"
+        android:name="dimitris.android.app.PuzzleComponentsFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout="@layout/buttons_fragment_layout"

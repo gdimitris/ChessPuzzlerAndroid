@@ -41,6 +41,7 @@ public class TemporaryPuzzleProvider implements PuzzleProvider {
         ChessPuzzle puzzle4 = new ChessPuzzle("1r1kr3/Nbppn1pp/1b6/8/6Q1/3B1P2/Pq3P1P/3RR1K1 w - - 1 0","1. Qxd7+ Kxd7 2. Bb5# ");
         ChessPuzzle puzzle5 = new ChessPuzzle("5rk1/1p1q2bp/p2pN1p1/2pP2Bn/2P3P1/1P6/P4QKP/5R2 w - - 1 0","1. Qxf8+ Bxf8 2. Rxf8# ");
         ChessPuzzle puzzle6 = new ChessPuzzle("r1nk3r/2b2ppp/p3b3/3NN3/Q2P3q/B2B4/P4PPP/4R1K1 w - - 1 0","1. Qd7+ Bxd7 2. Nxf7# ");
+        ChessPuzzle puzzle7 = new ChessPuzzle("6k1/pp4p1/2p5/2bp4/8/P5Pb/1P3rrP/2BRRN1K b - - 0 1", "1... Rg1+ 2. Kxg1 Rxf1#");
 
         puzzleList.add(puzzle1);
         puzzleList.add(puzzle2);
@@ -48,5 +49,6 @@ public class TemporaryPuzzleProvider implements PuzzleProvider {
         puzzleList.add(puzzle4);
         puzzleList.add(puzzle5);
         puzzleList.add(puzzle6);
+        puzzleList.add(puzzle7);
     }
 }
