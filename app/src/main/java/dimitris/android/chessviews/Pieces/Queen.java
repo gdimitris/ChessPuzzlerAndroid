@@ -8,8 +8,4 @@ public class Queen extends Piece {
         super(whitePaint, blackPaint);
     }
 
-    @Override
-    public String toString() {
-        return "Q";
-    }
 }

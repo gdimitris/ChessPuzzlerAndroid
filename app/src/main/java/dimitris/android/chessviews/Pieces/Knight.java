@@ -8,8 +8,4 @@ public class Knight extends Piece {
         super(whitePaint, blackPaint);
     }
 
-    @Override
-    public String toString() {
-        return "N";
-    }
 }

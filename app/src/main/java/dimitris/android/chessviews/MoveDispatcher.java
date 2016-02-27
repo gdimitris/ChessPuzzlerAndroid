@@ -15,10 +15,6 @@ public class MoveDispatcher {
         this.parentView = parentView;
     }
 
-    public void reinitialize(){
-        clearSelection();
-    }
-
     public void squareClickedAt(int row, int col) {
         Square selectedSquare = board.getSquareAt(row,col);
 

@@ -9,8 +9,5 @@ public class King extends Piece {
         super(whitePaint, blackPaint);
     }
 
-    @Override
-    public String toString() {
-        return "K";
-    }
+
 }

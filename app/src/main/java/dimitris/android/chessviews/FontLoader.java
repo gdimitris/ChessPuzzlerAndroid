@@ -2,7 +2,6 @@ package dimitris.android.chessviews;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 
 public class FontLoader {
     public static final String FONT_DIRECTORY = "Fonts/";
@@ -18,8 +17,6 @@ public class FontLoader {
 
     private static Typeface load(Context context, String filename) {
         Typeface fontToLoad = Typeface.createFromAsset(context.getAssets(), FONT_DIRECTORY + filename);
-        if (fontToLoad == null)
-            Log.e("Font Loader", "Font" + filename + " not found");
         return fontToLoad;
     }
 }

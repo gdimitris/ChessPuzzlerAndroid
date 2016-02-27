@@ -85,7 +85,7 @@ public class Game implements GameEventsDispatcher, PuzzleReceiver{
             listener.onPuzzleGameSolved();
     }
 
-    public void quitGame(){
+    public void quit(){
         hasQuit = true;
         for (PuzzleGameEventsListener listener : eventsListeners)
             listener.onPuzzleGameQuit();

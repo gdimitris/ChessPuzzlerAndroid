@@ -21,21 +21,21 @@ public class BoardContainerView extends View implements View.OnTouchListener {
     public BoardContainerView(Context context) {
         super(context);
         setOnTouchListener(this);
-        chessBoard = new DrawableBoard();
+        chessBoard = new DrawableBoard(context);
         moveDispatcher = new MoveDispatcher(chessBoard,this);
     }
 
     public BoardContainerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnTouchListener(this);
-        chessBoard = new DrawableBoard();
+        chessBoard = new DrawableBoard(context);
         moveDispatcher = new MoveDispatcher(chessBoard,this);
     }
 
     public BoardContainerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setOnTouchListener(this);
-        chessBoard = new DrawableBoard();
+        chessBoard = new DrawableBoard(context);
         moveDispatcher = new MoveDispatcher(chessBoard,this);
     }
 
@@ -91,7 +91,7 @@ public class BoardContainerView extends View implements View.OnTouchListener {
 
     public void setCurrentPuzzle(ChessPuzzle puzzle){
         initializeFontIfNeeded();
-        chessBoard.setPosition(typeface,puzzle.fen);
+        chessBoard.setPosition(puzzle.fen);
         invalidate();
     }
 

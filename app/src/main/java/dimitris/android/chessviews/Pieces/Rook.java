@@ -8,8 +8,4 @@ public class Rook extends Piece {
         super(whitePaint, blackPaint);
     }
 
-    @Override
-    public String toString() {
-        return "R";
-    }
 }

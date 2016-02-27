@@ -21,19 +21,22 @@ public class BoardPaintCreator {
         paintDarkSquaresInCanvas(squareSize, canvas, getFillPaintWithColor(darkSquareColor));
 
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
         paint.setShader(new BitmapShader(bitmap, BitmapShader.TileMode.REPEAT, BitmapShader.TileMode.REPEAT));
         return paint;
     }
 
-    private static Paint getFillPaintWithColor(int lightSquareColor) {
+    private static Paint getFillPaintWithColor(int squareColor) {
         Paint fillColor = new Paint(Paint.ANTI_ALIAS_FLAG);
+
         fillColor.setStyle(Paint.Style.FILL);
-        fillColor.setColor(lightSquareColor);
+        fillColor.setColor(squareColor);
         return fillColor;
     }
 
     private static void paintLightSquaresInCanvas(int squareSize, Canvas canvas, Paint fillColor) {
         Rect rect = new Rect(0, 0, squareSize, squareSize);
+
         canvas.drawRect(rect, fillColor);
         rect.offset(squareSize, squareSize);
         canvas.drawRect(rect, fillColor);
@@ -41,6 +44,7 @@ public class BoardPaintCreator {
 
     private static void paintDarkSquaresInCanvas(int squareSize, Canvas canvas, Paint fillColor){
         Rect rect = new Rect(0,0, squareSize, squareSize);
+
         rect.offset(squareSize,0);
         canvas.drawRect(rect, fillColor);
         rect.offset(-squareSize, squareSize);

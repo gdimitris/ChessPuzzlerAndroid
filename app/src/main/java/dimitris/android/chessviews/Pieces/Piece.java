@@ -1,13 +1,11 @@
 package dimitris.android.chessviews.Pieces;
 
 import android.graphics.Canvas;
-import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 
 
-public abstract class Piece extends Drawable {
+public abstract class Piece {
 
     private final Paint whitePaint;
     private final Paint blackPaint;
@@ -24,7 +22,6 @@ public abstract class Piece extends Drawable {
         this.positionRect = new Rect();
     }
 
-    @Override
     public void draw(Canvas canvas) {
         int x = currentPositionColumn * drawSize;
         int y = (currentPositionRow + 1) * drawSize;
@@ -47,15 +44,15 @@ public abstract class Piece extends Drawable {
         positionRect.set(currentPositionColumn * drawSize, currentPositionRow * drawSize, (currentPositionColumn + 1) * drawSize, (currentPositionRow + 1) * drawSize);
     }
 
-    public Rect getPositionRect(){
-        return positionRect;
-    }
-
     public void setSize(int size){
         drawSize = size;
         positionRect.set(currentPositionColumn * size, currentPositionRow * size, (currentPositionColumn + 1) * size, (currentPositionRow + 1) * size);
         whitePaint.setTextSize(size);
         blackPaint.setTextSize(size);
+    }
+
+    public int getDrawSize(){
+        return drawSize;
     }
 
     public int getRow(){
@@ -66,18 +63,4 @@ public abstract class Piece extends Drawable {
         return currentPositionColumn;
     }
 
-    public abstract String toString();
-
-    @Override
-    public int getOpacity() {
-        return 0;
-    }
-
-    @Override
-    public void setColorFilter(ColorFilter cf) {
-    }
-
-    @Override
-    public void setAlpha(int alpha) {
-    }
 }

@@ -86,6 +86,6 @@ public class MainActivity extends Activity implements PuzzleGameEventsListener, 
 
     @Override
     public void quitGame() {
-        game.quitGame();
+        game.quit();
     }
 }

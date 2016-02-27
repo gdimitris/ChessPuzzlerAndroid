@@ -41,4 +41,9 @@ public class FontLoaderTests {
         Assert.assertNotNull(typeface);
     }
 
+    @Test(expected = RuntimeException.class)
+    public void testInvalidFontNameThrows(){
+        Typeface typeface = FontLoader.loadFont(context, "invalid.file");
+    }
+
 }

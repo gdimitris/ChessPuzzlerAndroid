@@ -6,9 +6,4 @@ public class Pawn extends Piece {
     public Pawn(Paint whitePaint, Paint blackPaint) {
         super(whitePaint, blackPaint);
     }
-
-    @Override
-    public String toString() {
-        return "";
-    }
 }

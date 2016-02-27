@@ -30,4 +30,5 @@ public class BishopTests {
     public void testSANString() throws Exception {
         assertEquals("B", whiteBishop.getSANString());
     }
+
 }

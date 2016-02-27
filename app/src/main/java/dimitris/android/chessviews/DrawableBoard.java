@@ -1,5 +1,6 @@
 package dimitris.android.chessviews;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
@@ -23,9 +24,11 @@ public class DrawableBoard extends Drawable{
     private Square[][] board;
     private SquareHighlighter squareHighlighter;
     private List<UIMove> playedMoves;
+    private Context context;
 
-    public DrawableBoard() {
+    public DrawableBoard(Context context) {
         super();
+        this.context = context;
         squareSize = 80;
         boardPaint = BoardPaintCreator.createPaintWithSquareSize(squareSize);
         squareHighlighter = new SquareHighlighter(getRectForSquareAt(0,0));
@@ -42,13 +45,18 @@ public class DrawableBoard extends Drawable{
                 board[i][j] = new Square(i,j);
     }
 
-    public void setPosition(Typeface typeface,String FEN){
-            clearBoard();
-            WhitePieceFactory whiteFactory = new WhitePieceFactory(typeface,squareSize);
-            BlackPieceFactory blackPieceFactory = new BlackPieceFactory(typeface,squareSize);
-            FenParser parser = new FenParser(whiteFactory, blackPieceFactory,squareSize);
-            alivePieces = parser.parse(FEN);
-            populateBoardWithAlivePieces();
+    public void setPosition(String FEN){
+        clearBoard();
+        Typeface typeface = FontLoader.loadDefaultFont(context);
+        FenParser parser = getFenParser(typeface);
+        alivePieces = parser.parse(FEN);
+        populateBoardWithAlivePieces();
+    }
+
+    private FenParser getFenParser(Typeface typeface) {
+        WhitePieceFactory whiteFactory = new WhitePieceFactory(typeface,squareSize);
+        BlackPieceFactory blackPieceFactory = new BlackPieceFactory(typeface,squareSize);
+        return new FenParser(whiteFactory, blackPieceFactory,squareSize);
     }
 
     private void populateBoardWithAlivePieces() {
@@ -79,7 +87,7 @@ public class DrawableBoard extends Drawable{
     public void draw(Canvas canvas) {
         drawBoard(canvas);
 
-        if (noPiecesExist())
+        if (boardIsEmpty())
             return;
 
         drawSelectedSquare(canvas);
@@ -104,7 +112,7 @@ public class DrawableBoard extends Drawable{
         return squareSize;
     }
 
-    private boolean noPiecesExist() {
+    public boolean boardIsEmpty() {
         return alivePieces == null || alivePieces.isEmpty();
     }
 
@@ -121,7 +129,6 @@ public class DrawableBoard extends Drawable{
         Rect bounds = getBounds();
         canvas.drawRect(bounds.left,bounds.top,bounds.right,bounds.bottom,boardPaint);
     }
-
 
     public boolean squareIsEmpty(Square squareToCheck) {
         return squareToCheck.getPiece() == null;
@@ -140,28 +147,22 @@ public class DrawableBoard extends Drawable{
         return new Rect(col * squareSize, row * squareSize, (col + 1) * squareSize, (row + 1) * squareSize);
     }
 
-    public void removeFromAlive(Piece p){
+    private void removeFromAlive(Piece p){
         if(p!=null)
             alivePieces.remove(p);
     }
 
-    public void addInAlive(Piece p){
+    private void addInAlive(Piece p){
         if(p!=null)
             alivePieces.add(p);
     }
 
-    private Square getSquare(String square){
-        char squareColumn = square.charAt(0);
-        int squareRow = Integer.parseInt(String.valueOf(square.charAt(1)));
-
-        int row = 8 - squareRow;
-        int column = squareColumn - 'a';
-
-        return board[row][column];
-    }
-
     public Square getSquareAt(int row, int col){
         return board[row][col];
+    }
+
+    public List<UIMove> getPlayedMoves(){
+        return playedMoves;
     }
 
     @Override
