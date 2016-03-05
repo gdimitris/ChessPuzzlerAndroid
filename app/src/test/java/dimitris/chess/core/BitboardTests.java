@@ -6,8 +6,8 @@ import org.junit.Test;
 import dimitris.chess.core.Piece.PieceColor;
 import dimitris.chess.core.Piece.PieceType;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class BitboardTests {
 
@@ -19,6 +19,7 @@ public class BitboardTests {
     private Piece nullPiece;
     private Piece[] pieces;
     private MoveFactory moveFactory;
+    private String EXAMPLE_FEN = "r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0";
 
     @Before
     public void setUp(){
@@ -42,9 +43,14 @@ public class BitboardTests {
         }
     }
 
+    private void assertExpectedPieceAtSquare(Piece expectedPiece, String square) {
+        Piece actualPiece = bb.getPieceAtSquare(square);
+        assertTrue(expectedPiece.equals(actualPiece));
+    }
+
     @Test
     public void testRemovesPieces(){
-        bb.setPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
+        bb.setPosition(EXAMPLE_FEN);
         String squares[] = { "a1","a2", "b2", "c4", "d5", "d8", "e8", "f8"};
 
         for(int i=0; i<squares.length; i++){
@@ -53,10 +59,14 @@ public class BitboardTests {
         }
     }
 
+    private void assertSquareEmpty(String square) {
+        assertExpectedPieceAtSquare(nullPiece, square);
+    }
+
     //Expected values calculated from here: http://cinnamonchess.altervista.org/bitboard_calculator/Calc.html
     @Test
     public void test_getsAllWhitePieces(){
-        bb.setPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
+        bb.setPosition(EXAMPLE_FEN);
 
         UInt64 actual = bb.getAllWhitePieces();
         UInt64 expected = UInt64.create("101100000010100000010001110011110010001");
@@ -66,7 +76,7 @@ public class BitboardTests {
 
     @Test
     public void test_getsAllBlackPieces(){
-        bb.setPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
+        bb.setPosition(EXAMPLE_FEN);
 
         UInt64 actual = bb.getAllBlackPieces();
         UInt64 expected = UInt64.create("1011100111110011000010000000010000001000000000000000000000001000");
@@ -76,7 +86,7 @@ public class BitboardTests {
 
     @Test
     public void test_makesMoves(){
-        bb.setPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
+        bb.setPosition(EXAMPLE_FEN);
         Move move1 = moveFactory.createMove("c2","c3");
         Move move2 = moveFactory.createMove("d1","c2");
         Move move3 = moveFactory.createMove("e1", "f1");
@@ -91,9 +101,14 @@ public class BitboardTests {
         }
     }
 
+    private void assertMoveDone(Piece piece, Move move) {
+        assertExpectedPieceAtSquare(piece, move.destination);
+        assertSquareEmpty(move.source);
+    }
+
     @Test
     public void test_canUndoMove(){
-        bb.setPosition("r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
+        bb.setPosition(EXAMPLE_FEN);
         Move move1 = moveFactory.createMove("c2","c3");
         bb.doMove(move1);
         assertMoveDone(whitePawn,move1);
@@ -108,19 +123,5 @@ public class BitboardTests {
 
         Piece actualPiece = bb.getPieceAtSquare(move.source);
         assertEquals(movedPiece,actualPiece);
-    }
-
-    private void assertMoveDone(Piece piece, Move move) {
-        assertExpectedPieceAtSquare(piece, move.destination);
-        assertSquareEmpty(move.source);
-    }
-
-    private void assertSquareEmpty(String square) {
-        assertExpectedPieceAtSquare(nullPiece, square);
-    }
-
-    private void assertExpectedPieceAtSquare(Piece expectedPiece, String square) {
-        Piece actualPiece = bb.getPieceAtSquare(square);
-        assertTrue(expectedPiece.equals(actualPiece));
     }
 }

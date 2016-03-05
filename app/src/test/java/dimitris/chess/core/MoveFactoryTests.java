@@ -7,9 +7,9 @@ import static dimitris.chess.core.Piece.PieceColor.Black;
 import static dimitris.chess.core.Piece.PieceColor.White;
 import static dimitris.chess.core.Piece.PieceType.Knight;
 import static dimitris.chess.core.Piece.PieceType.Pawn;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by dimitris on 1/11/16.

@@ -6,8 +6,6 @@ import android.os.Build;
 
 import com.example.dimitris.chesspuzzler.BuildConfig;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +15,10 @@ import org.robolectric.annotation.Config;
 
 import dimitris.android.chessviews.Pieces.Piece;
 import dimitris.android.chessviews.Pieces.WhitePieceFactory;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by dimitris on 10/02/16.
@@ -47,22 +49,23 @@ public class UIMoveTests {
         move = new UIMove(src,dest);
     }
 
+
     @Test
     public void testDoMove(){
         move.execute();
-        Assert.assertTrue(move.isExecuted());
-        Assert.assertEquals(knight,move.getMovedPiece());
-        Assert.assertEquals(bishop, move.getCapturedPiece());
-        Assert.assertTrue(move.isCaptureMove());
+        assertTrue(move.isExecuted());
+        assertEquals(knight,move.getMovedPiece());
+        assertEquals(bishop, move.getCapturedPiece());
+        assertTrue(move.isCaptureMove());
     }
 
     @Test
     public void testUndoMove(){
         move.execute();
         move.undo();
-        Assert.assertFalse(move.isExecuted());
-        Assert.assertTrue(move.isCaptureMove());
-        Assert.assertEquals(knight, move.getMovedPiece());
-        Assert.assertEquals(bishop, move.getCapturedPiece());
+        assertFalse(move.isExecuted());
+        assertTrue(move.isCaptureMove());
+        assertEquals(knight, move.getMovedPiece());
+        assertEquals(bishop, move.getCapturedPiece());
     }
 }

@@ -6,8 +6,7 @@ import android.os.Build;
 
 import com.example.dimitris.chesspuzzler.BuildConfig;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -7,8 +7,6 @@ import android.os.Build;
 
 import com.example.dimitris.chesspuzzler.BuildConfig;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +16,10 @@ import org.robolectric.annotation.Config;
 
 import dimitris.android.chessviews.Pieces.Piece;
 import dimitris.android.chessviews.Pieces.WhitePieceFactory;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by dimitris on 10/02/16.
@@ -43,15 +45,15 @@ public class SquareTests {
     @Test
     public void testCorrectName(){
         square.getName();
-        Assert.assertEquals("c7",square.getName());
+        assertEquals("c7",square.getName());
     }
 
     @Test
     public void testClear(){
         square.setPiece(whiteKnight);
-        Assert.assertNotNull(square.getPiece());
+        assertNotNull(square.getPiece());
         square.clear();
-        Assert.assertNull(square.getPiece());
+        assertNull(square.getPiece());
     }
 
 
@@ -62,7 +64,7 @@ public class SquareTests {
         Rect expected = new Rect(squareCol * size, squareRow * size, (squareCol + 1) * size, (squareRow + 1) * size);
         Rect actual = square.getRect();
 
-        Assert.assertEquals(expected,actual);
+        assertEquals(expected,actual);
     }
 
 

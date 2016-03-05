@@ -60,7 +60,6 @@ public class DrawableBoardTests {
 
         Square square = drawableBoard.getSquareAt(0,4);
         assertPieceAtSquare(King.class,square);
-
         square = drawableBoard.getSquareAt(0,7);
         assertPieceAtSquare(Rook.class, square);
     }
