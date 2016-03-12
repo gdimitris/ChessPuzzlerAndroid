@@ -41,10 +41,10 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
     private String puzzleSolution;
 
     public interface GameEventsHandler {
-
         void initNewGame();
         void quitGame();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.buttons_fragment_layout,container,false);
@@ -93,7 +93,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
         if(v.getId()==R.id.nextPuzzleButton)
             gameEventsHandler.initNewGame();
         else if (v.getId() == R.id.toggleAnnotations)
-            queryForPuzzleWithID();
+            queryForExistingPuzzles();
         else if (v.getId() == R.id.showSolution)
             gameEventsHandler.quitGame();
         else
@@ -107,7 +107,6 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
     public void clearSolutionText(){
         solutionTextView.setText("");
     }
-
 
     public void enableNextPosButton() {
         nextPosButton.setEnabled(true);
@@ -123,7 +122,6 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
     }
 
     private void insertTestEntry(){
-
         ContentValues values = new ContentValues();
         values.put(COLUMN_DESCRIPTION, "Henry Buckle vs NN, London, 1840");
         values.put(COLUMN_FEN,"r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
@@ -136,30 +134,18 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
     private void queryForExistingPuzzles(){
         ContentResolver resolver = getActivity().getContentResolver();
         Cursor c = resolver.query(PuzzleContentProvider.CONTENT_URI,null,null,null,null);
-
-        if (c.moveToFirst()){
-            do{
-                String id = c.getString(PUZZLE_ID_COLUMN_NUM);
-                String description = c.getString(PUZZLE_DESCRIPTION_COLUMN_NUM);
-                String fen = c.getString(PUZZLE_FEN_COLUMN_NUM);
-                String solution = c.getString(PUZZLE_SOLUTION_COLUMN_NUM);
-
-                Log.e("Read Query", "Puzzle id: " + id);
-                Log.e("Read Query", "Description: " + description);
-                Log.e("Read Query", "Fen: "+fen);
-                Log.e("Read Query", "Solution: "+solution);
-
-            } while (c.moveToNext());
-        }
+        printPuzzlesFromCursor(c);
     }
 
     private void queryForPuzzleWithID(){
         ContentResolver resolver = getActivity().getContentResolver();
-        Uri uri = Uri.withAppendedPath(PuzzleContentProvider.CONTENT_URI,"12");
+        Uri uri = Uri.withAppendedPath(PuzzleContentProvider.CONTENT_URI,"1");
 
         Cursor c = resolver.query(uri,null,null,null,null);
+        printPuzzlesFromCursor(c);
+    }
 
-
+    private void printPuzzlesFromCursor(Cursor c) {
         if (c.moveToFirst()){
             do{
                 String id = c.getString(PUZZLE_ID_COLUMN_NUM);
@@ -174,5 +160,6 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
 
             } while (c.moveToNext());
         }
+        c.close();
     }
 }

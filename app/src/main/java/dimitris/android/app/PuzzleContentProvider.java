@@ -26,10 +26,9 @@ public class PuzzleContentProvider extends ContentProvider {
     private static final int ALL_PUZZLES_URI_NUM = 1;
     private static final int PUZZLE_ID_URI_NUM = 2;
 
-    private static final UriMatcher uriMatcher;
+    private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI("com.dimitris.chesspuzzler","puzzles",ALL_PUZZLES_URI_NUM);
         uriMatcher.addURI("com.dimtiris.chesspuzzler","puzzles/#", PUZZLE_ID_URI_NUM);
     }
@@ -46,8 +45,8 @@ public class PuzzleContentProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
         builder.setTables(TABLE_NAME);
-
-        switch (uriMatcher.match(uri)){
+        int switch_num = uriMatcher.match(uri);
+        switch (switch_num){
             case PUZZLE_ID_URI_NUM:
                 builder.appendWhere( _ID + "=" + uri.getPathSegments().get(1));
                 break;
