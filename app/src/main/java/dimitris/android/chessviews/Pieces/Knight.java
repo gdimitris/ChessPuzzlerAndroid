@@ -4,12 +4,8 @@ import android.graphics.Paint;
 
 public class Knight extends Piece {
 
-    public Knight(Paint whitePaint, Paint blackPaint, PieceColor color) {
-        super(whitePaint, blackPaint, color);
+    public Knight(Paint whitePaint, Paint blackPaint) {
+        super(whitePaint, blackPaint);
     }
 
-    @Override
-    public String toString() {
-        return "N";
-    }
 }

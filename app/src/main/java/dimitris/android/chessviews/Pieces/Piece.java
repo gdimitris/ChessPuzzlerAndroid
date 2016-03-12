@@ -11,28 +11,23 @@ public abstract class Piece {
     private final Paint blackPaint;
     protected String whiteLayerLetter;
     protected String blackLayerLetter;
-    protected PieceColor color;
+    private Rect positionRect;
+    private int currentPositionRow;
+    private int currentPositionColumn;
+    private int drawSize;
 
-    public Piece(Paint whitePaint, Paint blackPaint, PieceColor color) {
+    public Piece(Paint whitePaint, Paint blackPaint) {
         this.whitePaint = whitePaint;
         this.blackPaint = blackPaint;
-        this.color = color;
+        this.positionRect = new Rect();
     }
 
-    public void draw(Canvas canvas, Rect rect) {
-        canvas.drawText(whiteLayerLetter, rect.left, rect.bottom, whitePaint);
-        canvas.drawText(blackLayerLetter, rect.left, rect.bottom, blackPaint);
-    }
+    public void draw(Canvas canvas) {
+        int x = currentPositionColumn * drawSize;
+        int y = (currentPositionRow + 1) * drawSize;
 
-    public PieceColor getColor() {
-        return color;
-    }
-
-    public abstract String toString();
-
-    public enum PieceColor {
-        White,
-        Black
+        canvas.drawText(whiteLayerLetter, x, y, whitePaint);
+        canvas.drawText(blackLayerLetter, x, y, blackPaint);
     }
 
     public void setWhiteLayerLetter(String layerLetter){
@@ -42,4 +37,30 @@ public abstract class Piece {
     public void setBlackLayerLetter(String layerLetter){
         this.blackLayerLetter = layerLetter;
     }
+
+    public void setPositionCoords(int row, int col){
+        this.currentPositionColumn = col;
+        this.currentPositionRow = row;
+        positionRect.set(currentPositionColumn * drawSize, currentPositionRow * drawSize, (currentPositionColumn + 1) * drawSize, (currentPositionRow + 1) * drawSize);
+    }
+
+    public void setSize(int size){
+        drawSize = size;
+        positionRect.set(currentPositionColumn * size, currentPositionRow * size, (currentPositionColumn + 1) * size, (currentPositionRow + 1) * size);
+        whitePaint.setTextSize(size);
+        blackPaint.setTextSize(size);
+    }
+
+    public int getDrawSize(){
+        return drawSize;
+    }
+
+    public int getRow(){
+        return currentPositionRow;
+    }
+
+    public int getCol(){
+        return currentPositionColumn;
+    }
+
 }

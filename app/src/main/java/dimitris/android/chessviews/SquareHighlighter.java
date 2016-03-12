@@ -8,7 +8,7 @@ import android.graphics.Rect;
 public class SquareHighlighter {
 
     protected final Paint selectionPaint;
-    protected final Rect selectionRect;
+    protected Rect selectionRect;
 
     public SquareHighlighter(Rect squareRect) {
         selectionPaint = new Paint();
@@ -18,7 +18,15 @@ public class SquareHighlighter {
         selectionRect = squareRect;
     }
 
+    public void setSquare(Square square){
+        if(square!= null)
+            selectionRect = square.getRect();
+        else
+            selectionRect = null;
+    }
+
     public void draw(Canvas canvas) {
-        canvas.drawRect(selectionRect, selectionPaint);
+        if(selectionRect!= null)
+            canvas.drawRect(selectionRect, selectionPaint);
     }
 }

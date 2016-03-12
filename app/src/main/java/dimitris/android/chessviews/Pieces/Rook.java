@@ -4,12 +4,8 @@ import android.graphics.Paint;
 
 public class Rook extends Piece {
 
-    public Rook(Paint whitePaint, Paint blackPaint, PieceColor color) {
-        super(whitePaint, blackPaint, color);
+    public Rook(Paint whitePaint, Paint blackPaint) {
+        super(whitePaint, blackPaint);
     }
 
-    @Override
-    public String toString() {
-        return "R";
-    }
 }

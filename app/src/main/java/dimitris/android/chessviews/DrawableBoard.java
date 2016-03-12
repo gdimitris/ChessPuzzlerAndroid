@@ -1,140 +1,184 @@
 package dimitris.android.chessviews;
 
+import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.util.Log;
+import android.graphics.drawable.Drawable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import dimitris.android.chessviews.Pieces.BlackPieceFactory;
-import dimitris.android.chessviews.Pieces.FenParser;
+import dimitris.android.chessviews.Pieces.Piece;
 import dimitris.android.chessviews.Pieces.WhitePieceFactory;
-import dimitris.chesspuzzler.app.FontLoader;
-import dimitris.chesspuzzler.app.Move;
-import dimitris.chesspuzzler.app.MoveManager;
-import dimitris.chesspuzzler.app.MoveObserver;
-import dimitris.chesspuzzler.app.MovePrinter;
-import dimitris.chesspuzzler.app.MoveSubject;
-import dimitris.chesspuzzler.app.MoveValidator;
 
 
-public class DrawableBoard extends MoveSubject {
+public class DrawableBoard extends Drawable{
 
-    private SquareView lastSelectedSquareView;
-    private SquareView[][] squareViews;
-    private MoveManager moveManager;
-    private MoveValidator moveChecker;
-    private MovePrinter movePrinter;
-    private BoardContainerView parentView;
-    private int squareSize=1;
+    private int squareSize;
+    private Paint boardPaint;
+    private List<Piece> alivePieces;
+    private Square[][] board;
+    private SquareHighlighter squareHighlighter;
+    private List<UIMove> playedMoves;
+    private Context context;
 
-    public DrawableBoard(BoardContainerView parentView) {
+    public DrawableBoard(Context context) {
         super();
-        this.moveObservers = new ArrayList<>();
-        this.moveManager = new MoveManager();
-        this.moveChecker = new MoveValidator(this);
-        this.movePrinter = new MovePrinter(this);
-        this.parentView = parentView;
+        this.context = context;
+        squareSize = 80;
+        boardPaint = BoardPaintCreator.createPaintWithSquareSize(squareSize);
+        squareHighlighter = new SquareHighlighter(getRectForSquareAt(0,0));
+        alivePieces = new ArrayList<>();
+        playedMoves = new ArrayList<>();
+        initialiseBoard();
     }
 
-    public void draw(Canvas canvas) {
-        if (squareViews == null)
-            return;
+    private void initialiseBoard() {
+        board = new Square[8][8];
 
-        for (int row = 0; row < 8; row++)
-            for (int col = 0; col < 8; col++)
-                squareViews[row][col].draw(canvas);
-    }
-
-    protected void squareSelectedAt(int row, int col) {
-        if (lastSelectedSquareView == null) {
-            selectSquareIfNotEmpty(row, col);
-        } else if (lastSelectedSquareView == squareViews[row][col]) {
-            clearSelection();
-        } else {
-            dispatchNewMoveIfPassesFilters(row, col);
-            clearSelection();
-        }
-    }
-
-    private void dispatchNewMoveIfPassesFilters(int row, int col) {
-        Move toMake = new Move(lastSelectedSquareView, squareViews[row][col]);
-
-        if (moveChecker.isValid(toMake))
-            doMove(toMake);
-    }
-
-    private void selectSquareIfNotEmpty(int row, int col) {
-        if (!squareIsEmpty(row, col)) {
-            lastSelectedSquareView = squareViews[row][col];
-            lastSelectedSquareView.setSelected(true);
-        }
-    }
-
-    private boolean squareIsEmpty(int row, int col) {
-        return squareViews[row][col].isEmpty();
-    }
-
-    private void clearSelection() {
-        lastSelectedSquareView.setSelected(false);
-        lastSelectedSquareView = null;
-    }
-
-    public void createInitialBoard() {
-        try {
-            Typeface font = FontLoader.loadDefaultFont(parentView.getContext());
-            squareViews = new DrawableBoardFactory(squareSize).createInitialBoard(font);
-        } catch (FenParser.BadFenException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void createEmptyBoard(){
-            squareViews = new DrawableBoardFactory(squareSize).createEmptyBoard();
-    }
-
-    public void setSquareSize(int size){
-        this.squareSize = size;
+        for(int i=0;i<8;i++)
+            for(int j=0;j<8;j++)
+                board[i][j] = new Square(i,j);
     }
 
     public void setPosition(String FEN){
-        try {
-            clearBoard();
-            Typeface typeface = FontLoader.loadDefaultFont(parentView.getContext());
-            WhitePieceFactory whiteFactory = new WhitePieceFactory(typeface, squareSize);
-            BlackPieceFactory blackPieceFactory = new BlackPieceFactory(typeface, squareSize);
-            FenParser parser = new FenParser(squareViews , whiteFactory, blackPieceFactory);
-            parser.parse(FEN);
-        } catch (FenParser.BadFenException e) {
-            e.printStackTrace();
-        }
-        parentView.invalidate();
+        clearBoard();
+        Typeface typeface = FontLoader.loadDefaultFont(context);
+        FenParser parser = getFenParser(typeface);
+        alivePieces = parser.parse(FEN);
+        populateBoardWithAlivePieces();
     }
 
-    public void doMove(Move toDo) {
-        moveManager.executeMove(toDo);
-        broadcastNewMoveToObservers(toDo);
+    private FenParser getFenParser(Typeface typeface) {
+        WhitePieceFactory whiteFactory = new WhitePieceFactory(typeface,squareSize);
+        BlackPieceFactory blackPieceFactory = new BlackPieceFactory(typeface,squareSize);
+        return new FenParser(whiteFactory, blackPieceFactory,squareSize);
+    }
+
+    private void populateBoardWithAlivePieces() {
+        for(Piece p : alivePieces){
+            int row = p.getRow();
+            int col = p.getCol();
+
+            board[row][col].setPiece(p);
+        }
+    }
+
+    public void setSquareSize(int size){
+        if(squareSize == size)
+            return;
+
+        this.squareSize = size;
+        this.boardPaint = BoardPaintCreator.createPaintWithSquareSize(squareSize);
+
+        for(Piece p : alivePieces)
+            p.setSize(size);
+
+        for(int i=0;i<8;i++)
+            for(int j=0;j<8;j++)
+                board[i][j].setSize(size);
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        drawBoard(canvas);
+
+        if (boardIsEmpty())
+            return;
+
+        drawSelectedSquare(canvas);
+        drawAlivePieces(canvas);
+    }
+
+    public void doMove(UIMove move) {
+        move.execute();
+        playedMoves.add(move);
+        removeFromAlive(move.getCapturedPiece());
+    }
+
+    public void undoMove() {
+        int lastIndex = playedMoves.size()-1;
+        UIMove move = playedMoves.remove(lastIndex);
+        move.undo();
+        addInAlive(move.getCapturedPiece());
+        clearLastSelectedSquare();
+    }
+
+    public int getSquareSize(){
+        return squareSize;
+    }
+
+    public boolean boardIsEmpty() {
+        return alivePieces == null || alivePieces.isEmpty();
+    }
+
+    private void drawSelectedSquare(Canvas canvas){
+        squareHighlighter.draw(canvas);
+    }
+
+    private void drawAlivePieces(Canvas canvas) {
+        for(Piece p: alivePieces)
+            p.draw(canvas);
+    }
+
+    private void drawBoard(Canvas canvas) {
+        Rect bounds = getBounds();
+        canvas.drawRect(bounds.left,bounds.top,bounds.right,bounds.bottom,boardPaint);
+    }
+
+    public boolean squareIsEmpty(Square squareToCheck) {
+        return squareToCheck.getPiece() == null;
     }
 
     private void clearBoard(){
-        for (int row = 0; row < 8; row++)
-            for (int col = 0; col < 8; col++)
-                squareViews[row][col].setPiece(null);
-    }
-    @Override
-    public void broadcastUndoToObservers() {
-
-    }
-
-    @Override
-    public void broadcastRedoToObservers() {
-
+        if(alivePieces!= null)
+            alivePieces.clear();
+        for(int i=0;i<8;i++)
+            for(int j=0;j<8;j++)
+                board[i][j].clear();
+        clearLastSelectedSquare();
     }
 
+    private Rect getRectForSquareAt(int row, int col) {
+        return new Rect(col * squareSize, row * squareSize, (col + 1) * squareSize, (row + 1) * squareSize);
+    }
+
+    private void removeFromAlive(Piece p){
+        if(p!=null)
+            alivePieces.remove(p);
+    }
+
+    private void addInAlive(Piece p){
+        if(p!=null)
+            alivePieces.add(p);
+    }
+
+    public Square getSquareAt(int row, int col){
+        return board[row][col];
+    }
+
+    public List<UIMove> getPlayedMoves(){
+        return playedMoves;
+    }
+
     @Override
-    public void broadcastNewMoveToObservers(Move move) {
-        for(MoveObserver observer : moveObservers)
-            observer.onMoveDo(move);
-        Log.e("MovePrinter", "Current Moves: "+ movePrinter.printMovesPlayed());
+    public void setAlpha(int alpha) {}
+
+    @Override
+    public void setColorFilter(ColorFilter cf) {}
+
+    @Override
+    public int getOpacity() { return 0; }
+
+    public void selectSquare(int row, int col) {
+        squareHighlighter.setSquare(board[row][col]);
+    }
+
+    public void clearLastSelectedSquare(){
+        squareHighlighter.setSquare(null);
     }
 }
