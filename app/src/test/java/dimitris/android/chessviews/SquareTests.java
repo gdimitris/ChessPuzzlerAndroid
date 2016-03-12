@@ -5,7 +5,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
 
-import com.example.dimitris.chesspuzzler.BuildConfig;
+import com.dimitris.chesspuzzler.BuildConfig;
 
 import org.junit.Before;
 import org.junit.Test;

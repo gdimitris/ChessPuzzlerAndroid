@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.dimitris.chesspuzzler.R;
+import com.dimitris.chesspuzzler.R;
 
 import dimitris.android.chessviews.BoardContainerView;
 import dimitris.chess.core.ChessPuzzle;

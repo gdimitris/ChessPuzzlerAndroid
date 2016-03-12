@@ -1,4 +1,4 @@
-package com.example.dimitris.chesspuzzler;
+package com.dimitris.chesspuzzler;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

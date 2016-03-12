@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.Toast;
 
-import com.example.dimitris.chesspuzzler.R;
+import com.dimitris.chesspuzzler.R;
 
 import dimitris.chess.core.ChessPuzzle;
 import dimitris.chess.core.Game;
@@ -60,7 +60,6 @@ public class MainActivity extends Activity implements PuzzleGameEventsListener, 
 
     @Override
     public void onPuzzleGameStart(ChessPuzzle puzzle) {
-        //Toast.makeText(this, "Game Started", Toast.LENGTH_SHORT).show();
         puzzleComponentsFragment.initialise();
         puzzleComponentsFragment.setPuzzleSolution(puzzle.solution);
     }

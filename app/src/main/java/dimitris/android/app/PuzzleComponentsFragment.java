@@ -2,6 +2,10 @@ package dimitris.android.app;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +15,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.dimitris.chesspuzzler.R;
+import com.dimitris.chesspuzzler.R;
+
+import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.COLUMN_DESCRIPTION;
+import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.COLUMN_FEN;
+import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.COLUMN_SOLUTION;
+import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.PUZZLE_DESCRIPTION_COLUMN_NUM;
+import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.PUZZLE_FEN_COLUMN_NUM;
+import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.PUZZLE_ID_COLUMN_NUM;
+import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.PUZZLE_SOLUTION_COLUMN_NUM;
 
 /**
  * Created by dimitris on 2/21/16.
@@ -81,7 +93,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
         if(v.getId()==R.id.nextPuzzleButton)
             gameEventsHandler.initNewGame();
         else if (v.getId() == R.id.toggleAnnotations)
-            Log.e("Toggle Annotations", "Support this");
+            queryForPuzzleWithID();
         else if (v.getId() == R.id.showSolution)
             gameEventsHandler.quitGame();
         else
@@ -108,5 +120,59 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
     public void initialise() {
         clearSolutionText();
         disableNextPosButton();
+    }
+
+    private void insertTestEntry(){
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_DESCRIPTION, "Henry Buckle vs NN, London, 1840");
+        values.put(COLUMN_FEN,"r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
+        values.put(COLUMN_SOLUTION,"1. Nf6+ gxf6 2. Bxf7#");
+
+        ContentResolver resolver = getActivity().getContentResolver();
+        resolver.insert(PuzzleContentProvider.CONTENT_URI,values);
+    }
+
+    private void queryForExistingPuzzles(){
+        ContentResolver resolver = getActivity().getContentResolver();
+        Cursor c = resolver.query(PuzzleContentProvider.CONTENT_URI,null,null,null,null);
+
+        if (c.moveToFirst()){
+            do{
+                String id = c.getString(PUZZLE_ID_COLUMN_NUM);
+                String description = c.getString(PUZZLE_DESCRIPTION_COLUMN_NUM);
+                String fen = c.getString(PUZZLE_FEN_COLUMN_NUM);
+                String solution = c.getString(PUZZLE_SOLUTION_COLUMN_NUM);
+
+                Log.e("Read Query", "Puzzle id: " + id);
+                Log.e("Read Query", "Description: " + description);
+                Log.e("Read Query", "Fen: "+fen);
+                Log.e("Read Query", "Solution: "+solution);
+
+            } while (c.moveToNext());
+        }
+    }
+
+    private void queryForPuzzleWithID(){
+        ContentResolver resolver = getActivity().getContentResolver();
+        Uri uri = Uri.withAppendedPath(PuzzleContentProvider.CONTENT_URI,"12");
+
+        Cursor c = resolver.query(uri,null,null,null,null);
+
+
+        if (c.moveToFirst()){
+            do{
+                String id = c.getString(PUZZLE_ID_COLUMN_NUM);
+                String description = c.getString(PUZZLE_DESCRIPTION_COLUMN_NUM);
+                String fen = c.getString(PUZZLE_FEN_COLUMN_NUM);
+                String solution = c.getString(PUZZLE_SOLUTION_COLUMN_NUM);
+
+                Log.e("Read Query", "Puzzle id: " + id);
+                Log.e("Read Query", "Description: " + description);
+                Log.e("Read Query", "Fen: "+fen);
+                Log.e("Read Query", "Solution: "+solution);
+
+            } while (c.moveToNext());
+        }
     }
 }
