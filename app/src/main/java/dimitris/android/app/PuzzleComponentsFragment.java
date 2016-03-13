@@ -32,8 +32,6 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
 
     private Button toggleAnnotationsButton;
     private Button flibBoardButton;
-    private Button increaseBoardSizeButton;
-    private Button decreaseBoardSizeButton;
     private Button nextPosButton;
     private Button showSolutionButton;
     private TextView solutionTextView;
@@ -57,10 +55,8 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
 
     private void initializeComponents(View view) {
         toggleAnnotationsButton = (Button) view.findViewById(R.id.toggleAnnotations);
-        increaseBoardSizeButton = (Button) view.findViewById(R.id.increaseSize);
         nextPosButton = (Button) view.findViewById(R.id.nextPuzzleButton);
         flibBoardButton = (Button) view.findViewById(R.id.flipBoard);
-        decreaseBoardSizeButton = (Button) view.findViewById(R.id.decreaseSize);
         showSolutionButton = (Button) view.findViewById(R.id.showSolution);
         solutionTextView = (TextView) view.findViewById(R.id.solutionText);
     }
@@ -69,8 +65,6 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
         nextPosButton.setOnClickListener(this);
         toggleAnnotationsButton.setOnClickListener(this);
         flibBoardButton.setOnClickListener(this);
-        increaseBoardSizeButton.setOnClickListener(this);
-        decreaseBoardSizeButton.setOnClickListener(this);
         showSolutionButton.setOnClickListener(this);
     }
 
