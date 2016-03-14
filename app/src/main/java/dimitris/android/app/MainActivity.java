@@ -28,7 +28,6 @@ public class MainActivity extends Activity implements PuzzleGameEventsListener, 
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().hide();
         setContentView(R.layout.board_layout);
-
         this.puzzleProvider = new TemporaryPuzzleProvider();
         this.game = new Game(puzzleProvider);
         game.registerGameEventsListener(this);
