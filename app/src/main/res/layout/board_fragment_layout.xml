@@ -8,11 +8,12 @@
 
     <dimitris.android.chessviews.BoardContainerView
         android:id="@+id/chessboard"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_marginLeftPercent="10%"
         app:layout_marginRightPercent="10%"
         app:layout_marginTopPercent="10%"
-        app:layout_marginBottomPercent="10%"/>
+        app:layout_marginBottomPercent="10%" />
+
 
 </android.support.percent.PercentRelativeLayout>

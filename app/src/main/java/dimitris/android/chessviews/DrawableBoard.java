@@ -25,6 +25,7 @@ public class DrawableBoard extends Drawable{
     private SquareHighlighter squareHighlighter;
     private List<UIMove> playedMoves;
     private Context context;
+    private BoardAnnotator boardAnnotator;
 
     public DrawableBoard(Context context) {
         super();
@@ -32,6 +33,7 @@ public class DrawableBoard extends Drawable{
         squareSize = 80;
         boardPaint = BoardPaintCreator.createPaintWithSquareSize(squareSize);
         squareHighlighter = new SquareHighlighter(getRectForSquareAt(0,0));
+        boardAnnotator = new BoardAnnotator(getBounds());
         alivePieces = new ArrayList<>();
         playedMoves = new ArrayList<>();
         initialiseBoard();
@@ -71,8 +73,8 @@ public class DrawableBoard extends Drawable{
     public void setSquareSize(int size){
         if(squareSize == size)
             return;
-
         this.squareSize = size;
+        boardAnnotator.setSquareSize(size);
         this.boardPaint = BoardPaintCreator.createPaintWithSquareSize(squareSize);
 
         for(Piece p : alivePieces)
@@ -86,7 +88,7 @@ public class DrawableBoard extends Drawable{
     @Override
     public void draw(Canvas canvas) {
         drawBoard(canvas);
-
+        boardAnnotator.drawAnnotations(canvas);
         if (boardIsEmpty())
             return;
 

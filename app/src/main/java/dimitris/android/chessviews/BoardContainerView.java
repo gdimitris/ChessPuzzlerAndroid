@@ -2,6 +2,7 @@ package dimitris.android.chessviews;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -50,7 +51,6 @@ public class BoardContainerView extends View implements View.OnTouchListener {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         int min = Math.min(getMeasuredWidth(),getMeasuredHeight());
-
         setMeasuredDimension(min,min);
     }
 
