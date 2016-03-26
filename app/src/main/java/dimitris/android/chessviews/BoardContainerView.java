@@ -2,13 +2,12 @@ package dimitris.android.chessviews;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import dimitris.android.app.MainActivity;
+import dimitris.android.app.PlayPuzzleActivity;
 import dimitris.chess.core.ChessPuzzle;
 
 public class BoardContainerView extends View implements View.OnTouchListener {
@@ -101,7 +100,7 @@ public class BoardContainerView extends View implements View.OnTouchListener {
     }
 
     public void moveDetected(String source, String dest){
-        MainActivity parent = (MainActivity) this.getContext();
+        PlayPuzzleActivity parent = (PlayPuzzleActivity) this.getContext();
         parent.onMoveDetected(source, dest);
     }
 

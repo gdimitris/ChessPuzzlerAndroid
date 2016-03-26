@@ -134,7 +134,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
 
     private void queryForPuzzleWithID(){
         ContentResolver resolver = getActivity().getContentResolver();
-        Uri uri = Uri.withAppendedPath(PuzzleColumns.CONTENT_URI,"10");
+        Uri uri = Uri.withAppendedPath(PuzzleColumns.CONTENT_URI,"3");
 
         Cursor c = resolver.query(uri,null,null,null,null);
         printPuzzlesFromCursor(c);
