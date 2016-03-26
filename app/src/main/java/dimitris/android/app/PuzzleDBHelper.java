@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static dimitris.android.app.PuzzleDBTable.PuzzleTableColumns.*;
+import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.*;
 
 /**
  * Created by dimitris on 07/03/16.

@@ -12,19 +12,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dimitris.chesspuzzler.R;
 
-import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.COLUMN_DESCRIPTION;
-import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.COLUMN_FEN;
-import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.COLUMN_SOLUTION;
-import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.PUZZLE_DESCRIPTION_COLUMN_NUM;
-import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.PUZZLE_FEN_COLUMN_NUM;
-import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.PUZZLE_ID_COLUMN_NUM;
-import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.PUZZLE_SOLUTION_COLUMN_NUM;
+import dimitris.android.app.PuzzleDBTable.PuzzleColumns;
+
+import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.COLUMN_DESCRIPTION;
+import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.COLUMN_FEN;
+import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.COLUMN_SOLUTION;
+import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.PUZZLE_DESCRIPTION_COLUMN_NUM;
+import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.PUZZLE_FEN_COLUMN_NUM;
+import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.PUZZLE_ID_COLUMN_NUM;
+import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.PUZZLE_SOLUTION_COLUMN_NUM;
 
 /**
  * Created by dimitris on 2/21/16.
@@ -32,7 +33,7 @@ import static dimitris.android.app.DBPuzzleProviderContract.PuzzleTableColumns.P
 public class PuzzleComponentsFragment extends Fragment implements View.OnClickListener{
 
     private Button toggleAnnotationsButton;
-    private Button flibBoardButton;
+    private Button flipBoardButton;
     private Button nextPosButton;
     private Button showSolutionButton;
     private TextView solutionTextView;
@@ -56,7 +57,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
     private void initializeComponents(View view) {
         toggleAnnotationsButton = (Button) view.findViewById(R.id.toggleAnnotations);
         nextPosButton = (Button) view.findViewById(R.id.nextPuzzleButton);
-        flibBoardButton = (Button) view.findViewById(R.id.flipBoard);
+        flipBoardButton = (Button) view.findViewById(R.id.flipBoard);
         showSolutionButton = (Button) view.findViewById(R.id.showSolution);
         solutionTextView = (TextView) view.findViewById(R.id.solutionText);
     }
@@ -64,7 +65,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
     private void setListenersForButtons() {
         nextPosButton.setOnClickListener(this);
         toggleAnnotationsButton.setOnClickListener(this);
-        flibBoardButton.setOnClickListener(this);
+        flipBoardButton.setOnClickListener(this);
         showSolutionButton.setOnClickListener(this);
     }
 
@@ -87,7 +88,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
         if(v.getId()==R.id.nextPuzzleButton)
             gameEventsHandler.initNewGame();
         else if (v.getId() == R.id.toggleAnnotations)
-            queryForExistingPuzzles();
+            queryForPuzzleWithID();
         else if (v.getId() == R.id.showSolution)
             gameEventsHandler.quitGame();
         else
@@ -122,18 +123,18 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
         values.put(COLUMN_SOLUTION,"1. Nf6+ gxf6 2. Bxf7#");
 
         ContentResolver resolver = getActivity().getContentResolver();
-        resolver.insert(PuzzleContentProvider.CONTENT_URI,values);
+        resolver.insert(PuzzleColumns.CONTENT_URI,values);
     }
 
     private void queryForExistingPuzzles(){
         ContentResolver resolver = getActivity().getContentResolver();
-        Cursor c = resolver.query(PuzzleContentProvider.CONTENT_URI,null,null,null,null);
+        Cursor c = resolver.query(PuzzleColumns.CONTENT_URI,null,null,null,null);
         printPuzzlesFromCursor(c);
     }
 
     private void queryForPuzzleWithID(){
         ContentResolver resolver = getActivity().getContentResolver();
-        Uri uri = Uri.withAppendedPath(PuzzleContentProvider.CONTENT_URI,"1");
+        Uri uri = Uri.withAppendedPath(PuzzleColumns.CONTENT_URI,"10");
 
         Cursor c = resolver.query(uri,null,null,null,null);
         printPuzzlesFromCursor(c);

@@ -15,7 +15,7 @@ public class PuzzleDBTable {
 
     public PuzzleDBTable(){}
 
-    public static abstract class PuzzleTableColumns implements BaseColumns{
+    public static abstract class PuzzleColumns implements BaseColumns{
 
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PUZZLE_PATH).build();
         public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PUZZLE_PATH;
