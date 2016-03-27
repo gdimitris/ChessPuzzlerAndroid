@@ -27,7 +27,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
         String[] fields = new String[] {PuzzleCollectionDBTable.PuzzleCollectionColumns.COLUMN_DESCRIPTION, "count"};
         int[] mappedViewLabels = new int[] {R.id.label, R.id.puzzleCount};
         getLoaderManager().initLoader(0,null,this);
-        cursorAdapter = new SimpleCursorAdapter(this, R.layout.puzzle_list_item,null,fields,mappedViewLabels,0);
+        cursorAdapter = new ButtonWrappingCursorAdapter(this, R.layout.puzzle_list_item,null,fields,mappedViewLabels,0);
         setListAdapter(cursorAdapter);
     }
 
