@@ -11,6 +11,9 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import static dimitris.android.app.PuzzleCollectionDBTable.*;
+import static dimitris.android.app.PuzzleDBTable.*;
+
 /**
  * Created by dimitris on 09/03/16.
  */
@@ -19,6 +22,7 @@ public class PuzzleContentProvider extends ContentProvider {
     private static final UriMatcher uriMatcher = buildUriMatcher();
     private static final int ALL_PUZZLES = 100;
     private static final int PUZZLE_WITH_ID = 200;
+    private static final int COLLECTIONS_WITH_PUZZLE_COUNT = 300;
     private PuzzleDBHelper puzzleDBHelper;
     private static SQLiteQueryBuilder queryBuilder;
 
@@ -26,20 +30,28 @@ public class PuzzleContentProvider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = PuzzleDBTable.CONTENT_AUTHORITY;
 
-        matcher.addURI(authority, PuzzleDBTable.PUZZLE_PATH, ALL_PUZZLES);
-        matcher.addURI(authority, PuzzleDBTable.PUZZLE_PATH + "/#", PUZZLE_WITH_ID);
+        matcher.addURI(authority, PUZZLE_PATH, ALL_PUZZLES);
+        matcher.addURI(authority, PUZZLE_PATH + "/#", PUZZLE_WITH_ID);
+
+        matcher.addURI(authority, COLLECTION_PATH + "/count", COLLECTIONS_WITH_PUZZLE_COUNT);
 
         return matcher;
     }
 
     static {
+        String join = PuzzleColumns.TABLE_NAME + " INNER JOIN " +
+                PuzzleCollectionColumns.TABLE_NAME + " ON " +
+                PuzzleColumns.TABLE_NAME + "." + PuzzleColumns.COLUMN_COLLECTION_ID +
+                " = " + PuzzleCollectionColumns.TABLE_NAME  +
+                "." + PuzzleCollectionColumns._ID ;
+
         queryBuilder = new SQLiteQueryBuilder();
-        queryBuilder.setTables(PuzzleDBTable.PuzzleColumns.TABLE_NAME);
+        queryBuilder.setTables(join);
     }
 
     private static final String PUZZLE_ID_SELECTION =
-            PuzzleDBTable.PuzzleColumns.TABLE_NAME + "."
-                    + PuzzleDBTable.PuzzleColumns.COLUMN_PUZZLE_ID + " = ?";
+            PuzzleColumns.TABLE_NAME + "."
+                    + PuzzleColumns.COLUMN_PUZZLE_ID + " = ?";
 
     @Override
     public boolean onCreate() {
@@ -62,6 +74,10 @@ public class PuzzleContentProvider extends ContentProvider {
                 cursor = getAllPuzzles();
                 Log.e("Content Provider", "All Puzzles were requested! Uri: " + uri);
                 break;
+            case COLLECTIONS_WITH_PUZZLE_COUNT:
+                cursor = getCollectionsWithPuzzleCount();
+                Log.e("Content Provider", "All collections with count were requested! Uri: "+ uri);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown Uri : " +uri);
         }
@@ -69,8 +85,17 @@ public class PuzzleContentProvider extends ContentProvider {
         return cursor;
     }
 
+    private Cursor getCollectionsWithPuzzleCount() {
+        SQLiteDatabase db = puzzleDBHelper.getReadableDatabase();
+        String[] projection = new String[] {"Collections._id", "Collections.description",
+                "count(Puzzles.collection_id) as count"};
+        String group = "Puzzles.collection_id";
+
+        return queryBuilder.query(db,projection,null,null,group,null,null);
+    }
+
     private Cursor getPuzzleWithId(Uri uri, String[] projection, String sortOrder){
-        String puzzleId = PuzzleDBTable.PuzzleColumns.getPuzzleIdFromUri(uri);
+        String puzzleId = PuzzleColumns.getPuzzleIdFromUri(uri);
         SQLiteDatabase db = puzzleDBHelper.getReadableDatabase();
         String[] selectionArgs = new String[]{puzzleId};
 
@@ -105,10 +130,10 @@ public class PuzzleContentProvider extends ContentProvider {
     private Uri insertPuzzleInDb(ContentValues contentValues){
         final SQLiteDatabase db = puzzleDBHelper.getWritableDatabase();
         Uri resultUri = Uri.EMPTY;
-        long id = db.insert(PuzzleDBTable.PuzzleColumns.TABLE_NAME, null, contentValues);
+        long id = db.insert(PuzzleColumns.TABLE_NAME, null, contentValues);
 
         if(id >0)
-            resultUri = PuzzleDBTable.PuzzleColumns.CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
+            resultUri = PuzzleColumns.CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
         else
             throw new SQLException("Failed to insert Entry");
 

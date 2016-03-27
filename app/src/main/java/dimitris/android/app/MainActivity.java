@@ -5,6 +5,7 @@ import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.SimpleCursorAdapter;
@@ -23,8 +24,8 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
     }
 
     private void initializeListView() {
-        String[] fields = new String[] {PuzzleDBTable.PuzzleColumns.COLUMN_DESCRIPTION};
-        int[] mappedViewLabels = new int[] {R.id.label};
+        String[] fields = new String[] {PuzzleCollectionDBTable.PuzzleCollectionColumns.COLUMN_DESCRIPTION, "count"};
+        int[] mappedViewLabels = new int[] {R.id.label, R.id.puzzleCount};
         getLoaderManager().initLoader(0,null,this);
         cursorAdapter = new SimpleCursorAdapter(this, R.layout.puzzle_list_item,null,fields,mappedViewLabels,0);
         setListAdapter(cursorAdapter);
@@ -32,8 +33,9 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String[] projection = PuzzleDBTable.PuzzleColumns.ALL_COLUMNS;
-        CursorLoader cursorLoader = new CursorLoader(this, PuzzleDBTable.PuzzleColumns.CONTENT_URI,projection,null,null,null);
+        String[] projection = new String[]{"_id","description","count"};
+        Uri uri = PuzzleCollectionDBTable.PuzzleCollectionColumns.CONTENT_URI.buildUpon().appendPath("count").build();
+        CursorLoader cursorLoader = new CursorLoader(this, uri,projection,null,null,null);
         return cursorLoader;
     }
 
