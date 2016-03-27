@@ -41,7 +41,6 @@ public class PuzzleContentProvider extends ContentProvider {
             PuzzleDBTable.PuzzleColumns.TABLE_NAME + "."
                     + PuzzleDBTable.PuzzleColumns.COLUMN_PUZZLE_ID + " = ?";
 
-
     @Override
     public boolean onCreate() {
         puzzleDBHelper = new PuzzleDBHelper(getContext());
@@ -70,7 +69,6 @@ public class PuzzleContentProvider extends ContentProvider {
         return cursor;
     }
 
-
     private Cursor getPuzzleWithId(Uri uri, String[] projection, String sortOrder){
         String puzzleId = PuzzleDBTable.PuzzleColumns.getPuzzleIdFromUri(uri);
         SQLiteDatabase db = puzzleDBHelper.getReadableDatabase();
@@ -78,7 +76,6 @@ public class PuzzleContentProvider extends ContentProvider {
 
         return queryBuilder.query(db, projection, PUZZLE_ID_SELECTION, selectionArgs,null,null,sortOrder);
     }
-
 
     private Cursor getAllPuzzles(){
         SQLiteDatabase db = puzzleDBHelper.getReadableDatabase();
@@ -104,7 +101,6 @@ public class PuzzleContentProvider extends ContentProvider {
         }
         return resultPath;
     }
-
 
     private Uri insertPuzzleInDb(ContentValues contentValues){
         final SQLiteDatabase db = puzzleDBHelper.getWritableDatabase();

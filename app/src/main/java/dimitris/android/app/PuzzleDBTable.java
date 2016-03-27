@@ -28,6 +28,8 @@ public class PuzzleDBTable {
         public static final String COLUMN_SOLUTION = "solution";
         public static final String COLUMN_TYPE_ID = "type_id";
 
+        public static final String[] ALL_COLUMNS = new String[]{COLUMN_PUZZLE_ID,COLUMN_DESCRIPTION,COLUMN_FEN,COLUMN_SOLUTION};
+
         public static final int PUZZLE_ID_COLUMN_NUM = 0;
         public static final int PUZZLE_DESCRIPTION_COLUMN_NUM = 1;
         public static final int PUZZLE_FEN_COLUMN_NUM = 2;
