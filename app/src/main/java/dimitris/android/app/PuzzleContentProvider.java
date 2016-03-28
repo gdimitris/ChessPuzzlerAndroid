@@ -26,6 +26,8 @@ public class PuzzleContentProvider extends ContentProvider {
     private static final int ALL_PUZZLES = 100;
     private static final int PUZZLE_WITH_ID = 200;
     private static final int COLLECTIONS_WITH_PUZZLE_COUNT = 300;
+    private static final int COLLECTIONS_WITH_ID = 301;
+    private final String tag = "Content Provider";
     private PuzzleDBHelper puzzleDBHelper;
     private static SQLiteQueryBuilder queryBuilder;
 
@@ -37,6 +39,7 @@ public class PuzzleContentProvider extends ContentProvider {
         matcher.addURI(authority, PUZZLE_PATH + "/#", PUZZLE_WITH_ID);
 
         matcher.addURI(authority, COLLECTION_PATH + "/count", COLLECTIONS_WITH_PUZZLE_COUNT);
+        matcher.addURI(authority, COLLECTION_PATH + "/#", COLLECTIONS_WITH_ID);
 
         return matcher;
     }
@@ -56,6 +59,10 @@ public class PuzzleContentProvider extends ContentProvider {
             PuzzleColumns.TABLE_NAME + "."
                     + PuzzleColumns.COLUMN_PUZZLE_ID + " = ?";
 
+    private static final String COLLECTION_ID_SELECTION =
+            PuzzleCollectionColumns.TABLE_NAME + "." +
+                    PuzzleCollectionColumns.COLUMN_COLLECTION_ID + " = ?";
+
     @Override
     public boolean onCreate() {
         puzzleDBHelper = new PuzzleDBHelper(getContext());
@@ -71,20 +78,23 @@ public class PuzzleContentProvider extends ContentProvider {
         switch (matchedInt){
             case PUZZLE_WITH_ID:
                 cursor = getPuzzleWithId(uri,strings,s1);
-                Log.e("Content Provider", "Specific Puzzle Requested! Uri: " + uri);
+                Log.e(tag, "Specific Puzzle Requested! Uri: " + uri);
                 break;
             case ALL_PUZZLES:
                 cursor = getAllPuzzles();
-                Log.e("Content Provider", "All Puzzles were requested! Uri: " + uri);
+                Log.e(tag, "All Puzzles were requested! Uri: " + uri);
                 break;
             case COLLECTIONS_WITH_PUZZLE_COUNT:
                 cursor = getCollectionsWithPuzzleCount();
-                Log.e("Content Provider", "All collections with count were requested! Uri: "+ uri);
+                Log.e(tag, "All collections with count were requested! Uri: "+ uri);
+                break;
+            case COLLECTIONS_WITH_ID:
+                cursor = getCollectionsWithId(uri);
+                Log.e(tag, "Puzzles from collection with id requested! uri: "+ uri);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown Uri : " +uri);
         }
-
         return cursor;
     }
 
@@ -107,7 +117,17 @@ public class PuzzleContentProvider extends ContentProvider {
 
     private Cursor getAllPuzzles(){
         SQLiteDatabase db = puzzleDBHelper.getReadableDatabase();
+
         return queryBuilder.query(db, null, null,null,null,null,null);
+    }
+
+    private Cursor getCollectionsWithId(Uri uri){
+        String collectionId = PuzzleCollectionColumns.getCollectionIdFromUri(uri);
+        SQLiteDatabase db = puzzleDBHelper.getReadableDatabase();
+        String[] projection = PuzzleColumns.ALL_COLUMNS;
+        String[] selectionArgs = new String[]{collectionId};
+
+        return queryBuilder.query(db,projection, COLLECTION_ID_SELECTION, selectionArgs, null,null,null);
     }
 
     @Nullable
