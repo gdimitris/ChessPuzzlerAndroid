@@ -1,4 +1,4 @@
-package dimitris.android.app;
+package dimitris.android.app.db;
 
 import android.content.ContentResolver;
 import android.net.Uri;

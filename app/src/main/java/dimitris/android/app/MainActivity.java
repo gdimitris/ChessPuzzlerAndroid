@@ -12,6 +12,8 @@ import android.widget.SimpleCursorAdapter;
 
 import com.dimitris.chesspuzzler.R;
 
+import dimitris.android.app.db.PuzzleCollectionDBTable;
+
 public class MainActivity extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private SimpleCursorAdapter cursorAdapter;

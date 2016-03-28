@@ -11,8 +11,11 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import static dimitris.android.app.PuzzleCollectionDBTable.*;
-import static dimitris.android.app.PuzzleDBTable.*;
+import dimitris.android.app.db.PuzzleDBHelper;
+import dimitris.android.app.db.PuzzleDBTable;
+
+import static dimitris.android.app.db.PuzzleCollectionDBTable.*;
+import static dimitris.android.app.db.PuzzleDBTable.*;
 
 /**
  * Created by dimitris on 09/03/16.

@@ -17,15 +17,15 @@ import android.widget.Toast;
 
 import com.dimitris.chesspuzzler.R;
 
-import dimitris.android.app.PuzzleDBTable.PuzzleColumns;
+import dimitris.android.app.db.PuzzleDBTable.PuzzleColumns;
 
-import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.COLUMN_DESCRIPTION;
-import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.COLUMN_FEN;
-import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.COLUMN_SOLUTION;
-import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.PUZZLE_DESCRIPTION_COLUMN_NUM;
-import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.PUZZLE_FEN_COLUMN_NUM;
-import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.PUZZLE_ID_COLUMN_NUM;
-import static dimitris.android.app.PuzzleDBTable.PuzzleColumns.PUZZLE_SOLUTION_COLUMN_NUM;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.COLUMN_DESCRIPTION;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.COLUMN_FEN;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.COLUMN_SOLUTION;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_DESCRIPTION_COLUMN_NUM;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_FEN_COLUMN_NUM;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_ID_COLUMN_NUM;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_SOLUTION_COLUMN_NUM;
 
 /**
  * Created by dimitris on 2/21/16.

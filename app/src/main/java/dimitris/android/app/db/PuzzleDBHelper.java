@@ -1,11 +1,11 @@
-package dimitris.android.app;
+package dimitris.android.app.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static dimitris.android.app.PuzzleCollectionDBTable.*;
-import static dimitris.android.app.PuzzleDBTable.*;
+import static dimitris.android.app.db.PuzzleCollectionDBTable.*;
+import static dimitris.android.app.db.PuzzleDBTable.*;
 
 /**
  * Created by dimitris on 07/03/16.

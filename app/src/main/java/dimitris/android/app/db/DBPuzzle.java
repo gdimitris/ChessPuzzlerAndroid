@@ -1,4 +1,4 @@
-package dimitris.android.app;
+package dimitris.android.app.db;
 
 /**
  * Created by dimitris on 07/03/16.
