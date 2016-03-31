@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 import com.dimitris.chesspuzzler.R;
 
@@ -71,7 +70,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
         int loaderId = loader.getId();
         switch (loaderId){
             case PUZZLE_LOADER:
-                Log.e("CursorLoader", "Loading of Activity requested to review" + data.getCount() + "  puzzles");
+                Log.e("CursorLoader", "Loading of Activity requested to review " + data.getCount() + "  puzzles");
                 break;
             case COLLECTION_LOADER:
                 cursorAdapter.swapCursor(data);
@@ -87,10 +86,11 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 
     @Override
     public void loadRequestedForPuzzlesWithCollectionId(int collectionId) {
-        Toast.makeText(this,"Load Requested for puzzles with Collection id: " + collectionId,Toast.LENGTH_SHORT).show();
         Bundle bundle = new Bundle();
         bundle.putString("collectionId",String.valueOf(collectionId));
 
         getLoaderManager().restartLoader(PUZZLE_LOADER,bundle,this);
+        PuzzleLoadingTask task = new PuzzleLoadingTask(this);
+        task.execute();
     }
 }

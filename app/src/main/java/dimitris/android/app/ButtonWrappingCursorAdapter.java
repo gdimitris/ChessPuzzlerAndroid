@@ -2,13 +2,9 @@ package dimitris.android.app;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 import com.dimitris.chesspuzzler.R;
 
