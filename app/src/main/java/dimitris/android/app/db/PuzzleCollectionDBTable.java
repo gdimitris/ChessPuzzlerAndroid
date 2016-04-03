@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
- * Created by enviouscreep on 3/27/16.
+ * Created by dimitris on 3/27/16.
  */
 public class PuzzleCollectionDBTable {
 

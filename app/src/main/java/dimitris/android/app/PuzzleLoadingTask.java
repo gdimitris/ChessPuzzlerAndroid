@@ -28,7 +28,6 @@ public class PuzzleLoadingTask extends AsyncTask<Void, Void, PuzzleProvider> {
             dialog.dismiss();
         }
 
-
     }
 
     protected PuzzleProvider doInBackground(Void ...args) {

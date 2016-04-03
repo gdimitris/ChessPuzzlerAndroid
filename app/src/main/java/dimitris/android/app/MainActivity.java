@@ -8,10 +8,14 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.SimpleCursorAdapter;
 
 import com.dimitris.chesspuzzler.R;
 
+import dimitris.android.app.db.PopulateDbTask;
 import dimitris.android.app.db.PuzzleCollectionDBTable;
 
 public class MainActivity extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor>, PuzzleLoaderCallback {
@@ -61,7 +65,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
     private CursorLoader getCollectionCursorLoader() {
         Uri uri = PuzzleCollectionDBTable.PuzzleCollectionColumns.CONTENT_URI.buildUpon().appendPath("count").build();
 
-        CursorLoader cursorLoader = new CursorLoader(this, uri,null,null,null,null);
+        CursorLoader cursorLoader = new CursorLoader(this,uri,null,null,null,null);
         return cursorLoader;
     }
 
@@ -82,6 +86,24 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         cursorAdapter.swapCursor(null);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                PopulateDbTask populateDbTask = new PopulateDbTask(this);
+                populateDbTask.execute();
+                break;
+        }
+        return true;
     }
 
     @Override

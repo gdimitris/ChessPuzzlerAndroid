@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import dimitris.android.app.db.PuzzleDBHelper;
+import dimitris.android.app.db.DBHelper;
 import dimitris.android.app.db.PuzzleDBTable;
 
 import static dimitris.android.app.db.PuzzleCollectionDBTable.*;
@@ -27,8 +27,9 @@ public class PuzzleContentProvider extends ContentProvider {
     private static final int PUZZLE_WITH_ID = 200;
     private static final int COLLECTIONS_WITH_PUZZLE_COUNT = 300;
     private static final int COLLECTIONS_WITH_ID = 301;
+    private static final int ALL_COLLECTIONS = 400;
     private final String tag = "Content Provider";
-    private PuzzleDBHelper puzzleDBHelper;
+    private DBHelper dbHelper;
     private static SQLiteQueryBuilder queryBuilder;
 
     static UriMatcher buildUriMatcher() {
@@ -38,6 +39,7 @@ public class PuzzleContentProvider extends ContentProvider {
         matcher.addURI(authority, PUZZLE_PATH, ALL_PUZZLES);
         matcher.addURI(authority, PUZZLE_PATH + "/#", PUZZLE_WITH_ID);
 
+        matcher.addURI(authority, COLLECTION_PATH, ALL_COLLECTIONS);
         matcher.addURI(authority, COLLECTION_PATH + "/count", COLLECTIONS_WITH_PUZZLE_COUNT);
         matcher.addURI(authority, COLLECTION_PATH + "/#", COLLECTIONS_WITH_ID);
 
@@ -65,7 +67,7 @@ public class PuzzleContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        puzzleDBHelper = new PuzzleDBHelper(getContext());
+        dbHelper = new DBHelper(getContext());
         return true;
     }
 
@@ -99,7 +101,7 @@ public class PuzzleContentProvider extends ContentProvider {
     }
 
     private Cursor getCollectionsWithPuzzleCount() {
-        SQLiteDatabase db = puzzleDBHelper.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = new String[] {"Collections._id", "Collections.description",
                 "count(Puzzles.collection_id) as count"};
         String group = "Puzzles.collection_id";
@@ -109,21 +111,21 @@ public class PuzzleContentProvider extends ContentProvider {
 
     private Cursor getPuzzleWithId(Uri uri, String[] projection, String sortOrder){
         String puzzleId = PuzzleColumns.getPuzzleIdFromUri(uri);
-        SQLiteDatabase db = puzzleDBHelper.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] selectionArgs = new String[]{puzzleId};
 
         return queryBuilder.query(db, projection, PUZZLE_ID_SELECTION, selectionArgs,null,null,sortOrder);
     }
 
     private Cursor getAllPuzzles(){
-        SQLiteDatabase db = puzzleDBHelper.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         return queryBuilder.query(db, null, null,null,null,null,null);
     }
 
     private Cursor getCollectionsWithId(Uri uri){
         String collectionId = PuzzleCollectionColumns.getCollectionIdFromUri(uri);
-        SQLiteDatabase db = puzzleDBHelper.getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         String[] projection = PuzzleColumns.ALL_COLUMNS;
         String[] selectionArgs = new String[]{collectionId};
 
@@ -146,12 +148,29 @@ public class PuzzleContentProvider extends ContentProvider {
                 resultPath = insertPuzzleInDb(contentValues);
                 Log.e("ContentProvider", "Successfully inserted puzzle at: "+ resultPath);
                 break;
+            case ALL_COLLECTIONS:
+                resultPath = insertCollectionInDb(contentValues);
+                Log.e("ContentProvider", "Successfully created new collection " + resultPath);
+                break;
         }
         return resultPath;
     }
 
+    private Uri insertCollectionInDb(ContentValues contentValues) {
+        final  SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Uri resultUri = Uri.EMPTY;
+        long id = db.insert(PuzzleCollectionColumns.TABLE_NAME, null, contentValues);
+
+        if (id > 0)
+            resultUri = PuzzleCollectionColumns.CONTENT_URI.buildUpon().appendPath(String.valueOf(id)).build();
+        else
+            throw new SQLException("Failed to insert Entry");
+
+        return resultUri;
+    }
+
     private Uri insertPuzzleInDb(ContentValues contentValues){
-        final SQLiteDatabase db = puzzleDBHelper.getWritableDatabase();
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
         Uri resultUri = Uri.EMPTY;
         long id = db.insert(PuzzleColumns.TABLE_NAME, null, contentValues);
 

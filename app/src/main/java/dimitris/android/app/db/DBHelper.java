@@ -10,7 +10,7 @@ import static dimitris.android.app.db.PuzzleDBTable.*;
 /**
  * Created by dimitris on 07/03/16.
  */
-public class PuzzleDBHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "Puzzles.db";
@@ -39,7 +39,7 @@ public class PuzzleDBHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_COLLECTIONS_TABLE =
             "DROP TABLE IF EXISTS " + PuzzleCollectionColumns.TABLE_NAME;
 
-    public PuzzleDBHelper(Context context) {
+    public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
