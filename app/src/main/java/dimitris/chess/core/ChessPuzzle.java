@@ -15,4 +15,11 @@ public class ChessPuzzle {
         this.fen = fen;
         this.solution = solution;
     }
+
+    public ChessPuzzle(String id, String description, String fen, String solution){
+        this.id = id;
+        this.description = description;
+        this.fen = fen;
+        this.solution = solution;
+    }
 }

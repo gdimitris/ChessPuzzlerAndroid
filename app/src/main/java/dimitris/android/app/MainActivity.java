@@ -3,20 +3,19 @@ package dimitris.android.app;
 import android.app.ListActivity;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.SimpleCursorAdapter;
 
 import com.dimitris.chesspuzzler.R;
 
 import dimitris.android.app.db.PopulateDbTask;
 import dimitris.android.app.db.PuzzleCollectionDBTable;
+import dimitris.chess.core.PuzzleProvider;
 
 public class MainActivity extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor>, PuzzleLoaderCallback {
 
@@ -74,12 +73,20 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
         int loaderId = loader.getId();
         switch (loaderId){
             case PUZZLE_LOADER:
-                Log.e("CursorLoader", "Loading of Activity requested to review " + data.getCount() + "  puzzles");
+                Log.e("CursorLoader", "Loading of Activity requested to review " + data.getCount() + " puzzles");
                 break;
             case COLLECTION_LOADER:
-                cursorAdapter.swapCursor(data);
-                Log.e("CursorLoader", "Loading Finished! got "+data.getCount() + " entries");
+                handleLoadedCollections(data);
                 break;
+        }
+    }
+
+    private void handleLoadedCollections(Cursor data) {
+        if (data.getCount() == 0){
+            PopulateDbTask dbTask = new PopulateDbTask(this);
+            dbTask.execute();
+        } else {
+            cursorAdapter.swapCursor(data);
         }
     }
 
@@ -89,30 +96,18 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main,menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_settings:
-                PopulateDbTask populateDbTask = new PopulateDbTask(this);
-                populateDbTask.execute();
-                break;
-        }
-        return true;
-    }
-
-    @Override
     public void loadRequestedForPuzzlesWithCollectionId(int collectionId) {
-        Bundle bundle = new Bundle();
-        bundle.putString("collectionId",String.valueOf(collectionId));
+//        Bundle bundle = new Bundle();
+//        bundle.putString("collectionId",String.valueOf(collectionId));
+//
+//        getLoaderManager().restartLoader(PUZZLE_LOADER,bundle,this);
+        Intent startPlayActivity = new Intent(this,PlayPuzzleActivity.class);
+        startPlayActivity.putExtra("requestedId",collectionId);
+        startActivity(startPlayActivity);
+    }
 
-        getLoaderManager().restartLoader(PUZZLE_LOADER,bundle,this);
-        PuzzleLoadingTask task = new PuzzleLoadingTask(this);
-        task.execute();
+
+    public void refreshLoader(){
+        getLoaderManager().restartLoader(COLLECTION_LOADER,null,this);
     }
 }

@@ -28,20 +28,33 @@ public class PlayPuzzleActivity extends Activity implements PuzzleGameEventsList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeUIComponents();
+        Bundle extras = getIntent().getExtras();
+        if(extras!=null){
+            int requestedId = extras.getInt("requestedId");
+            PuzzleLoadingTask task = new PuzzleLoadingTask(this,String.valueOf(requestedId));
+            task.execute();
+        }
+    }
+
+    private void initializeUIComponents() {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getActionBar().hide();
         setContentView(R.layout.board_layout);
-        this.puzzleProvider = new TemporaryPuzzleProvider();
-        this.game = new Game(puzzleProvider);
-        game.registerGameEventsListener(this);
         boardFragment = (BoardFragment) getFragmentManager().findFragmentById(R.id.board_fragment);
         puzzleComponentsFragment = (PuzzleComponentsFragment) getFragmentManager().findFragmentById(R.id.buttons_fragment);
+    }
+
+    public void initializeGameWithProvider(PuzzleProvider puzzleProvider){
+        this.puzzleProvider = puzzleProvider;
+        this.game = new Game(this.puzzleProvider);
+        game.registerGameEventsListener(this);
+        initNewGame();
     }
 
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
-        initNewGame();
     }
 
     @Override

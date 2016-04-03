@@ -40,6 +40,9 @@ public class PuzzleDBTable {
         public static String getPuzzleIdFromUri(Uri uri){
             return uri.getPathSegments().get(1);
         }
-    }
 
+        public static String getCollectionIdFromUri(Uri uri){
+            return uri.getPathSegments().get(2);
+        }
+    }
 }

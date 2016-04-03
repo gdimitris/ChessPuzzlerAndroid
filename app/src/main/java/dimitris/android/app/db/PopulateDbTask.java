@@ -3,7 +3,6 @@ package dimitris.android.app.db;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -13,6 +12,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import dimitris.android.app.MainActivity;
 
 import static dimitris.android.app.db.PuzzleCollectionDBTable.*;
 import static dimitris.android.app.db.PuzzleDBTable.*;
@@ -29,12 +30,12 @@ public class PopulateDbTask extends AsyncTask<Void,Void,Void> {
 
     private AssetManager assetManager;
     private ProgressDialog progressDialog;
-    private Context context;
+    private MainActivity activity;
 
-    public PopulateDbTask(Context context){
-        this.context = context;
-        this.assetManager = context.getAssets();
-        progressDialog = new ProgressDialog(context);
+    public PopulateDbTask(MainActivity activity){
+        this.activity = activity;
+        this.assetManager = this.activity.getAssets();
+        progressDialog = new ProgressDialog(this.activity);
     }
 
     @Override
@@ -58,14 +59,13 @@ public class PopulateDbTask extends AsyncTask<Void,Void,Void> {
     }
 
     private Uri createDbCollection(String collectionDescription) {
-        Log.e(tag, "Creating collection "+collectionDescription);
         ContentValues contentValues = new ContentValues();
         contentValues.put(PuzzleCollectionColumns.COLUMN_DESCRIPTION,collectionDescription);
         return insertInDB(PuzzleCollectionColumns.CONTENT_URI,contentValues);
     }
 
     private Uri insertInDB(Uri uri, ContentValues contentValues){
-        ContentResolver contentResolver = context.getContentResolver();
+        ContentResolver contentResolver = activity.getContentResolver();
         return contentResolver.insert(uri,contentValues);
     }
 
@@ -118,5 +118,6 @@ public class PopulateDbTask extends AsyncTask<Void,Void,Void> {
         if (progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
+        activity.refreshLoader();
     }
 }

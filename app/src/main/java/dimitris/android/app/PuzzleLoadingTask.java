@@ -1,9 +1,20 @@
 package dimitris.android.app;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import dimitris.chess.core.ChessPuzzle;
 import dimitris.chess.core.PuzzleProvider;
+
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.*;
 
 /**
  * Created by dimitris on 30/03/16.
@@ -12,31 +23,55 @@ import dimitris.chess.core.PuzzleProvider;
 public class PuzzleLoadingTask extends AsyncTask<Void, Void, PuzzleProvider> {
 
     private ProgressDialog dialog;
+    private PlayPuzzleActivity activity;
+    private String requestedId;
 
-    public PuzzleLoadingTask(MainActivity activity) {
+    public PuzzleLoadingTask(PlayPuzzleActivity parent, String requestedId) {
+        this.activity = parent;
+        this.requestedId = requestedId;
         dialog = new ProgressDialog(activity);
     }
 
     protected void onPreExecute() {
-        dialog.setMessage("Loading your puzzles...");
+        dialog.setMessage("Preparing your puzzles...");
         dialog.show();
     }
 
     @Override
-    protected void onPostExecute(final PuzzleProvider success) {
+    protected void onPostExecute(final PuzzleProvider provider) {
         if (dialog.isShowing()) {
             dialog.dismiss();
         }
 
+        activity.initializeGameWithProvider(provider);
     }
 
     protected PuzzleProvider doInBackground(Void ...args) {
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        List<ChessPuzzle> puzzles = new ArrayList<>();
+        Cursor cursor = getRequestedPuzzles();
 
-       return new TemporaryPuzzleProvider();
+        if (cursor.moveToFirst()) {
+            do {
+                puzzles.add(createPuzzleFromCursor(cursor));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return new ListPuzzleProvider(puzzles);
+    }
+
+    private ChessPuzzle createPuzzleFromCursor(Cursor c){
+        String id = c.getString(PUZZLE_ID_COLUMN_NUM);
+        String description = c.getString(PUZZLE_DESCRIPTION_COLUMN_NUM);
+        String fen = c.getString(PUZZLE_FEN_COLUMN_NUM);
+        String solution = c.getString(PUZZLE_SOLUTION_COLUMN_NUM);
+
+        return new ChessPuzzle(id, description, fen ,solution );
+    }
+
+    private Cursor getRequestedPuzzles() {
+        ContentResolver contentResolver = activity.getContentResolver();
+        Uri uri = CONTENT_URI.buildUpon().appendPath("collection").appendPath(requestedId).build();
+
+        return contentResolver.query(uri,null,null,null,null);
     }
 }

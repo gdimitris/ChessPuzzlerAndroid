@@ -88,7 +88,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
         if(v.getId()==R.id.nextPuzzleButton)
             gameEventsHandler.initNewGame();
         else if (v.getId() == R.id.toggleAnnotations)
-            queryForPuzzleWithID();
+            Toast.makeText(getActivity(),"Not Supported yet!",Toast.LENGTH_SHORT).show();
         else if (v.getId() == R.id.showSolution)
             gameEventsHandler.quitGame();
         else
@@ -116,45 +116,4 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
         disableNextPosButton();
     }
 
-    private void insertTestEntry(){
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_DESCRIPTION, "Henry Buckle vs NN, London, 1840");
-        values.put(COLUMN_FEN,"r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0");
-        values.put(COLUMN_SOLUTION,"1. Nf6+ gxf6 2. Bxf7#");
-
-        ContentResolver resolver = getActivity().getContentResolver();
-        resolver.insert(PuzzleColumns.CONTENT_URI,values);
-    }
-
-    private void queryForExistingPuzzles(){
-        ContentResolver resolver = getActivity().getContentResolver();
-        Cursor c = resolver.query(PuzzleColumns.CONTENT_URI,null,null,null,null);
-        printPuzzlesFromCursor(c);
-    }
-
-    private void queryForPuzzleWithID(){
-        ContentResolver resolver = getActivity().getContentResolver();
-        Uri uri = Uri.withAppendedPath(PuzzleColumns.CONTENT_URI,"3");
-
-        Cursor c = resolver.query(uri,null,null,null,null);
-        printPuzzlesFromCursor(c);
-    }
-
-    private void printPuzzlesFromCursor(Cursor c) {
-        if (c.moveToFirst()){
-            do{
-                String id = c.getString(PUZZLE_ID_COLUMN_NUM);
-                String description = c.getString(PUZZLE_DESCRIPTION_COLUMN_NUM);
-                String fen = c.getString(PUZZLE_FEN_COLUMN_NUM);
-                String solution = c.getString(PUZZLE_SOLUTION_COLUMN_NUM);
-
-                Log.e("Read Query", "Puzzle id: " + id);
-                Log.e("Read Query", "Description: " + description);
-                Log.e("Read Query", "Fen: "+fen);
-                Log.e("Read Query", "Solution: "+solution);
-
-            } while (c.moveToNext());
-        }
-        c.close();
-    }
 }
