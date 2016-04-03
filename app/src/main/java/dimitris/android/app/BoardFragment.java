@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.dimitris.chesspuzzler.R;
 
@@ -16,6 +17,7 @@ import dimitris.chess.core.ChessPuzzle;
  */
 public class BoardFragment extends Fragment {
     private BoardContainerView drawableBoard;
+    private TextView titleTextView;
 
     public interface MovesCallBack {
         void onMoveDetected(String source, String dest);
@@ -25,6 +27,7 @@ public class BoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.board_fragment_layout,container,false);
         drawableBoard = (BoardContainerView) view.findViewById(R.id.chessboard);
+        titleTextView = (TextView) view.findViewById(R.id.title);
         return view;
     }
 
@@ -34,6 +37,7 @@ public class BoardFragment extends Fragment {
 
     public void setCurrentPuzzle(ChessPuzzle currentPuzzle) {
         drawableBoard.setCurrentPuzzle(currentPuzzle);
+        titleTextView.setText(currentPuzzle.description);
     }
 
 }

@@ -6,6 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/title"
+        android:text="Title here"
+        android:maxLines="1"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textStyle="italic"
+        android:typeface="serif"
+        android:textSize="17sp"/>
+
     <dimitris.android.chessviews.BoardContainerView
         android:id="@+id/chessboard"
         android:layout_width="match_parent"

@@ -2,12 +2,7 @@ package dimitris.android.app;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +12,7 @@ import android.widget.Toast;
 
 import com.dimitris.chesspuzzler.R;
 
-import dimitris.android.app.db.PuzzleDBTable.PuzzleColumns;
-
-import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.COLUMN_DESCRIPTION;
-import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.COLUMN_FEN;
-import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.COLUMN_SOLUTION;
-import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_DESCRIPTION_COLUMN_NUM;
-import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_FEN_COLUMN_NUM;
-import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_ID_COLUMN_NUM;
-import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_SOLUTION_COLUMN_NUM;
+import dimitris.chess.core.ChessPuzzle;
 
 /**
  * Created by dimitris on 2/21/16.
@@ -37,6 +24,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
     private Button nextPosButton;
     private Button showSolutionButton;
     private TextView solutionTextView;
+    private TextView moveIndicatorTextView;
     private GameEventsHandler gameEventsHandler;
     private String puzzleSolution;
 
@@ -47,7 +35,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.buttons_fragment_layout,container,false);
+        View view = inflater.inflate(R.layout.components_fragment_layout,container,false);
         initializeComponents(view);
         setListenersForButtons();
         initialise();
@@ -60,6 +48,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
         flipBoardButton = (Button) view.findViewById(R.id.flipBoard);
         showSolutionButton = (Button) view.findViewById(R.id.showSolution);
         solutionTextView = (TextView) view.findViewById(R.id.solutionText);
+        moveIndicatorTextView = (TextView) view.findViewById(R.id.moveIndicator);
     }
 
     private void setListenersForButtons() {
@@ -69,8 +58,10 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
         showSolutionButton.setOnClickListener(this);
     }
 
-    public void setPuzzleSolution(String solution){
-        this.puzzleSolution = solution;
+    public void setCurrentPuzzle(ChessPuzzle puzzle){
+        puzzleSolution = puzzle.solution;
+        String indicatorText = puzzle.isWhitePuzzle() ? "White to play" : "Black to play";
+        moveIndicatorTextView.setText(indicatorText);
     }
 
     @Override

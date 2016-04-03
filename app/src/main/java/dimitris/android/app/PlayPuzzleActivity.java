@@ -1,9 +1,6 @@
 package dimitris.android.app;
 
 import android.app.Activity;
-import android.app.LoaderManager;
-import android.content.Loader;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Window;
 import android.widget.Toast;
@@ -76,7 +73,7 @@ public class PlayPuzzleActivity extends Activity implements PuzzleGameEventsList
     @Override
     public void onPuzzleGameStart(ChessPuzzle puzzle) {
         puzzleComponentsFragment.initialise();
-        puzzleComponentsFragment.setPuzzleSolution(puzzle.solution);
+        puzzleComponentsFragment.setCurrentPuzzle(puzzle);
     }
 
     @Override

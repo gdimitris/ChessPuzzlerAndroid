@@ -1,5 +1,7 @@
 package dimitris.chess.core;
 
+import java.util.StringTokenizer;
+
 /**
  * Created by dimitris on 10/24/15.
  */
@@ -21,5 +23,10 @@ public class ChessPuzzle {
         this.description = description;
         this.fen = fen;
         this.solution = solution;
+    }
+
+    public boolean isWhitePuzzle(){
+        String[] tokens = fen.split(" ");
+        return tokens[1].equals("w");
     }
 }
