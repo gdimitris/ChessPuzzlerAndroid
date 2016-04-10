@@ -1,7 +1,6 @@
 package dimitris.android.app;
 
 import java.util.List;
-import java.util.Queue;
 
 import dimitris.chess.core.ChessPuzzle;
 import dimitris.chess.core.PuzzleProvider;

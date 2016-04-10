@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.view.View;
 
 /**
  * Created by enviouscreep on 3/14/16.

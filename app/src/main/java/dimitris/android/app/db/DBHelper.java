@@ -4,15 +4,16 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static dimitris.android.app.db.PuzzleCollectionDBTable.*;
-import static dimitris.android.app.db.PuzzleDBTable.*;
+import static dimitris.android.app.db.PuzzleCollectionDBTable.PuzzleCollectionColumns;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns;
+import static dimitris.android.app.db.ReviewDBTable.ReviewColumns;
 
 /**
  * Created by dimitris on 07/03/16.
  */
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 6;
     public static final String DATABASE_NAME = "Puzzles.db";
 
     private static final String TEXT_TYPE = " TEXT";
@@ -25,8 +26,11 @@ public class DBHelper extends SQLiteOpenHelper {
                     PuzzleColumns.COLUMN_FEN + TEXT_TYPE + COMMA_SEP +
                     PuzzleColumns.COLUMN_SOLUTION + TEXT_TYPE + COMMA_SEP +
                     PuzzleColumns.COLUMN_COLLECTION_ID + INTEGER_TYPE + " NOT NULL" + COMMA_SEP +
+                    PuzzleColumns.COLUMN_REVIEW_ID + INTEGER_TYPE + " NOT NULL" + COMMA_SEP +
                     " FOREIGN KEY (" + PuzzleColumns.COLUMN_COLLECTION_ID + ") REFERENCES " +
-                    PuzzleCollectionColumns.TABLE_NAME + " (" + PuzzleCollectionColumns._ID + "));";
+                    PuzzleCollectionColumns.TABLE_NAME + " (" + PuzzleCollectionColumns._ID + ")," +
+                    " FOREIGN KEY (" + ReviewColumns.COLUMN_REVIEW_ID + ") REFERENCES " +
+                    ReviewColumns.TABLE_NAME + " (" + ReviewColumns._ID +"));";
 
     private static final String SQL_DELETE_PUZZLES_TABLE =
             "DROP TABLE IF EXISTS " + PuzzleColumns.TABLE_NAME;
@@ -39,6 +43,17 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_COLLECTIONS_TABLE =
             "DROP TABLE IF EXISTS " + PuzzleCollectionColumns.TABLE_NAME;
 
+    private static final String SQL_CREATE_REVIEWS_TABLE =
+            "CREATE TABLE " + ReviewColumns.TABLE_NAME +
+                    " (" + ReviewColumns._ID + INTEGER_TYPE + " PRIMARY KEY, " +
+                    ReviewColumns.COLUMN_EASINESS_FACTOR + " REAL NOT NULL, " +
+                    ReviewColumns.COLUMN_REVIEW_INTERVAL + INTEGER_TYPE + COMMA_SEP +
+                    ReviewColumns.COLUMN_NEXT_REVIEW + INTEGER_TYPE + COMMA_SEP +
+                    ReviewColumns.COLUMN_LAST_REVIEWED + INTEGER_TYPE + " )";
+
+    private static final String SQL_DELETE_REVIEWS_TABLE =
+            "DROP TABLE IF EXISTS " + ReviewColumns.TABLE_NAME;
+
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -46,12 +61,14 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_COLLECTIONS_TABLE);
+        db.execSQL(SQL_CREATE_REVIEWS_TABLE);
         db.execSQL(SQL_CREATE_PUZZLES_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DELETE_COLLECTIONS_TABLE);
+        db.execSQL(SQL_DELETE_REVIEWS_TABLE);
         db.execSQL(SQL_DELETE_PUZZLES_TABLE);
         onCreate(db);
     }

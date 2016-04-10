@@ -27,6 +27,7 @@ public class PuzzleDBTable {
         public static final String COLUMN_FEN = "fen";
         public static final String COLUMN_SOLUTION = "solution";
         public static final String COLUMN_COLLECTION_ID = "collection_id";
+        public static final String COLUMN_REVIEW_ID = "review_id";
 
         public static final String[] ALL_COLUMNS = new String[]{ TABLE_NAME+"."+COLUMN_PUZZLE_ID,
                 TABLE_NAME+"."+COLUMN_DESCRIPTION,TABLE_NAME+"."+COLUMN_FEN,

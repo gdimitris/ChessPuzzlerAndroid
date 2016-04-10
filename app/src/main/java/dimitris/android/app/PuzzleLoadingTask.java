@@ -1,12 +1,10 @@
 package dimitris.android.app;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,11 @@ import java.util.List;
 import dimitris.chess.core.ChessPuzzle;
 import dimitris.chess.core.PuzzleProvider;
 
-import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.*;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.CONTENT_URI;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_DESCRIPTION_COLUMN_NUM;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_FEN_COLUMN_NUM;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_ID_COLUMN_NUM;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_SOLUTION_COLUMN_NUM;
 
 /**
  * Created by dimitris on 30/03/16.

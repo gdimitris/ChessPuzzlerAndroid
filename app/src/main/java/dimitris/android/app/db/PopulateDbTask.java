@@ -6,7 +6,6 @@ import android.content.ContentValues;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,8 +14,9 @@ import java.io.InputStreamReader;
 
 import dimitris.android.app.MainActivity;
 
-import static dimitris.android.app.db.PuzzleCollectionDBTable.*;
-import static dimitris.android.app.db.PuzzleDBTable.*;
+import static dimitris.android.app.db.PuzzleCollectionDBTable.PuzzleCollectionColumns;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns;
+import static dimitris.android.app.db.ReviewDBTable.ReviewColumns;
 
 /**
  * Created by dimitris on 4/3/16.
@@ -51,8 +51,7 @@ public class PopulateDbTask extends AsyncTask<Void,Void,Void> {
             String currentFilename = ASSET_DIR + COLLECTION_FILENAMES[collection];
             Uri collectionUri = createDbCollection(COLLECTION_DESCRIPTIONS[collection]);
             String collectionId = PuzzleCollectionColumns.getCollectionIdFromUri(collectionUri);
-
-            readFile(currentFilename, collectionId);
+            createPuzzlesForCollection(currentFilename, collectionId);
         }
 
         return null;
@@ -69,14 +68,14 @@ public class PopulateDbTask extends AsyncTask<Void,Void,Void> {
         return contentResolver.insert(uri,contentValues);
     }
 
-    private void readFile(String collectionFilename, String collectionId) {
+    private void createPuzzlesForCollection(String collectionFilename, String collectionId) {
         BufferedReader reader;
         InputStream inputStream;
 
         try {
             inputStream = assetManager.open(collectionFilename);
             reader = new BufferedReader(new InputStreamReader(inputStream));
-            createEntriesFromFile(reader, collectionId);
+            createPuzzlesFromFile(reader, collectionId);
             reader.close();
             inputStream.close();
         } catch (IOException e) {
@@ -85,7 +84,7 @@ public class PopulateDbTask extends AsyncTask<Void,Void,Void> {
 
     }
 
-    private void createEntriesFromFile(BufferedReader reader, String collectionId) throws IOException {
+    private void createPuzzlesFromFile(BufferedReader reader, String collectionId) throws IOException {
         String line = reader.readLine();
         while(line !=null){
             if (!lineIsEmpty(line)) {
@@ -93,20 +92,37 @@ public class PopulateDbTask extends AsyncTask<Void,Void,Void> {
                 String fen = reader.readLine();
                 String solution = reader.readLine();
 
-                insertPuzzleInDb(description,fen,solution,collectionId);
+                Uri reviewUri = createDefaultReviewEntry();
+                String reviewId = ReviewColumns.getReviewIdFromUri(reviewUri);
+                ContentValues values = createContentValuesForPuzzle(description,fen,solution, reviewId,collectionId);
+                insertInDB(PuzzleColumns.CONTENT_URI,values);
             }
             line = reader.readLine();
         }
     }
 
-    private void insertPuzzleInDb(String description, String fen, String solution, String collectionId) {
+    private Uri createDefaultReviewEntry(){
+        ContentValues values = createContentValuesForDefaultReview();
+        return insertInDB(ReviewColumns.CONTENT_URI, values);
+    }
+
+    private ContentValues createContentValuesForDefaultReview(){
+        ContentValues values = new ContentValues();
+        values.put(ReviewColumns.COLUMN_EASINESS_FACTOR,0.6f);
+        values.put(ReviewColumns.COLUMN_REVIEW_INTERVAL,1);
+
+        return values;
+    }
+
+    private ContentValues createContentValuesForPuzzle(String description, String fen, String solution,String reviewId ,String collectionId) {
         ContentValues values = new ContentValues();
         values.put(PuzzleColumns.COLUMN_DESCRIPTION,description);
         values.put(PuzzleColumns.COLUMN_FEN, fen);
         values.put(PuzzleColumns.COLUMN_SOLUTION, solution);
+        values.put(PuzzleColumns.COLUMN_REVIEW_ID, reviewId);
         values.put(PuzzleColumns.COLUMN_COLLECTION_ID, collectionId);
 
-        insertInDB(PuzzleColumns.CONTENT_URI,values);
+        return values;
     }
 
     private boolean lineIsEmpty(String line){

@@ -8,21 +8,19 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.SimpleCursorAdapter;
 
 import com.dimitris.chesspuzzler.R;
 
 import dimitris.android.app.db.PopulateDbTask;
-import dimitris.android.app.db.PuzzleCollectionDBTable;
-import dimitris.chess.core.PuzzleProvider;
+
+import static dimitris.android.app.db.PuzzleCollectionDBTable.PuzzleCollectionColumns;
 
 public class MainActivity extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor>, PuzzleLoaderCallback {
 
     private SimpleCursorAdapter cursorAdapter;
 
     private static final int COLLECTION_LOADER = 1;
-    private static final int PUZZLE_LOADER = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +30,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
     }
 
     private void initializeListView() {
-        String[] fields = new String[] {PuzzleCollectionDBTable.PuzzleCollectionColumns.COLUMN_DESCRIPTION, "count"};
+        String[] fields = new String[] {PuzzleCollectionColumns.COLUMN_DESCRIPTION, "count"};
         int[] mappedViewLabels = new int[] {R.id.label, R.id.puzzleCount};
         getLoaderManager().initLoader(COLLECTION_LOADER,null,this);
         cursorAdapter = new ButtonWrappingCursorAdapter(this, R.layout.puzzle_list_item,null,fields,mappedViewLabels,0);
@@ -46,35 +44,21 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
             case COLLECTION_LOADER:
                 cursorLoader = getCollectionCursorLoader();
                 break;
-            case PUZZLE_LOADER:
-                cursorLoader = getPuzzleLoader(args);
-                break;
         }
         return cursorLoader;
     }
 
-    private CursorLoader getPuzzleLoader(Bundle bundle) {
-        String collectionId = bundle.getString("collectionId");
-        Uri uri = PuzzleCollectionDBTable.PuzzleCollectionColumns.CONTENT_URI.buildUpon().appendPath(collectionId).build();
-
-        CursorLoader cursorLoader = new CursorLoader(this,uri,null,null,null,null);
-        return cursorLoader;
-    }
 
     private CursorLoader getCollectionCursorLoader() {
-        Uri uri = PuzzleCollectionDBTable.PuzzleCollectionColumns.CONTENT_URI.buildUpon().appendPath("count").build();
+        Uri uri = PuzzleCollectionColumns.CONTENT_URI.buildUpon().appendPath("count").build();
 
-        CursorLoader cursorLoader = new CursorLoader(this,uri,null,null,null,null);
-        return cursorLoader;
+        return new CursorLoader(this,uri,null,null,null,null);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         int loaderId = loader.getId();
         switch (loaderId){
-            case PUZZLE_LOADER:
-                Log.e("CursorLoader", "Loading of Activity requested to review " + data.getCount() + " puzzles");
-                break;
             case COLLECTION_LOADER:
                 handleLoadedCollections(data);
                 break;
@@ -97,15 +81,10 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
 
     @Override
     public void loadRequestedForPuzzlesWithCollectionId(int collectionId) {
-//        Bundle bundle = new Bundle();
-//        bundle.putString("collectionId",String.valueOf(collectionId));
-//
-//        getLoaderManager().restartLoader(PUZZLE_LOADER,bundle,this);
-        Intent startPlayActivity = new Intent(this,PlayPuzzleActivity.class);
-        startPlayActivity.putExtra("requestedId",collectionId);
-        startActivity(startPlayActivity);
+        Intent playActivityIntent = new Intent(this,PlayPuzzleActivity.class);
+        playActivityIntent.putExtra("requestedId",collectionId);
+        startActivity(playActivityIntent);
     }
-
 
     public void refreshLoader(){
         getLoaderManager().restartLoader(COLLECTION_LOADER,null,this);

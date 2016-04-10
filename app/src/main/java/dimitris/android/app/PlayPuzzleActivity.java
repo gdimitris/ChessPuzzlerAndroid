@@ -26,7 +26,10 @@ public class PlayPuzzleActivity extends Activity implements PuzzleGameEventsList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeUIComponents();
-        Bundle extras = getIntent().getExtras();
+        processIntentExtras(getIntent().getExtras());
+    }
+
+    private void processIntentExtras(Bundle extras) {
         if(extras!=null){
             int requestedId = extras.getInt("requestedId");
             PuzzleLoadingTask task = new PuzzleLoadingTask(this,String.valueOf(requestedId));

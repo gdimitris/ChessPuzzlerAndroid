@@ -23,8 +23,6 @@ public class PuzzleCollectionDBTable {
         public static final String COLUMN_COLLECTION_ID = "_id";
         public static final String COLUMN_DESCRIPTION = "description";
 
-        public static final String[] ALL_COLUMNS = new String[] {TABLE_NAME+"."+COLUMN_COLLECTION_ID,TABLE_NAME+"."+COLUMN_DESCRIPTION};
-
         public static final int COLLECTION_ID_COLUMN_NUM = 0;
         public static final int COLLECTION_DESCRIPTION_COLUMN_NUM = 1;
 
