@@ -20,6 +20,7 @@ public class PlayPuzzleActivity extends Activity implements PuzzleGameEventsList
     private Game game;
     private PuzzleProvider puzzleProvider;
     private BoardFragment boardFragment;
+    private PuzzleScheduler scheduler;
     private PuzzleComponentsFragment puzzleComponentsFragment;
 
     @Override
@@ -27,6 +28,7 @@ public class PlayPuzzleActivity extends Activity implements PuzzleGameEventsList
         super.onCreate(savedInstanceState);
         initializeUIComponents();
         processIntentExtras(getIntent().getExtras());
+        scheduler = new PuzzleScheduler(puzzleProvider);
     }
 
     private void processIntentExtras(Bundle extras) {
@@ -71,24 +73,28 @@ public class PlayPuzzleActivity extends Activity implements PuzzleGameEventsList
     public void onMoveUndo(Move move) {
         Toast.makeText(this,"Move is not correct", Toast.LENGTH_SHORT).show();
         boardFragment.undoMove();
+        scheduler.wrongMovePlayed();
     }
 
     @Override
     public void onPuzzleGameStart(ChessPuzzle puzzle) {
         puzzleComponentsFragment.initialise();
         puzzleComponentsFragment.setCurrentPuzzle(puzzle);
+        scheduler.startGameWithPuzzle(puzzle);
     }
 
     @Override
     public void onPuzzleGameSolved() {
         Toast.makeText(this, "Congrats! you solved it!", Toast.LENGTH_SHORT).show();
         puzzleComponentsFragment.enableNextPosButton();
+        scheduler.puzzleSolved();
     }
 
     @Override
     public void onPuzzleGameQuit() {
         puzzleComponentsFragment.showSolutionForPuzzle();
         puzzleComponentsFragment.enableNextPosButton();
+        scheduler.quitPuzzle();
     }
 
     @Override
@@ -102,5 +108,4 @@ public class PlayPuzzleActivity extends Activity implements PuzzleGameEventsList
     public void quitGame() {
         game.quit();
     }
-
 }

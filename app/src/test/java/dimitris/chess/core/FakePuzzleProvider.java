@@ -12,6 +12,11 @@ public class FakePuzzleProvider implements PuzzleProvider {
     }
 
     @Override
+    public void insertPuzzleBackInList(ChessPuzzle puzzle) {
+
+    }
+
+    @Override
     public void setPuzzleReceiver(PuzzleReceiver receiver) {
         this.receiver = receiver;
     }
