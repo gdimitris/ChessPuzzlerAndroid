@@ -1,5 +1,6 @@
 package dimitris.android.app;
 
+import android.app.ActivityOptions;
 import android.app.ListActivity;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
@@ -83,7 +84,7 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
     public void loadRequestedForPuzzlesWithCollectionId(int collectionId) {
         Intent playActivityIntent = new Intent(this,PlayPuzzleActivity.class);
         playActivityIntent.putExtra("requestedId",collectionId);
-        startActivity(playActivityIntent);
+        startActivity(playActivityIntent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
     }
 
     public void refreshLoader(){
