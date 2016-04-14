@@ -10,16 +10,19 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
         card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="8dp"
+        card_view:cardElevation="6dp"
         card_view:contentPadding="8dp"
+        card_view:cardUseCompatPadding="true"
         android:theme="@style/AppTheme">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:paddingBottom="2dp">
 
             <TextView
                 android:id="@+id/label"
@@ -35,7 +38,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingBottom="2dp">
 
                 <TextView
                     android:layout_width="wrap_content"

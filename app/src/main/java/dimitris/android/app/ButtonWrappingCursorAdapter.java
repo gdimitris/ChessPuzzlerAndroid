@@ -13,11 +13,11 @@ import com.dimitris.chesspuzzler.R;
  */
 public class ButtonWrappingCursorAdapter extends SimpleCursorAdapter {
 
-    private PuzzleLoaderCallback callback;
+    //private PuzzleLoaderCallback callback;
 
     public ButtonWrappingCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);
-        callback = (PuzzleLoaderCallback) context;
+        //callback = (PuzzleLoaderCallback) context;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ButtonWrappingCursorAdapter extends SimpleCursorAdapter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.loadRequestedForPuzzlesWithCollectionId(currentCollectionId);
+                //callback.loadRequestedForPuzzlesWithCollectionId(currentCollectionId);
             }
         });
     }

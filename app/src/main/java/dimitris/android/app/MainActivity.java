@@ -1,15 +1,14 @@
 package dimitris.android.app;
 
-import android.app.ActivityOptions;
-import android.app.ListActivity;
+import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.SimpleCursorAdapter;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.dimitris.chesspuzzler.R;
 
@@ -17,9 +16,10 @@ import dimitris.android.app.db.PopulateDbTask;
 
 import static dimitris.android.app.db.PuzzleCollectionDBTable.PuzzleCollectionColumns;
 
-public class MainActivity extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor>, PuzzleLoaderCallback {
+public class MainActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private SimpleCursorAdapter cursorAdapter;
+    private CursorRecyclerViewAdapter cursorAdapter;
+    private RecyclerView recyclerView;
 
     private static final int COLLECTION_LOADER = 1;
 
@@ -27,15 +27,18 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initializeListView();
+        initializeRecyclerView();
     }
 
-    private void initializeListView() {
-        String[] fields = new String[] {PuzzleCollectionColumns.COLUMN_DESCRIPTION, "count"};
-        int[] mappedViewLabels = new int[] {R.id.label, R.id.puzzleCount};
+    private void initializeRecyclerView() {
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new CardDividerItemDecorator(20));
+
         getLoaderManager().initLoader(COLLECTION_LOADER,null,this);
-        cursorAdapter = new ButtonWrappingCursorAdapter(this, R.layout.puzzle_list_item,null,fields,mappedViewLabels,0);
-        setListAdapter(cursorAdapter);
+        cursorAdapter = new CursorRecyclerViewAdapter();
+        recyclerView.setAdapter(cursorAdapter);
     }
 
     @Override
@@ -71,20 +74,13 @@ public class MainActivity extends ListActivity implements LoaderManager.LoaderCa
             PopulateDbTask dbTask = new PopulateDbTask(this);
             dbTask.execute();
         } else {
-            cursorAdapter.swapCursor(data);
+            cursorAdapter.changeCursor(data);
         }
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        cursorAdapter.swapCursor(null);
-    }
-
-    @Override
-    public void loadRequestedForPuzzlesWithCollectionId(int collectionId) {
-        Intent playActivityIntent = new Intent(this,PlayPuzzleActivity.class);
-        playActivityIntent.putExtra("requestedId",collectionId);
-        startActivity(playActivityIntent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+        cursorAdapter.changeCursor(null);
     }
 
     public void refreshLoader(){
