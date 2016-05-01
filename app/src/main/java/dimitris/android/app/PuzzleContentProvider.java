@@ -135,8 +135,9 @@ public class PuzzleContentProvider extends ContentProvider {
 
     private Cursor getAllPuzzles(){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
+        String[] projection = PuzzleColumns.ALL_COLUMNS;
 
-        return queryBuilder.query(db, null, null,null,null,null,null);
+        return queryBuilder.query(db, projection, null,null,null,null,null);
     }
 
     private Cursor getCollectionsWithId(Uri uri){
