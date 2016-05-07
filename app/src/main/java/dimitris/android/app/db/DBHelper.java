@@ -54,6 +54,14 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_REVIEWS_TABLE =
             "DROP TABLE IF EXISTS " + ReviewColumns.TABLE_NAME;
 
+    public static final String PUZZLES_COLLECTIONS_TABLES_INNER_JOIN = PuzzleColumns.TABLE_NAME +
+            " INNER JOIN " + PuzzleCollectionColumns.TABLE_NAME +
+            " ON " + PuzzleColumns.TABLE_NAME + "." + PuzzleColumns.COLUMN_COLLECTION_ID + " = "
+            + PuzzleCollectionColumns.TABLE_NAME + "." + PuzzleCollectionColumns._ID +
+            " INNER JOIN " + ReviewColumns.TABLE_NAME +
+            " ON " + PuzzleColumns.TABLE_NAME + "." + PuzzleColumns.COLUMN_REVIEW_ID + " = "
+            + ReviewColumns.TABLE_NAME + "." + ReviewColumns._ID;
+
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }

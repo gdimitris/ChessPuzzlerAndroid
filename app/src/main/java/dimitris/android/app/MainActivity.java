@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
 
 
     private CursorLoader getCollectionCursorLoader() {
-        Uri uri = PuzzleCollectionColumns.CONTENT_URI.buildUpon().appendPath("count").build();
+        Uri uri = PuzzleCollectionColumns.PUZZLE_COUNT_URI;
 
         return new CursorLoader(this,uri,null,null,null,null);
     }

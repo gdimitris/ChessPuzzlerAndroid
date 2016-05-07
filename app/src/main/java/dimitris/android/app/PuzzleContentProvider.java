@@ -6,10 +6,11 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import dimitris.android.app.db.DBHelper;
+import dimitris.android.app.db.DBQueries;
 import dimitris.android.app.db.PuzzleDBTable;
 
 import static dimitris.android.app.db.PuzzleCollectionDBTable.COLLECTION_PATH;
@@ -24,7 +25,6 @@ import static dimitris.android.app.db.ReviewDBTable.ReviewColumns;
  */
 public class PuzzleContentProvider extends ContentProvider {
 
-    private static final UriMatcher uriMatcher = buildUriMatcher();
     private static final int ALL_PUZZLES = 100;
     private static final int PUZZLE_WITH_ID = 200;
     private static final int PUZZLES_WITH_COLLECTION_ID = 201;
@@ -33,73 +33,63 @@ public class PuzzleContentProvider extends ContentProvider {
     private static final int ALL_COLLECTIONS = 400;
     private static final int ALL_REVIEWS = 500;
 
+    public static final String ALL_PUZZLES_PATH = PUZZLE_PATH;
+    public static final String PUZZLE_WITH_ID_PATH = PUZZLE_PATH + "#";
+    public static final String PUZZLES_WITH_COLLECTION_ID_PATH = PUZZLE_PATH + "/collection/#";
+    public static final String ALL_COLLECTIONS_PATH = COLLECTION_PATH;
+    public static final String COLLECTIONS_WITH_PUZZLE_COUNT_PATH = COLLECTION_PATH + "/count";
+    public static final String COLLECTIONS_WITH_ID_PATH = COLLECTION_PATH + "/#";
+
+
+    private static final UriMatcher uriMatcher = buildUriMatcher();
+
     private DBHelper dbHelper;
-    private static SQLiteQueryBuilder queryBuilder;
+    private DBQueries dbQueries;
 
     static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = PuzzleDBTable.CONTENT_AUTHORITY;
 
-        matcher.addURI(authority, PUZZLE_PATH, ALL_PUZZLES);
-        matcher.addURI(authority, PUZZLE_PATH + "/#", PUZZLE_WITH_ID);
-        matcher.addURI(authority, PUZZLE_PATH + "/collection/#", PUZZLES_WITH_COLLECTION_ID);
+        matcher.addURI(authority, ALL_PUZZLES_PATH, ALL_PUZZLES);
+        matcher.addURI(authority, PUZZLE_WITH_ID_PATH, PUZZLE_WITH_ID);
+        matcher.addURI(authority, PUZZLES_WITH_COLLECTION_ID_PATH, PUZZLES_WITH_COLLECTION_ID);
 
-        matcher.addURI(authority, COLLECTION_PATH, ALL_COLLECTIONS);
-        matcher.addURI(authority, COLLECTION_PATH + "/count", COLLECTIONS_WITH_PUZZLE_COUNT);
-        matcher.addURI(authority, COLLECTION_PATH + "/#", COLLECTIONS_WITH_ID);
+        matcher.addURI(authority, ALL_COLLECTIONS_PATH, ALL_COLLECTIONS);
+        matcher.addURI(authority, COLLECTIONS_WITH_PUZZLE_COUNT_PATH, COLLECTIONS_WITH_PUZZLE_COUNT);
+        matcher.addURI(authority, COLLECTIONS_WITH_ID_PATH, COLLECTIONS_WITH_ID);
 
         matcher.addURI(authority, REVIEW_PATH, ALL_REVIEWS);
 
         return matcher;
     }
 
-    static {
-        String join = PuzzleColumns.TABLE_NAME +
-                " INNER JOIN " + PuzzleCollectionColumns.TABLE_NAME +
-                " ON " + PuzzleColumns.TABLE_NAME + "." + PuzzleColumns.COLUMN_COLLECTION_ID + " = "
-                + PuzzleCollectionColumns.TABLE_NAME  + "." + PuzzleCollectionColumns._ID +
-                " INNER JOIN " + ReviewColumns.TABLE_NAME +
-                " ON " + PuzzleColumns.TABLE_NAME + "." + PuzzleColumns.COLUMN_REVIEW_ID + " = "
-                + ReviewColumns.TABLE_NAME + "." + ReviewColumns._ID;
-
-        queryBuilder = new SQLiteQueryBuilder();
-        queryBuilder.setTables(join);
-    }
-
-    private static final String PUZZLE_ID_SELECTION =
-            PuzzleColumns.TABLE_NAME + "."
-                    + PuzzleColumns.COLUMN_PUZZLE_ID + " = ?";
-
-    private static final String COLLECTION_ID_SELECTION =
-            PuzzleCollectionColumns.TABLE_NAME + "." +
-                    PuzzleCollectionColumns.COLUMN_COLLECTION_ID + " = ?";
-
     @Override
     public boolean onCreate() {
         dbHelper = new DBHelper(getContext());
+        dbQueries = new DBQueries(DBHelper.PUZZLES_COLLECTIONS_TABLES_INNER_JOIN);
         return true;
     }
 
     @Override
-    public Cursor query(Uri uri, String[] strings, String s, String[] strings1, String s1) {
+    public Cursor query(@NonNull Uri uri, String[] strings, String s, String[] strings1, String s1) {
         Cursor cursor;
         int matchedInt = uriMatcher.match(uri);
-
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
         switch (matchedInt){
             case PUZZLE_WITH_ID:
-                cursor = getPuzzleWithId(uri,strings,s1);
+                cursor = dbQueries.getPuzzleWithId(db, uri);
                 break;
             case ALL_PUZZLES:
-                cursor = getAllPuzzles();
+                cursor = dbQueries.getAllPuzzles(db);
                 break;
             case COLLECTIONS_WITH_PUZZLE_COUNT:
-                cursor = getCollectionsWithPuzzleCount();
+                cursor = dbQueries.getCollectionsWithPuzzleCount(db);
                 break;
             case COLLECTIONS_WITH_ID:
-                cursor = getCollectionsWithId(uri);
+                cursor = dbQueries.getCollectionsWithId(db, uri);
                 break;
             case PUZZLES_WITH_COLLECTION_ID:
-                cursor = getPuzzlesWithCollectionId(uri);
+                cursor = dbQueries.getPuzzlesWithCollectionId(db, uri);
                 break;
             default:
                 throw new SQLException("Unknown Uri : " +uri);
@@ -107,55 +97,13 @@ public class PuzzleContentProvider extends ContentProvider {
         return cursor;
     }
 
-    private Cursor getPuzzlesWithCollectionId(Uri uri) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String[] projection = PuzzleColumns.ALL_COLUMNS;
-        String selection = PuzzleColumns.TABLE_NAME + "." + PuzzleColumns.COLUMN_COLLECTION_ID + " = ?";
-        String[] selectionArgs = new String[] {PuzzleColumns.getCollectionIdFromUri(uri)};
-
-        return queryBuilder.query(db,projection,selection,selectionArgs,null,null,null);
-    }
-
-    private Cursor getCollectionsWithPuzzleCount() {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String[] projection = new String[] {"Collections._id", "Collections.description",
-                "count(Puzzles.collection_id) as count"};
-        String group = "Puzzles.collection_id";
-
-        return queryBuilder.query(db,projection,null,null,group,null,null);
-    }
-
-    private Cursor getPuzzleWithId(Uri uri, String[] projection, String sortOrder){
-        String puzzleId = PuzzleColumns.getPuzzleIdFromUri(uri);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String[] selectionArgs = new String[]{puzzleId};
-
-        return queryBuilder.query(db, projection, PUZZLE_ID_SELECTION, selectionArgs,null,null,sortOrder);
-    }
-
-    private Cursor getAllPuzzles(){
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String[] projection = PuzzleColumns.ALL_COLUMNS;
-
-        return queryBuilder.query(db, projection, null,null,null,null,null);
-    }
-
-    private Cursor getCollectionsWithId(Uri uri){
-        String collectionId = PuzzleCollectionColumns.getCollectionIdFromUri(uri);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        String[] projection = PuzzleColumns.ALL_COLUMNS;
-        String[] selectionArgs = new String[]{collectionId};
-
-        return queryBuilder.query(db,projection, COLLECTION_ID_SELECTION, selectionArgs, null,null,null);
-    }
-
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         return null;
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues contentValues) {
+    public Uri insert(@NonNull Uri uri, ContentValues contentValues) {
         final int matchNumber = uriMatcher.match(uri);
         Uri resultPath;
         switch (matchNumber){
@@ -185,12 +133,13 @@ public class PuzzleContentProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String s, String[] strings) {
+    public int delete(@NonNull Uri uri, String s, String[] strings) {
         return 0;
     }
 
     @Override
-    public int update(Uri uri, ContentValues contentValues, String s, String[] strings) {
+    public int update(@NonNull Uri uri, ContentValues contentValues, String s, String[] strings) {
         return 0;
     }
+
 }
