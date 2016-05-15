@@ -9,11 +9,19 @@ buildscript {
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
     }
+
 }
+
+
 
 apply plugin: 'com.android.application'
 apply from: 'jacoco.gradle'
 apply plugin : 'com.github.kt3k.coveralls'
+
+coveralls {
+    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml"
+}
+
 
 android {
     compileSdkVersion 23
