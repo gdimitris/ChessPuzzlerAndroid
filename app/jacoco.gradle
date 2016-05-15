@@ -1,0 +1,12 @@
+apply plugin: 'jacoco-android'
+
+
+jacoco {
+    version = "0.7.6.201602180812"
+}
+
+jacocoAndroidUnitTestReport {
+    csv.enabled false
+    html.enabled true
+    xml.enabled true
+}
