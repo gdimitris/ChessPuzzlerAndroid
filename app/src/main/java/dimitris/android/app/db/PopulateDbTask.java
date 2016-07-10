@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import dimitris.android.app.DateUtils;
 import dimitris.android.app.MainActivity;
 
 import static dimitris.android.app.db.PuzzleCollectionDBTable.PuzzleCollectionColumns;
@@ -110,7 +111,7 @@ public class PopulateDbTask extends AsyncTask<Void,Void,Void> {
         ContentValues values = new ContentValues();
         values.put(ReviewColumns.COLUMN_EASINESS_FACTOR,0.6f);
         values.put(ReviewColumns.COLUMN_REVIEW_INTERVAL,1);
-
+        values.put(ReviewColumns.COLUMN_NEXT_REVIEW, DateUtils.getCurrentDateInGMT());
         return values;
     }
 
@@ -136,4 +137,5 @@ public class PopulateDbTask extends AsyncTask<Void,Void,Void> {
         }
         activity.refreshLoader();
     }
+
 }

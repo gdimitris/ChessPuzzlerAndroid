@@ -6,6 +6,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
@@ -32,6 +33,7 @@ public class PuzzleContentProvider extends ContentProvider {
     private static final int COLLECTIONS_WITH_ID = 301;
     private static final int ALL_COLLECTIONS = 400;
     private static final int ALL_REVIEWS = 500;
+    private static final int REVIEW_WITH_ID = 501;
 
     public static final String ALL_PUZZLES_PATH = PUZZLE_PATH;
     public static final String PUZZLE_WITH_ID_PATH = PUZZLE_PATH + "#";
@@ -39,6 +41,8 @@ public class PuzzleContentProvider extends ContentProvider {
     public static final String ALL_COLLECTIONS_PATH = COLLECTION_PATH;
     public static final String COLLECTIONS_WITH_PUZZLE_COUNT_PATH = COLLECTION_PATH + "/count";
     public static final String COLLECTIONS_WITH_ID_PATH = COLLECTION_PATH + "/#";
+
+    public static final String REVIEW_ENTRY_WITH_ID = REVIEW_PATH + "#";
 
 
     private static final UriMatcher uriMatcher = buildUriMatcher();
@@ -59,6 +63,7 @@ public class PuzzleContentProvider extends ContentProvider {
         matcher.addURI(authority, COLLECTIONS_WITH_ID_PATH, COLLECTIONS_WITH_ID);
 
         matcher.addURI(authority, REVIEW_PATH, ALL_REVIEWS);
+        matcher.addURI(authority, REVIEW_ENTRY_WITH_ID,REVIEW_WITH_ID);
 
         return matcher;
     }
@@ -132,6 +137,16 @@ public class PuzzleContentProvider extends ContentProvider {
         return uri.buildUpon().appendPath(String.valueOf(id)).build();
     }
 
+    private int updateValuesInDb(String tableName,Uri uri, ContentValues values, String whereClause, String[] whereArgs){
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int rowsAffected = db.update(tableName,values,whereClause, whereArgs);
+
+        if (rowsAffected < 0 )
+            throw new SQLException("Failed to update Entry for Uri: " + uri);
+
+        return rowsAffected;
+    }
+
     @Override
     public int delete(@NonNull Uri uri, String s, String[] strings) {
         return 0;
@@ -139,7 +154,17 @@ public class PuzzleContentProvider extends ContentProvider {
 
     @Override
     public int update(@NonNull Uri uri, ContentValues contentValues, String s, String[] strings) {
-        return 0;
+        final int matchNumber = uriMatcher.match(uri);
+        int rowsAffected;
+        switch (matchNumber){
+            case REVIEW_WITH_ID:
+                rowsAffected = updateValuesInDb(ReviewColumns.TABLE_NAME, uri, contentValues, s, strings);
+                break;
+            default:
+                throw new SQLException("Uknown update for DB for Uri: " + uri);
+        }
+
+        return rowsAffected;
     }
 
 }

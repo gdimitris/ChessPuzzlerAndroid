@@ -8,11 +8,18 @@ import android.os.Build;
 
 import com.dimitris.chesspuzzler.BuildConfig;
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import dimitris.android.app.db.DBHelper;
 import dimitris.android.app.db.DBQueries;
@@ -37,11 +44,9 @@ public class DBQueriesTests {
 
     @Before
     public void setUp() {
-        dbQueries = new DBQueries(DBHelper.PUZZLES_COLLECTIONS_TABLES_INNER_JOIN);
         mockQueryBuilder = mock(SQLiteQueryBuilder.class);
         mockDb = mock(SQLiteDatabase.class);
-        dbQueries.setQueryBuilder(mockQueryBuilder);
-
+        dbQueries = new DBQueries(mockQueryBuilder);
     }
 
     @Test

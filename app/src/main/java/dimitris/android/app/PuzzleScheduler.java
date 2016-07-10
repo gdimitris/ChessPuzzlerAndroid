@@ -24,7 +24,7 @@ public class PuzzleScheduler {
         recall = 1.0f;
     }
 
-    public void puzzleSolved() {
+    public void puzzleSolved(long timeElapsedForSolution) {
 
     }
 

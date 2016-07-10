@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.dimitris.chesspuzzler.R;
 
+import java.util.concurrent.TimeUnit;
+
 import dimitris.chess.core.ChessPuzzle;
 
 /**
@@ -25,6 +27,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
     private Button showSolutionButton;
     private TextView solutionTextView;
     private TextView moveIndicatorTextView;
+    private TextView timeElapsedTextView;
     private GameEventsHandler gameEventsHandler;
     private String puzzleSolution;
 
@@ -49,6 +52,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
         showSolutionButton = (Button) view.findViewById(R.id.showSolution);
         solutionTextView = (TextView) view.findViewById(R.id.solutionText);
         moveIndicatorTextView = (TextView) view.findViewById(R.id.moveIndicator);
+        timeElapsedTextView = (TextView) view.findViewById(R.id.timeElapsed);
     }
 
     private void setListenersForButtons() {
@@ -102,9 +106,28 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
         nextPosButton.setEnabled(false);
     }
 
+    public void showTimeElapsed(long timeElapsedInMillis ){
+        timeElapsedTextView.setVisibility(View.VISIBLE);
+        String readableTimeElapsed = convertMilisToReadableFormat(timeElapsedInMillis);
+        timeElapsedTextView.setText("Time Elapsed: "+ readableTimeElapsed);
+    }
+
+    private String convertMilisToReadableFormat(long timeElapsedInMilis){
+        return String.format("%d min, %d sec",
+                TimeUnit.MILLISECONDS.toMinutes(timeElapsedInMilis),
+                TimeUnit.MILLISECONDS.toSeconds(timeElapsedInMilis) -
+                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeElapsedInMilis))
+        );
+    }
+
+    private void hideTimeElapsedTextView(){
+        timeElapsedTextView.setVisibility(View.INVISIBLE);
+    }
+
     public void initialise() {
         clearSolutionText();
         disableNextPosButton();
+        hideTimeElapsedTextView();
     }
 
 }

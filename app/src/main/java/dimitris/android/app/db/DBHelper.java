@@ -13,11 +13,12 @@ import static dimitris.android.app.db.ReviewDBTable.ReviewColumns;
  */
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 8;
     public static final String DATABASE_NAME = "Puzzles.db";
 
     private static final String TEXT_TYPE = " TEXT";
     private static final String INTEGER_TYPE = " INTEGER";
+    private static final String DATE_TYPE = " DATE";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_PUZZLES_TABLE =
             "CREATE TABLE " + PuzzleColumns.TABLE_NAME +
@@ -48,8 +49,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     " (" + ReviewColumns._ID + INTEGER_TYPE + " PRIMARY KEY, " +
                     ReviewColumns.COLUMN_EASINESS_FACTOR + " REAL NOT NULL, " +
                     ReviewColumns.COLUMN_REVIEW_INTERVAL + INTEGER_TYPE + COMMA_SEP +
-                    ReviewColumns.COLUMN_NEXT_REVIEW + INTEGER_TYPE + COMMA_SEP +
-                    ReviewColumns.COLUMN_LAST_REVIEWED + INTEGER_TYPE + " )";
+                    ReviewColumns.COLUMN_NEXT_REVIEW + DATE_TYPE + COMMA_SEP +
+                    ReviewColumns.COLUMN_LAST_REVIEWED + DATE_TYPE + " )";
 
     private static final String SQL_DELETE_REVIEWS_TABLE =
             "DROP TABLE IF EXISTS " + ReviewColumns.TABLE_NAME;

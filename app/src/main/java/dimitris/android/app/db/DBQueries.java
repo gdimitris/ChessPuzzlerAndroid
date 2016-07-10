@@ -5,6 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.TimeZone;
+
 /**
  * Created by dimitris on 5/7/16.
  */
@@ -22,6 +26,10 @@ public class DBQueries {
             PuzzleDBTable.PuzzleColumns.TABLE_NAME + "." +
                     PuzzleDBTable.PuzzleColumns.COLUMN_COLLECTION_ID + " = ?";
 
+    public static final String REVIEW_ENTRY_WITH_ID =
+            ReviewDBTable.ReviewColumns.TABLE_NAME + "."
+                    + ReviewDBTable.ReviewColumns.COLUMN_REVIEW_ID + " = ?";
+
     public static final String[] COLLECTIONS_WITH_COUNT = new String[]{"Collections._id", "Collections.description",
             "count(Puzzles.collection_id) as count"};
 
@@ -32,6 +40,9 @@ public class DBQueries {
         queryBuilder.setTables(tableName);
     }
 
+    public DBQueries(SQLiteQueryBuilder queryBuilder){
+        this.queryBuilder = queryBuilder;
+    }
 
     public Cursor getAllPuzzles(SQLiteDatabase readableDb) {
         String[] projection = PuzzleDBTable.PuzzleColumns.ALL_COLUMNS;
@@ -67,7 +78,4 @@ public class DBQueries {
         return queryBuilder.query(readableDb, COLLECTIONS_WITH_COUNT, null, null, group, null, null);
     }
 
-    public void setQueryBuilder(SQLiteQueryBuilder builder) {
-        queryBuilder = builder;
-    }
 }

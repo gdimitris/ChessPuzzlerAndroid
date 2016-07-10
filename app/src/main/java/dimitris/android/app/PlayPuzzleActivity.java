@@ -22,6 +22,8 @@ public class PlayPuzzleActivity extends Activity implements PuzzleGameEventsList
     private BoardFragment boardFragment;
     private PuzzleScheduler scheduler;
     private PuzzleComponentsFragment puzzleComponentsFragment;
+    private long startTime;
+    private long endTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +83,17 @@ public class PlayPuzzleActivity extends Activity implements PuzzleGameEventsList
         puzzleComponentsFragment.initialise();
         puzzleComponentsFragment.setCurrentPuzzle(puzzle);
         scheduler.startGameWithPuzzle(puzzle);
+        startTime = System.currentTimeMillis();
     }
 
     @Override
     public void onPuzzleGameSolved() {
         Toast.makeText(this, "Congrats! you solved it!", Toast.LENGTH_SHORT).show();
+        endTime = System.currentTimeMillis();
+        long elapsed = endTime-startTime;
         puzzleComponentsFragment.enableNextPosButton();
-        scheduler.puzzleSolved();
+        puzzleComponentsFragment.showTimeElapsed(elapsed);
+        scheduler.puzzleSolved(elapsed);
     }
 
     @Override
