@@ -30,7 +30,7 @@ public class PlayPuzzleActivity extends Activity implements PuzzleGameEventsList
         super.onCreate(savedInstanceState);
         initializeUIComponents();
         processIntentExtras(getIntent().getExtras());
-        scheduler = new PuzzleScheduler(puzzleProvider);
+        scheduler = new PuzzleScheduler(getApplicationContext());
     }
 
     private void processIntentExtras(Bundle extras) {
@@ -89,18 +89,27 @@ public class PlayPuzzleActivity extends Activity implements PuzzleGameEventsList
     @Override
     public void onPuzzleGameSolved() {
         Toast.makeText(this, "Congrats! you solved it!", Toast.LENGTH_SHORT).show();
-        endTime = System.currentTimeMillis();
-        long elapsed = endTime-startTime;
+
+        long elapsed = getElapsedTime();
         puzzleComponentsFragment.enableNextPosButton();
-        puzzleComponentsFragment.showTimeElapsed(elapsed);
+        puzzleComponentsFragment.showReviewResults(elapsed, scheduler.getRecall());
         scheduler.puzzleSolved(elapsed);
+    }
+
+    private long getElapsedTime() {
+        endTime = System.currentTimeMillis();
+        return endTime-startTime;
     }
 
     @Override
     public void onPuzzleGameQuit() {
+        scheduler.puzzleQuit();
         puzzleComponentsFragment.showSolutionForPuzzle();
+
         puzzleComponentsFragment.enableNextPosButton();
-        scheduler.quitPuzzle();
+        long elapsed = getElapsedTime();
+        puzzleComponentsFragment.showReviewResults(elapsed, scheduler.getRecall());
+
     }
 
     @Override

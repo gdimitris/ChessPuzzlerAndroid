@@ -28,6 +28,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
     private TextView solutionTextView;
     private TextView moveIndicatorTextView;
     private TextView timeElapsedTextView;
+    private TextView recallRateTextView;
     private GameEventsHandler gameEventsHandler;
     private String puzzleSolution;
 
@@ -53,6 +54,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
         solutionTextView = (TextView) view.findViewById(R.id.solutionText);
         moveIndicatorTextView = (TextView) view.findViewById(R.id.moveIndicator);
         timeElapsedTextView = (TextView) view.findViewById(R.id.timeElapsed);
+        recallRateTextView = (TextView) view.findViewById(R.id.recallRate);
     }
 
     private void setListenersForButtons() {
@@ -106,10 +108,11 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
         nextPosButton.setEnabled(false);
     }
 
-    public void showTimeElapsed(long timeElapsedInMillis ){
-        timeElapsedTextView.setVisibility(View.VISIBLE);
+    public void showReviewResults(long timeElapsedInMillis , float recall){
+        showPerformanceStats();
         String readableTimeElapsed = convertMilisToReadableFormat(timeElapsedInMillis);
         timeElapsedTextView.setText("Time Elapsed: "+ readableTimeElapsed);
+        recallRateTextView.setText("Recall: " + recall*100);
     }
 
     private String convertMilisToReadableFormat(long timeElapsedInMilis){
@@ -120,14 +123,20 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
         );
     }
 
-    private void hideTimeElapsedTextView(){
+    private void showPerformanceStats() {
+        recallRateTextView.setVisibility(View.VISIBLE);
+        timeElapsedTextView.setVisibility(View.VISIBLE);
+    }
+
+    private void hidePerformanceStats(){
         timeElapsedTextView.setVisibility(View.INVISIBLE);
+        recallRateTextView.setVisibility(View.INVISIBLE);
     }
 
     public void initialise() {
         clearSolutionText();
         disableNextPosButton();
-        hideTimeElapsedTextView();
+        hidePerformanceStats();
     }
 
 }
