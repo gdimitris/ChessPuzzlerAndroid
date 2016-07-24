@@ -27,7 +27,6 @@ public class PopulateDbTask extends AsyncTask<Void,Void,Void> {
     private static String ASSET_DIR = "Puzzles/";
     private static String[] COLLECTION_FILENAMES = {"m8n2.txt","m8n3.txt","m8n4.txt"};
     private static String[] COLLECTION_DESCRIPTIONS = {"Mate in 2","Mate in 3","Mate in 4"};
-    private final String tag = "PopulateDBTask";
 
     private AssetManager assetManager;
     private ProgressDialog progressDialog;

@@ -2,8 +2,8 @@ package dimitris.android.app;
 
 import android.content.Context;
 
+import dimitris.android.app.db.ReviewScheduleFetchTask;
 import dimitris.chess.core.ChessPuzzle;
-import dimitris.chess.core.PuzzleProvider;
 
 /**
  * Created by dimitris on 4/10/16.
@@ -28,7 +28,8 @@ public class PuzzleScheduler {
     }
 
     public void puzzleSolved(long timeElapsedForSolution) {
-
+        ReviewScheduleFetchTask task = new ReviewScheduleFetchTask(context);
+        task.execute(currentPuzzle.reviewId);
     }
 
     public void puzzleQuit() {

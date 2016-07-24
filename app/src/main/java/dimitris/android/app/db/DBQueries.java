@@ -5,10 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
-
 /**
  * Created by dimitris on 5/7/16.
  */
@@ -78,4 +74,7 @@ public class DBQueries {
         return queryBuilder.query(readableDb, COLLECTIONS_WITH_COUNT, null, null, group, null, null);
     }
 
+    public Cursor getReviewEntryWithId(SQLiteDatabase db, Uri uri) {
+        return null;
+    }
 }

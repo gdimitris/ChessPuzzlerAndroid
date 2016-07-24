@@ -31,12 +31,14 @@ public class PuzzleDBTable {
 
         public static final String[] ALL_COLUMNS = new String[]{ TABLE_NAME+"."+COLUMN_PUZZLE_ID,
                 TABLE_NAME+"."+COLUMN_DESCRIPTION,TABLE_NAME+"."+COLUMN_FEN,
-                TABLE_NAME+"."+COLUMN_SOLUTION,TABLE_NAME+"."+COLUMN_COLLECTION_ID};
+                TABLE_NAME+"."+COLUMN_SOLUTION,TABLE_NAME+"."+COLUMN_COLLECTION_ID,
+                TABLE_NAME+"."+COLUMN_REVIEW_ID};
 
         public static final int PUZZLE_ID_COLUMN_NUM = 0;
         public static final int PUZZLE_DESCRIPTION_COLUMN_NUM = 1;
         public static final int PUZZLE_FEN_COLUMN_NUM = 2;
         public static final int PUZZLE_SOLUTION_COLUMN_NUM = 3;
+        public static final int PUZZLE_REVIEW_ID_COLUMN_NUM = 5;
 
         public static String getPuzzleIdFromUri(Uri uri){
             return uri.getPathSegments().get(1);

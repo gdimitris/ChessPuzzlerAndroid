@@ -16,6 +16,7 @@ import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.CONTENT_URI;
 import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_DESCRIPTION_COLUMN_NUM;
 import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_FEN_COLUMN_NUM;
 import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_ID_COLUMN_NUM;
+import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_REVIEW_ID_COLUMN_NUM;
 import static dimitris.android.app.db.PuzzleDBTable.PuzzleColumns.PUZZLE_SOLUTION_COLUMN_NUM;
 
 /**
@@ -66,8 +67,9 @@ public class PuzzleLoadingTask extends AsyncTask<Void, Void, PuzzleProvider> {
         String description = c.getString(PUZZLE_DESCRIPTION_COLUMN_NUM);
         String fen = c.getString(PUZZLE_FEN_COLUMN_NUM);
         String solution = c.getString(PUZZLE_SOLUTION_COLUMN_NUM);
+        String reviewId = c.getString(PUZZLE_REVIEW_ID_COLUMN_NUM);
 
-        return new ChessPuzzle(id, description, fen ,solution );
+        return new ChessPuzzle(id, description, fen ,solution, reviewId );
     }
 
     private Cursor getRequestedPuzzles() {

@@ -6,7 +6,6 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
@@ -95,6 +94,9 @@ public class PuzzleContentProvider extends ContentProvider {
                 break;
             case PUZZLES_WITH_COLLECTION_ID:
                 cursor = dbQueries.getPuzzlesWithCollectionId(db, uri);
+                break;
+            case REVIEW_WITH_ID:
+                cursor = dbQueries.getReviewEntryWithId(db, uri);
                 break;
             default:
                 throw new SQLException("Unknown Uri : " +uri);
