@@ -21,7 +21,7 @@ public class GameTests {
     public void setup(){
         String testFen = "r2qkb1r/pp2nppp/3p4/2pNN1B1/2BnP3/3P4/PPP2PPP/R2bK2R w KQkq - 1 0";
         String testSolution = "1. Nf6+ gxf6 2. Bxf7# ";
-        puzzle = new ChessPuzzle(testFen, testSolution);
+        puzzle = new ChessPuzzle.ChessPuzzleBuilder("1",testFen, testSolution).build();
         puzzleProvider = new FakePuzzleProvider(puzzle);
         game = new Game(puzzleProvider);
         fakeListener = new FakeGameEventsListener(game);

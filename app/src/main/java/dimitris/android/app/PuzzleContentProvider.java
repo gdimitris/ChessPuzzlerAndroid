@@ -41,7 +41,7 @@ public class PuzzleContentProvider extends ContentProvider {
     public static final String COLLECTIONS_WITH_PUZZLE_COUNT_PATH = COLLECTION_PATH + "/count";
     public static final String COLLECTIONS_WITH_ID_PATH = COLLECTION_PATH + "/#";
 
-    public static final String REVIEW_ENTRY_WITH_ID = REVIEW_PATH + "#";
+    public static final String REVIEW_ENTRY_WITH_ID = REVIEW_PATH + "/#";
 
 
     private static final UriMatcher uriMatcher = buildUriMatcher();
@@ -163,7 +163,7 @@ public class PuzzleContentProvider extends ContentProvider {
                 rowsAffected = updateValuesInDb(ReviewColumns.TABLE_NAME, uri, contentValues, s, strings);
                 break;
             default:
-                throw new SQLException("Uknown update for DB for Uri: " + uri);
+                throw new SQLException("Unknown update for DB for Uri: " + uri);
         }
 
         return rowsAffected;

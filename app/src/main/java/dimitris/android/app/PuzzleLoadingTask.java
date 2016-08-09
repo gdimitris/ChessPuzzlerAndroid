@@ -69,7 +69,10 @@ public class PuzzleLoadingTask extends AsyncTask<Void, Void, PuzzleProvider> {
         String solution = c.getString(PUZZLE_SOLUTION_COLUMN_NUM);
         String reviewId = c.getString(PUZZLE_REVIEW_ID_COLUMN_NUM);
 
-        return new ChessPuzzle(id, description, fen ,solution, reviewId );
+        return new ChessPuzzle.ChessPuzzleBuilder(id,fen,solution)
+                                .setDescription(description)
+                                .setReviewId(reviewId)
+                                .build();
     }
 
     private Cursor getRequestedPuzzles() {

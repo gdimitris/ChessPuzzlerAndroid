@@ -33,6 +33,10 @@ public class ReviewDBTable {
         public static final int NEXT_REVIEW_COLUMN_NUM = 3;
         public static final int LAST_REVIEWED_COLUMN_NUM = 4;
 
+        public static final String[] ALL_COLUMNS = new String[]{ TABLE_NAME+"."+COLUMN_REVIEW_ID,
+                TABLE_NAME+"."+COLUMN_EASINESS_FACTOR,TABLE_NAME+"."+COLUMN_REVIEW_INTERVAL,
+                TABLE_NAME+"."+COLUMN_NEXT_REVIEW,TABLE_NAME+"."+COLUMN_LAST_REVIEWED};
+
         public static String getReviewIdFromUri(Uri reviewUri) {
             return reviewUri.getPathSegments().get(1);
         }

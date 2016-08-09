@@ -29,7 +29,7 @@ public class PuzzleScheduler {
 
     public void puzzleSolved(long timeElapsedForSolution) {
         ReviewScheduleFetchTask task = new ReviewScheduleFetchTask(context);
-        task.execute(currentPuzzle.reviewId);
+        task.execute(currentPuzzle.getReviewId());
     }
 
     public void puzzleQuit() {

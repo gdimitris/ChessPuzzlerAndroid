@@ -62,15 +62,17 @@ public class Game implements GameEventsDispatcher, PuzzleReceiver{
     }
 
     public boolean puzzleIsSolved() {
+        String solution = currentPuzzle.getSolution();
         String currentMoves = MovePrinter.printMoveList(playedMoves);
-        String simplifiedSolution = currentPuzzle.solution.replaceAll("#","").replaceAll("\\+","");
+        String simplifiedSolution = solution.replaceAll("#","").replaceAll("\\+","");
 
         return currentMoves.equals(simplifiedSolution.trim());
     }
 
     public boolean playedMovesAreCorrect() {
+        String solution = currentPuzzle.getSolution();
         String currentMoves = MovePrinter.printMoveList(playedMoves);
-        String simplifiedSolution = currentPuzzle.solution.replaceAll("#","").replaceAll("\\+", "");
+        String simplifiedSolution = solution.replaceAll("#","").replaceAll("\\+", "");
 
         return simplifiedSolution.startsWith(currentMoves);
     }
@@ -123,7 +125,7 @@ public class Game implements GameEventsDispatcher, PuzzleReceiver{
     @Override
     public void onPuzzleReady(ChessPuzzle puzzle) {
         currentPuzzle = puzzle;
-        board.setPosition(currentPuzzle.fen);
+        board.setPosition(currentPuzzle.getFen());
         puzzleGameStarted(puzzle);
     }
 }

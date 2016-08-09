@@ -4,29 +4,71 @@ package dimitris.chess.core;
  * Created by dimitris on 10/24/15.
  */
 public class ChessPuzzle {
-    public String description;
-    public String fen;
-    public String solution;
-    public String id;
-    public String reviewId;
 
-    public ChessPuzzle(String fen, String solution){
-        this.id = "";
-        this.description = "";
-        this.fen = fen;
-        this.solution = solution;
-    }
+    private final String id;
+    private final String fen;
+    private final String solution;
+    private final String description;
+    private final String reviewId;
 
-    public ChessPuzzle(String id, String description, String fen, String solution, String reviewId){
-        this.id = id;
-        this.description = description;
-        this.fen = fen;
-        this.solution = solution;
-        this.reviewId = reviewId;
+    private ChessPuzzle(ChessPuzzleBuilder builder){
+        this.id = builder.id;
+        this.fen = builder.fen;
+        this.solution = builder.solution;
+        this.description = builder.description;
+        this.reviewId = builder.reviewId;
     }
 
     public boolean isWhitePuzzle(){
         String[] tokens = fen.split(" ");
         return tokens[1].equals("w");
+    }
+
+    public String getId(){
+        return this.id;
+    }
+
+    public String getFen(){
+        return this.fen;
+    }
+
+    public String getSolution(){
+        return this.solution;
+    }
+
+    public String getReviewId(){
+        return this.reviewId;
+    }
+
+    public String getDescription(){
+        return this.description;
+    }
+
+    public static class ChessPuzzleBuilder{
+        private String description;
+        private final String fen;
+        private final String solution;
+        private final String id;
+        private String reviewId;
+
+        public ChessPuzzleBuilder(String id, String fen, String solution){
+            this.id = id;
+            this.fen = fen;
+            this.solution = solution;
+        }
+
+        public ChessPuzzleBuilder setDescription(String description){
+            this.description = description;
+            return this;
+        }
+
+        public ChessPuzzleBuilder setReviewId(String reviewId){
+            this.reviewId = reviewId;
+            return this;
+        }
+
+        public ChessPuzzle build(){
+            return new ChessPuzzle(this);
+        }
     }
 }

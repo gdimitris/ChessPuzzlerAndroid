@@ -37,7 +37,7 @@ public class BoardFragment extends Fragment {
 
     public void setCurrentPuzzle(ChessPuzzle currentPuzzle) {
         drawableBoard.setCurrentPuzzle(currentPuzzle);
-        String displayString = "(" + currentPuzzle.id +") "  +currentPuzzle.description;
+        String displayString = "(" + currentPuzzle.getId() +") "  +currentPuzzle.getDescription();
         titleTextView.setText(displayString);
     }
 

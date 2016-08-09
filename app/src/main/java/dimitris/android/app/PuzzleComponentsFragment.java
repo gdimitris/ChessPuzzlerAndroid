@@ -65,7 +65,7 @@ public class PuzzleComponentsFragment extends Fragment implements View.OnClickLi
     }
 
     public void setCurrentPuzzle(ChessPuzzle puzzle){
-        puzzleSolution = puzzle.solution;
+        puzzleSolution = puzzle.getSolution();
         String indicatorText = puzzle.isWhitePuzzle() ? "White to play" : "Black to play";
         moveIndicatorTextView.setText(indicatorText);
     }

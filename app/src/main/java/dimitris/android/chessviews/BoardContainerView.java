@@ -90,7 +90,7 @@ public class BoardContainerView extends View implements View.OnTouchListener {
 
     public void setCurrentPuzzle(ChessPuzzle puzzle){
         initializeFontIfNeeded();
-        chessBoard.setPosition(puzzle.fen);
+        chessBoard.setPosition(puzzle.getFen());
         invalidate();
     }
 

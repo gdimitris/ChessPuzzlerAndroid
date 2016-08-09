@@ -74,7 +74,10 @@ public class DBQueries {
         return queryBuilder.query(readableDb, COLLECTIONS_WITH_COUNT, null, null, group, null, null);
     }
 
-    public Cursor getReviewEntryWithId(SQLiteDatabase db, Uri uri) {
-        return null;
+    public Cursor getReviewEntryWithId(SQLiteDatabase readableDb, Uri uri) {
+        String reviewId = ReviewDBTable.ReviewColumns.getReviewIdFromUri(uri);
+        String[] selectionArgs = new String[]{reviewId};
+
+        return queryBuilder.query(readableDb, null, REVIEW_ENTRY_WITH_ID, selectionArgs, null, null, null);
     }
 }
