@@ -29,6 +29,16 @@ public class DBQueries {
     public static final String[] COLLECTIONS_WITH_COUNT = new String[]{"Collections._id", "Collections.description",
             "count(Puzzles.collection_id) as count"};
 
+    public static final String[] PUZZLE_WITH_COLLECTION_ID_PROJECTION = new String[] {PuzzleDBTable.PuzzleColumns.TABLE_NAME+"."+PuzzleDBTable.PuzzleColumns.COLUMN_PUZZLE_ID,
+            PuzzleDBTable.PuzzleColumns.TABLE_NAME+"."+PuzzleDBTable.PuzzleColumns.COLUMN_DESCRIPTION,
+            PuzzleDBTable.PuzzleColumns.TABLE_NAME+"."+PuzzleDBTable.PuzzleColumns.COLUMN_FEN,
+            PuzzleDBTable.PuzzleColumns.TABLE_NAME+"."+PuzzleDBTable.PuzzleColumns.COLUMN_SOLUTION,
+            ReviewDBTable.ReviewColumns.TABLE_NAME+"."+ReviewDBTable.ReviewColumns.COLUMN_REVIEW_ID,
+            ReviewDBTable.ReviewColumns.TABLE_NAME+"."+ReviewDBTable.ReviewColumns.COLUMN_EASINESS_FACTOR,
+            ReviewDBTable.ReviewColumns.TABLE_NAME+"."+ReviewDBTable.ReviewColumns.COLUMN_REVIEW_INTERVAL,
+            ReviewDBTable.ReviewColumns.TABLE_NAME+"."+ReviewDBTable.ReviewColumns.COLUMN_NEXT_REVIEW,
+            ReviewDBTable.ReviewColumns.TABLE_NAME+"."+ReviewDBTable.ReviewColumns.COLUMN_LAST_REVIEWED};
+
     private SQLiteQueryBuilder queryBuilder;
 
     public DBQueries(String tableName) {
@@ -54,7 +64,7 @@ public class DBQueries {
     }
 
     public Cursor getPuzzlesWithCollectionId(SQLiteDatabase readableDb, Uri uri) {
-        String[] projection = PuzzleDBTable.PuzzleColumns.ALL_COLUMNS;
+        String[] projection = PUZZLE_WITH_COLLECTION_ID_PROJECTION;
         String[] selectionArgs = new String[]{PuzzleDBTable.PuzzleColumns.getCollectionIdFromUri(uri)};
 
         return queryBuilder.query(readableDb, projection, PUZZLE_WITH_COLLECTION_ID_SELECTION, selectionArgs, null, null, null);

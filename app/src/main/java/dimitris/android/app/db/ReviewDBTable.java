@@ -37,6 +37,8 @@ public class ReviewDBTable {
                 TABLE_NAME+"."+COLUMN_EASINESS_FACTOR,TABLE_NAME+"."+COLUMN_REVIEW_INTERVAL,
                 TABLE_NAME+"."+COLUMN_NEXT_REVIEW,TABLE_NAME+"."+COLUMN_LAST_REVIEWED};
 
+        public static final String[] REVIEW_PROJECTION_COLUMNS = new String[] {};
+
         public static String getReviewIdFromUri(Uri reviewUri) {
             return reviewUri.getPathSegments().get(1);
         }

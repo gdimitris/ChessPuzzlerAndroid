@@ -8,20 +8,12 @@ import android.os.Build;
 
 import com.dimitris.chesspuzzler.BuildConfig;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-
-import dimitris.android.app.db.DBHelper;
 import dimitris.android.app.db.DBQueries;
 
 import static dimitris.android.app.db.PuzzleCollectionDBTable.PuzzleCollectionColumns;
@@ -75,7 +67,7 @@ public class DBQueriesTests {
                 .buildUpon()
                 .appendPath("collection")
                 .appendPath(testCollectionId).build();
-        String[] projection = PuzzleColumns.ALL_COLUMNS;
+        String[] projection = DBQueries.PUZZLE_WITH_COLLECTION_ID_PROJECTION;
         String selection = DBQueries.PUZZLE_WITH_COLLECTION_ID_SELECTION;
         String[] selectionArgs = new String[]{testCollectionId};
 

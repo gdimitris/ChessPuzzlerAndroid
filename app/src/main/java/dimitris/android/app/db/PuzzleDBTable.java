@@ -34,6 +34,10 @@ public class PuzzleDBTable {
                 TABLE_NAME+"."+COLUMN_SOLUTION,TABLE_NAME+"."+COLUMN_COLLECTION_ID,
                 TABLE_NAME+"."+COLUMN_REVIEW_ID};
 
+        public static final String[] PUZZLE_INFO_PROJECTION = new String[] { TABLE_NAME+"."+COLUMN_PUZZLE_ID,
+                TABLE_NAME+"."+COLUMN_DESCRIPTION,TABLE_NAME+"."+COLUMN_FEN,
+                TABLE_NAME+"."+COLUMN_SOLUTION };
+
         public static final int PUZZLE_ID_COLUMN_NUM = 0;
         public static final int PUZZLE_DESCRIPTION_COLUMN_NUM = 1;
         public static final int PUZZLE_FEN_COLUMN_NUM = 2;
